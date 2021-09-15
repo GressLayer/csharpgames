@@ -1,2 +1,1 @@
-# csharpgames
- 
+Main repository for the book Learning C# by Programming Games, second edition.
