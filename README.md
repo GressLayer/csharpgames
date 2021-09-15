@@ -1,1 +1,4 @@
-Main repository for the book Learning C# by Programming Games, second edition.
+Student names and numbers:
+
+Wassim Chammat:    2981351
+Corné van Vliet:   6790836
