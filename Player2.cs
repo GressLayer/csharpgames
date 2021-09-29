@@ -45,6 +45,16 @@ namespace Pong
                 Bat2Position.Y = 900 - Bat2Origin.Y;
             }
         }
+
+        public Rectangle BoundingBox
+        {
+            get
+            {
+                Rectangle spriteBounds = Bat2.Bounds;
+                spriteBounds.Offset(Bat2Position - Bat2Origin);
+                return spriteBounds;
+            }
+        }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Bat2, Bat2Position, null, Color.White, 0.0f, Bat2Origin, 1.0f, SpriteEffects.None, 0);

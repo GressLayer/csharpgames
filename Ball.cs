@@ -22,7 +22,7 @@ namespace Pong
             Ball = Content.Load<Texture2D>("Pong Ball");
             BallPosition = new Vector2(800, 450);
             BallOrigin = new Vector2(Ball.Width / 2, Ball.Height / 2);
-            BallInitial = new Vector2(8, 2);
+            BallInitial = new Vector2(4, 0);
             BallSpeed = new Vector2(0, 0);
             started = false;
         }
@@ -42,6 +42,19 @@ namespace Pong
             BallSpeed.Y = 0;
             BallPosition.X = 800;
             BallPosition.Y = 450;
+            touchingBat1 = false;
+            touchingBat2 = false;
+
+        }
+
+        public Rectangle BoundingBox
+        {
+            get
+            {
+                Rectangle spriteBounds = Ball.Bounds;
+                spriteBounds.Offset(BallPosition - BallOrigin);
+                return spriteBounds;
+            }
         }
 
         public void BallUpdate(GameTime gameTime)
@@ -69,18 +82,27 @@ namespace Pong
                 BallPosition += BallSpeed;
             }
 
-            if (BallPosition.Y >= BatPos1.Y && BallPosition.Y <= (BatPos1.Y + 192))
+            if (BallPosition.Y >= BatPos1.Y && BallPosition.Y <= (BatPos1.Y + 192) && BallPosition.X <= 20)
             {
                 touchingBat1 = true;
             }
-            if (BallPosition.Y >= BatPos2.Y && BallPosition.Y <= (BatPos2.Y + 192))
+            else
+            {
+                touchingBat1 = false;
+            }
+
+            if (BallPosition.Y >= BatPos2.Y && BallPosition.Y <= (BatPos2.Y + 192) && BallPosition.X >= BatPos2.X - (Ball.Width/4) - 4)
             {
                 touchingBat2 = true;
+            }
+            else
+            {
+                touchingBat2 = false;
             }
 
             if (touchingBat1 == false || touchingBat2 == false)
             {
-                if (BallPosition.X <= 15 || BallPosition.X >= 1585)
+                if (BallPosition.X <= -30 || BallPosition.X >= 1600)
                 {
                     ResetBall();
                 }
@@ -88,12 +110,9 @@ namespace Pong
 
             if (touchingBat1 == true || touchingBat2 == true)
             {
-                
-                if (BallPosition.X <= 15 || BallPosition.X >= 1585)
-                {
-                    BallSpeed.X *= -1.1f;
-                }
+                BallSpeed.X *= -1.1f;       
             }
+
             if (BallPosition.Y <= 15 || BallPosition.Y >= 885)
             {
                 BallSpeed.Y *= -1.1f;

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 using System;
 namespace Pong
 {
-    class Player1
+    public class Player1
     {
         public Vector2 Bat1Position, Bat1Origin;
         Texture2D Bat1;
@@ -42,6 +42,16 @@ namespace Pong
             if (Bat1Position.Y >= 900 - Bat1Origin.Y)
             {
                 Bat1Position.Y = 900 - Bat1Origin.Y;
+            }
+        }
+
+        public Rectangle BoundingBox
+        {
+            get
+            {
+                Rectangle spriteBounds = Bat1.Bounds;
+                spriteBounds.Offset(Bat1Position - Bat1Origin);
+                return spriteBounds;
             }
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

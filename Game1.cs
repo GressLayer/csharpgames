@@ -12,7 +12,7 @@ namespace Pong
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        Player1 player1;
+        public Player1 player1;
         Player2 player2;
         BallFunction ball;
         // Vectors for the Position and Origin of the Bats and the Ball
@@ -85,6 +85,11 @@ namespace Pong
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public Player1 Player1
+        {
+            get { return player1; }
         }
     }
 }
