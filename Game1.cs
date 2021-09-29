@@ -25,7 +25,7 @@ namespace Pong
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -62,7 +62,11 @@ namespace Pong
             player2.Movement();
             player1.Boundaries();
             player2.Boundaries();
+            ball.BallUpdate(gameTime);
             base.Update(gameTime);
+
+            ball.BatPos1 = player1.Bat1Position;
+            ball.BatPos2 = player2.Bat2Position;
 
             //Pressing Up or Down moves Bat2 by 8 pixels per frame
 
