@@ -13,8 +13,7 @@ namespace Pong
         Vector2 BallPosition, BallOrigin, BallSpeed, BallInitial;
         Texture2D Ball;
         KeyboardState KeyboardCurrent, KeyboardPrevious;
-        bool started;
-        bool touchingBat1, touchingBat2;
+        bool started, touchingBat1, touchingBat2;
 
         public Vector2 BatPos1, BatPos2;
 
@@ -25,8 +24,7 @@ namespace Pong
             BallOrigin = new Vector2(Ball.Width / 2, Ball.Height / 2);
             BallInitial = new Vector2(8, 2);
             BallSpeed = new Vector2(0, 0);
-
-            bool started = false;
+            started = false;
         }
 
         public bool KeyPressed(Keys k)
