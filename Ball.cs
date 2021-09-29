@@ -27,16 +27,17 @@ namespace Pong
             started = false;
         }
 
+        // Allows for a button to be pressed once instead of held for certain actions.
+        // Any action using "if (KeysPressed(...))" does not need the key to be held down in order to activate.
         public bool KeyPressed(Keys k)
         {
             return KeyboardCurrent.IsKeyDown(k) && KeyboardPrevious.IsKeyUp(k);
         }
 
+        // Method used after the ball does not hit the bat or is reset.
         public void ResetBall()
         {
             started = false;
-            touchingBat1 = false;
-            touchingBat2 = false;
             BallSpeed.X = 0;
             BallSpeed.Y = 0;
             BallPosition.X = 800;
@@ -48,6 +49,7 @@ namespace Pong
             KeyboardPrevious = KeyboardCurrent;
             KeyboardCurrent = Keyboard.GetState();
 
+            // Start button command: used to allow the ball to move after a reset.
             if (KeyPressed(Keys.Space) && started == false)
             {
                 BallSpeed = BallInitial;
@@ -56,16 +58,22 @@ namespace Pong
                 touchingBat2 = false;
             }
 
+            // Reset button command: used for developer purposes only (comment out with /**/ if required).
+            if (KeyPressed(Keys.R) && started == true)
+            {
+                ResetBall();
+            }
+
             if (started)
             {
                 BallPosition += BallSpeed;
             }
 
-            if (BallPosition.Y >= BatPos1.Y && BallPosition.Y <= BatPos1.Y + 192)
+            if (BallPosition.Y >= BatPos1.Y && BallPosition.Y <= (BatPos1.Y + 192))
             {
                 touchingBat1 = true;
             }
-            if (BallPosition.Y >= BatPos2.Y && BallPosition.Y <= BatPos2.Y + 192)
+            if (BallPosition.Y >= BatPos2.Y && BallPosition.Y <= (BatPos2.Y + 192))
             {
                 touchingBat2 = true;
             }
@@ -78,13 +86,12 @@ namespace Pong
                 }
             }
 
-            if (BallPosition.X <= 15 || BallPosition.X >= 1585)
+            if (touchingBat1 == true || touchingBat2 == true)
             {
-                if (touchingBat1 == true || touchingBat2 == true)
+                
+                if (BallPosition.X <= 15 || BallPosition.X >= 1585)
                 {
                     BallSpeed.X *= -1.1f;
-                    touchingBat1 = false;
-                    touchingBat2 = false;
                 }
             }
             if (BallPosition.Y <= 15 || BallPosition.Y >= 885)
@@ -92,6 +99,7 @@ namespace Pong
                 BallSpeed.Y *= -1.1f;
             }
 
+            // Speed caps, used to keep the game from becoming too impossible, while still allowing the ball to be fast enough to easily score a point.
             if (BallSpeed.X >= 40)
             {
                 BallSpeed.X = 40;
@@ -107,11 +115,6 @@ namespace Pong
             if (BallSpeed.Y <= -30)
             {
                 BallSpeed.Y = -30;
-            }
-
-            if (KeyPressed(Keys.R))
-            {
-                ResetBall();
             }
         }
 
