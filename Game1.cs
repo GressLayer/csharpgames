@@ -12,8 +12,8 @@ namespace Pong
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        public Player1 player1;
-        Player2 player2;
+        public static Player1 player1;
+        public static Player2 player2;
         BallFunction ball;
         // Vectors for the Position and Origin of the Bats and the Ball
 
@@ -53,10 +53,6 @@ namespace Pong
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            
-            //Declaration of the Origin of the Bats and the ball to centre them correctly
 
             player1.Movement();
             player2.Movement();
@@ -65,14 +61,13 @@ namespace Pong
             ball.BallUpdate(gameTime);
             base.Update(gameTime);
 
-            ball.BatPos1 = player1.Bat1Position;
-            ball.BatPos2 = player2.Bat2Position;
+            if (ball.BoundingBox.Intersects(player1.BoundingBox) || ball.BoundingBox.Intersects(player2.BoundingBox))
+            {
+                ball.GenerateAngle();
+                ball.BallSpeed.X = ball.BallSpeed.X * -1.1f;
+                ball.BallSpeed.Y = ball.BallSpeed.Y + ball.RandomAngle*1.5f;
+            }
 
-            //Pressing Up or Down moves Bat2 by 8 pixels per frame
-
-            //If Bat1 touches the upper or bottom border it doesn't move off the screen
-
-            //If Bat2 touches the upper or bottom border it doesn't move off the screen
         }
 
         protected override void Draw(GameTime gameTime)
@@ -90,6 +85,11 @@ namespace Pong
         public Player1 Player1
         {
             get { return player1; }
+        }
+
+        public Player2 Player2
+        {
+            get { return player2; }
         }
     }
 }

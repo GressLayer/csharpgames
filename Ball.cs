@@ -10,21 +10,25 @@ namespace Pong
 {
     class BallFunction
     {
-        Vector2 BallPosition, BallOrigin, BallSpeed, BallInitial;
+        Vector2 BallPosition, BallOrigin, BallInitial;
+        public Vector2 BallSpeed;
         Texture2D Ball;
         KeyboardState KeyboardCurrent, KeyboardPrevious;
-        bool started, touchingBat1, touchingBat2;
+        bool started;
+        static Random angle, anglemod;
+        int randomangle;
 
-        public Vector2 BatPos1, BatPos2;
 
         public BallFunction(ContentManager Content)
         {
             Ball = Content.Load<Texture2D>("Pong Ball");
             BallPosition = new Vector2(800, 450);
             BallOrigin = new Vector2(Ball.Width / 2, Ball.Height / 2);
-            BallInitial = new Vector2(4, 0);
+            BallInitial = new Vector2(4, 0.0f);
             BallSpeed = new Vector2(0, 0);
             started = false;
+            angle = new Random(3) ;
+            anglemod = new Random(2);
         }
 
         // Allows for a button to be pressed once instead of held for certain actions.
@@ -34,16 +38,30 @@ namespace Pong
             return KeyboardCurrent.IsKeyDown(k) && KeyboardPrevious.IsKeyUp(k);
         }
 
+        public void GenerateAngle()
+        {
+            randomangle = angle.Next(3);
+            int anglemodifier = anglemod.Next(2);
+            if (anglemodifier == 0)
+            {
+                randomangle = randomangle * -1;
+            }
+            
+        }
+        
+        public int RandomAngle
+        {
+            get { return randomangle; }
+        }
+
         // Method used after the ball does not hit the bat or is reset.
         public void ResetBall()
         {
             started = false;
-            BallSpeed.X = 0;
-            BallSpeed.Y = 0;
+            BallSpeed.X = 0.0f;
+            BallSpeed.Y = 0.0f;
             BallPosition.X = 800;
             BallPosition.Y = 450;
-            touchingBat1 = false;
-            touchingBat2 = false;
 
         }
 
@@ -67,8 +85,6 @@ namespace Pong
             {
                 BallSpeed = BallInitial;
                 started = true;
-                touchingBat1 = false;
-                touchingBat2 = false;
             }
 
             // Reset button command: used for developer purposes only (comment out with /**/ if required).
@@ -82,35 +98,11 @@ namespace Pong
                 BallPosition += BallSpeed;
             }
 
-            if (BallPosition.Y >= BatPos1.Y && BallPosition.Y <= (BatPos1.Y + 192) && BallPosition.X <= 20)
-            {
-                touchingBat1 = true;
-            }
-            else
-            {
-                touchingBat1 = false;
-            }
-
-            if (BallPosition.Y >= BatPos2.Y && BallPosition.Y <= (BatPos2.Y + 192) && BallPosition.X >= BatPos2.X - (Ball.Width/4) - 4)
-            {
-                touchingBat2 = true;
-            }
-            else
-            {
-                touchingBat2 = false;
-            }
-
-            if (touchingBat1 == false || touchingBat2 == false)
             {
                 if (BallPosition.X <= -30 || BallPosition.X >= 1600)
                 {
                     ResetBall();
                 }
-            }
-
-            if (touchingBat1 == true || touchingBat2 == true)
-            {
-                BallSpeed.X *= -1.1f;       
             }
 
             if (BallPosition.Y <= 15 || BallPosition.Y >= 885)
@@ -139,7 +131,7 @@ namespace Pong
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Ball, BallPosition, null, Color.White, 0.0f, BallOrigin, 0.25f, SpriteEffects.None, 0);
+            spriteBatch.Draw(Ball, BallPosition, null, Color.White, 0.0f, BallOrigin, 1.0f, SpriteEffects.None, 0);
         }
     }
 }

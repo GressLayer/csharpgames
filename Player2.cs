@@ -7,11 +7,10 @@ using Microsoft.Xna.Framework.Audio;
 using System;
 namespace Pong
 {
-    class Player2
+    public class Player2
     {
         public Vector2 Bat2Position, Bat2Origin;
         Texture2D Bat2;
-
 
         public Player2(ContentManager Content)
         {
@@ -59,7 +58,5 @@ namespace Pong
         {
             spriteBatch.Draw(Bat2, Bat2Position, null, Color.White, 0.0f, Bat2Origin, 1.0f, SpriteEffects.None, 0);
         }
-
-        public Vector2 BatPos2 { get { return Bat2Position; } }
     }
 }
