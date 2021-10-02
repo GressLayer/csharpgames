@@ -8,23 +8,24 @@ using System;
 
 namespace Pong
 {
+    // Constructor
     class BallFunction
     {
         Vector2 BallPosition, BallOrigin, BallInitial;
-        public Vector2 BallSpeed;
+        public static Vector2 BallSpeed;
         Texture2D Ball;
         KeyboardState KeyboardCurrent, KeyboardPrevious;
         bool started;
         static Random angle, anglemod;
         int randomangle;
 
-
+        // Loads the ball sprite and assigns values to several of the ball's necesssary variables.
         public BallFunction(ContentManager Content)
         {
             Ball = Content.Load<Texture2D>("Pong Ball");
             BallPosition = new Vector2(800, 450);
             BallOrigin = new Vector2(Ball.Width / 2, Ball.Height / 2);
-            BallInitial = new Vector2(4, 0.0f);
+            BallInitial = new Vector2(5, 0);
             BallSpeed = new Vector2(0, 0);
             started = false;
             angle = new Random(3) ;
@@ -38,6 +39,7 @@ namespace Pong
             return KeyboardCurrent.IsKeyDown(k) && KeyboardPrevious.IsKeyUp(k);
         }
 
+        // Method that generates a random angle for the ball to bounce at whenever it is called.
         public void GenerateAngle()
         {
             randomangle = angle.Next(3);
@@ -54,7 +56,7 @@ namespace Pong
             get { return randomangle; }
         }
 
-        // Method used after the ball does not hit the bat or is reset.
+        // Method called after the ball does not hit the bat or is reset.
         public void ResetBall()
         {
             started = false;
@@ -62,9 +64,11 @@ namespace Pong
             BallSpeed.Y = 0.0f;
             BallPosition.X = 800;
             BallPosition.Y = 450;
+            Hud.Rally = 0;
 
         }
 
+        // Ball bounding box.
         public Rectangle BoundingBox
         {
             get
@@ -75,8 +79,10 @@ namespace Pong
             }
         }
 
+        // Update method for the ball.
         public void BallUpdate(GameTime gameTime)
         {
+
             KeyboardPrevious = KeyboardCurrent;
             KeyboardCurrent = Keyboard.GetState();
 
@@ -87,7 +93,7 @@ namespace Pong
                 started = true;
             }
 
-            // Reset button command: used for developer purposes only (comment out with /**/ if required).
+            // Reset button command: used for developer purposes only (comment out with /**/ in final version).
             if (KeyPressed(Keys.R) && started == true)
             {
                 ResetBall();
@@ -98,26 +104,25 @@ namespace Pong
                 BallPosition += BallSpeed;
             }
 
-            {
-                if (BallPosition.X <= -30 || BallPosition.X >= 1600)
-                {
-                    ResetBall();
-                }
-            }
+            if (BallPosition.X <= -30) { ResetBall(); Hud.p2Score++; }
+            if (BallPosition.X >= 1600) { ResetBall(); Hud.p1Score++; }
 
             if (BallPosition.Y <= 15 || BallPosition.Y >= 885)
             {
                 BallSpeed.Y *= -1.1f;
             }
 
-            // Speed caps, used to keep the game from becoming too impossible, while still allowing the ball to be fast enough to easily score a point.
-            if (BallSpeed.X >= 40)
+            // Speed caps: hard speed limits on the ball.
+            // These are used to keep the game from becoming too impossible, while still allowing the ball to be fast enough to easily score a point.
+
+            // W: I would LOVE to use a cleaner structure here (like a switch-case), but that only allows for == checks (in short, useless for a speed cap).
+            if (BallSpeed.X >= 35)
             {
-                BallSpeed.X = 40;
+                BallSpeed.X = 35;
             }
-            if (BallSpeed.X <= -40)
+            if (BallSpeed.X <= -35)
             {
-                BallSpeed.X = -40;
+                BallSpeed.X = -35;
             }
             if (BallSpeed.Y >= 30)
             {
@@ -129,6 +134,7 @@ namespace Pong
             }
         }
 
+        // Draw method that... well... draws the ball.
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Ball, BallPosition, null, Color.White, 0.0f, BallOrigin, 1.0f, SpriteEffects.None, 0);

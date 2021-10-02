@@ -15,8 +15,7 @@ namespace Pong
         public static Player1 player1;
         public static Player2 player2;
         BallFunction ball;
-        // Vectors for the Position and Origin of the Bats and the Ball
-
+        Hud hud;
         
         
         // 2D textures for the Bats and the Ball
@@ -28,17 +27,14 @@ namespace Pong
             IsMouseVisible = true;
         }
 
+        // Initialize function: called once at startup.
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = 1600; //Changes to window size
-            graphics.PreferredBackBufferHeight = 900;
+            // Changes the window size
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 1000;
             graphics.ApplyChanges();
-
-            
-            
-            // Declaration of the Positions of the Ball and the Bats
    
-
             base.Initialize();
         }
 
@@ -48,6 +44,7 @@ namespace Pong
             player1 = new Player1(Content);
             player2 = new Player2(Content);
             ball = new BallFunction(Content);
+            hud = new Hud(Content);
             //Loading the Sprites for the Bats and the Ball
         }
 
@@ -64,8 +61,9 @@ namespace Pong
             if (ball.BoundingBox.Intersects(player1.BoundingBox) || ball.BoundingBox.Intersects(player2.BoundingBox))
             {
                 ball.GenerateAngle();
-                ball.BallSpeed.X = ball.BallSpeed.X * -1.1f;
-                ball.BallSpeed.Y = ball.BallSpeed.Y + ball.RandomAngle*1.5f;
+                BallFunction.BallSpeed.X = BallFunction.BallSpeed.X * -1.1f;
+                BallFunction.BallSpeed.Y = BallFunction.BallSpeed.Y + ball.RandomAngle*1.5f;
+                Hud.Rally++;
             }
 
         }
@@ -77,6 +75,7 @@ namespace Pong
             player1.Draw(gameTime, spriteBatch);
             player2.Draw(gameTime, spriteBatch);
             ball.Draw(gameTime, spriteBatch);
+            hud.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
