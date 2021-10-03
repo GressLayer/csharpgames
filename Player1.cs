@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
-using System;
+
 namespace Pong
 {
     public class Player1
@@ -19,13 +17,14 @@ namespace Pong
             Bat1Position = new Vector2(0, 450);
             Bat1Origin = new Vector2(0, Bat1.Height / 2);
         }
+
+        // Handles movement for Player 1's bat.
         public void Movement()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 Bat1Position.Y -= 8;
             }
-
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 Bat1Position.Y += 8;
@@ -45,6 +44,7 @@ namespace Pong
             }
         }
 
+        // "Hitbox" for Player 1's bat.
         public Rectangle BoundingBox
         {
             get
@@ -54,9 +54,11 @@ namespace Pong
                 return spriteBounds;
             }
         }
+        
+        // Draws Player 1's bat.
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Bat1, Bat1Position, null, Color.White, 0.0f, Bat1Origin, 1.0f, SpriteEffects.None, 0);
+            if (Hud.state == Hud.State.Playing) { spriteBatch.Draw(Bat1, Bat1Position, null, Color.White, 0.0f, Bat1Origin, 1.0f, SpriteEffects.None, 0); }
         }
     }
 }

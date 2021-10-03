@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
-using System;
 
 namespace Pong
 {
@@ -38,6 +34,7 @@ namespace Pong
             base.Initialize();
         }
 
+        // Creates objects out of other classes for use by the Game class.
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -45,9 +42,9 @@ namespace Pong
             player2 = new Player2(Content);
             ball = new Ball(Content);
             hud = new Hud(Content);
-            //Loading the Sprites for the Bats and the Ball
         }
 
+        // Default Update method.
         protected override void Update(GameTime gameTime)
         {
 
@@ -58,6 +55,7 @@ namespace Pong
             ball.BallUpdate(gameTime);
             base.Update(gameTime);
 
+            // Executed when the ball hits a bat, making it bounce back.
             if (ball.BoundingBox.Intersects(player1.BoundingBox) || ball.BoundingBox.Intersects(player2.BoundingBox))
             {
                 ball.GenerateAngle();
@@ -68,6 +66,7 @@ namespace Pong
 
         }
 
+        // Draws for every other class.
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
