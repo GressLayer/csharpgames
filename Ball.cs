@@ -22,8 +22,9 @@ namespace Pong
         /* Mode variable:
          * - Set to 0 for Classic Mode (1 point per score, first to 10 wins)
          * - Set to 1 for Rally Mode (Rally becomes points scored, first to 200 wins)
+         * = Set to 2 for Sudden Death Mode (1 point needed to win, first score wins)
          */
-        public static int mode, winner;
+        public static int mode = 2, winner;
 
         // Loads the ball sprite and assigns values to several of the ball's necesssary variables.
         public Ball(ContentManager Content)
@@ -97,6 +98,7 @@ namespace Pong
 
             if (KeyPressed(Keys.D1) && started == false && Hud.over == true) { mode = 0; }
             if (KeyPressed(Keys.D2) && started == false && Hud.over == true) { mode = 1; }
+            if (KeyPressed(Keys.D3) && started == false && Hud.over == true) { mode = 2; }
 
             if (started == true)
             {
@@ -118,7 +120,7 @@ namespace Pong
                         ResetBall();
                         Hud.p1Score++; 
                     }
-                    if (Hud.p1Score == 1)
+                    if (Hud.p1Score == 10)
                     {
                         winner = 1;
                         Hud.over = true;
@@ -149,6 +151,22 @@ namespace Pong
                     if (Hud.p2Score == 200)
                     {
                         winner = 2;
+                        ResetBall();
+                        Hud.over = true;
+                    }
+                }
+                if (mode == 2)
+                {
+                    if (BallPosition.X <= -30)
+                    {
+
+                        Hud.p2Score++;
+                        ResetBall();
+                        Hud.over = true;
+                    }
+                    if (BallPosition.X >= 1600)
+                    {
+                        Hud.p1Score++;
                         ResetBall();
                         Hud.over = true;
                     }

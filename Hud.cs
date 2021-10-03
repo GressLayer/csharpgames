@@ -12,7 +12,7 @@ namespace Pong
 	public class Hud
 	{
 		// HUDc is the Classic Mode HUD (blue), while HUDr is the Rally Mode HUD (green);
-		Texture2D hudC, hudR, gameOver;
+		Texture2D hudC, hudR, hudS, gameOver;
 		SpriteFont hudFont;
 
 		Vector2 hudPos;
@@ -24,6 +24,7 @@ namespace Pong
 		{
 			hudC = Content.Load<Texture2D>("HUDc");
 			hudR = Content.Load<Texture2D>("HUDr");
+			hudS = Content.Load<Texture2D>("HUDs");
 			hudFont = Content.Load<SpriteFont>("Font");
 			hudPos = new Vector2(0, 900);
 
@@ -40,8 +41,16 @@ namespace Pong
 			 * - The Rally counter is drawn, increasing by one for every successful bounce.
 			 */
 
-			if (Ball.mode == 0) { spriteBatch.Draw(hudC, hudPos, Color.White); }
+			switch (Ball.mode)
+            {
+				case (0): spriteBatch.Draw(hudC, hudPos, Color.White); break;
+				case (1): spriteBatch.Draw(hudR, hudPos, Color.White); break;
+				case (2): spriteBatch.Draw(hudS, hudPos, Color.White); break;
+			}
+
+			/* if (Ball.mode == 0) { spriteBatch.Draw(hudC, hudPos, Color.White); }
 			if (Ball.mode == 1) { spriteBatch.Draw(hudR, hudPos, Color.White); }
+			if (Ball.mode == 2) { spriteBatch.Draw(hudS, hudPos, Color.White); } */
 
 			if (over == false)
 			{
