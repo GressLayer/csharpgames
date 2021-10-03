@@ -55,10 +55,10 @@ namespace Pong
 			 */
 
 			// Draw HUD based on selected gamemode
-			if(Ball.mode == 0) { spriteBatch.Draw(hudC, hudPos, Color.White); }
-			if(Ball.mode == 1) { spriteBatch.Draw(hudR, hudPos, Color.White); }
-			if(Ball.mode == 2) { spriteBatch.Draw(hudS, hudPos, Color.White); }
-			if(Ball.mode == 3) { spriteBatch.Draw(hudL, hudPos, Color.White); }
+			if(Ball.mode == Ball.GameMode.Classic) { spriteBatch.Draw(hudC, hudPos, Color.White); }
+			if(Ball.mode == Ball.GameMode.Rally) { spriteBatch.Draw(hudR, hudPos, Color.White); }
+			if(Ball.mode == Ball.GameMode.SD) { spriteBatch.Draw(hudS, hudPos, Color.White); }
+			if(Ball.mode == Ball.GameMode.Lives) { spriteBatch.Draw(hudL, hudPos, Color.White); }
 
 			// Welcome screen.
 			if (state == State.Welcome)

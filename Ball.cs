@@ -15,12 +15,22 @@ namespace Pong
         static Random angle, anglemod;
         int randomangle;
 
-        /* Mode variable:
-         * - Set to 0 for Classic Mode (1 point per score, first to 10 wins)
-         * - Set to 1 for Rally Mode (Rally becomes points scored, first to 200 wins)
-         * = Set to 2 for Sudden Death Mode (1 point needed to win, first score wins)
+        /* Mode enum:
+         * - Classic Mode (1 point per score, first to 10 wins)
+         * - Rally Mode (rally becomes points scored, first to 200 wins)
+         * - Sudden Death Mode (1 point needed to win, first score wins)
+         * - Sudden Death Mode (start with 3 lives, first to 0 loses)
          */
-        public static int mode, winner;
+        public enum GameMode
+        {
+            Classic,
+            Rally,
+            SD,
+            Lives,
+        }
+
+        public static GameMode mode = GameMode.Classic;
+        public static int winner;
 
         // Loads the ball sprite and assigns values to several of the ball's necesssary variables.
         public Ball(ContentManager Content)
@@ -90,6 +100,7 @@ namespace Pong
             // Start button command: used to allow the ball to move after a reset.
             if (KeyPressed(Keys.Space) && Hud.state == Hud.State.Playing) { BallSpeed = BallInitial; }
 
+            // Checks for inputs while playing.
             if (Hud.state == Hud.State.Playing)
             {
                 BallPosition += BallSpeed;
@@ -101,7 +112,7 @@ namespace Pong
                 }
 
                 // Handles scoring for each different gamemode.
-                if (mode == 0) {
+                if (mode == GameMode.Classic) {
                     if (BallPosition.X <= -30) {
                         ResetBall();
                         Hud.p2Score++;
@@ -121,7 +132,7 @@ namespace Pong
                         Hud.state = Hud.State.Over;
                     }
                 }
-                if (mode == 1) {
+                if (mode == GameMode.Rally) {
                     if (BallPosition.X <= -30) {
 
                         Hud.p2Score += Hud.Rally;
@@ -145,7 +156,7 @@ namespace Pong
                         Hud.state = Hud.State.Over;
                     }
                 }
-                if (mode == 2)
+                if (mode == GameMode.SD)
                 {
                     if (BallPosition.X <= -30)
                     {
@@ -163,7 +174,7 @@ namespace Pong
                         Hud.state = Hud.State.Over;
                     }
                 }
-                if (mode == 3)
+                if (mode == GameMode.Lives)
                     {
                     if (BallPosition.X <= -30)
                     {
@@ -196,6 +207,7 @@ namespace Pong
                 }
             }
 
+            // Checks for inputs at Game Over screen.
             if (Hud.state == Hud.State.Over)
             {
                 if (KeyPressed(Keys.Space))
@@ -204,26 +216,38 @@ namespace Pong
                 }
             }
 
+            // Checks for inputs at Welcome screen.
             if (Hud.state == Hud.State.Welcome)
             {
                 if (KeyPressed(Keys.Enter)) { Hud.state = Hud.State.Playing; }
                 if (KeyPressed(Keys.Back)) { Hud.state = Hud.State.Controls; }
             }
 
+            // Checks for inputs at Controls screen.
             if (Hud.state == Hud.State.Controls)
             {
                 if (KeyPressed(Keys.Enter)) { Hud.state = Hud.State.Playing; }
             }
 
+            // Checks for inputs at Game Over screen.
+            if (Hud.state == Hud.State.Over)
+            {
+                if (KeyPressed(Keys.Space))
+                {
+                    Hud.state = Hud.State.Welcome;
+                }
+            }
+
+            // Gamemode selector - should be usable everywhere EXCEPT while playing. Also makes sure Lives mode can always start out with 3 lives.
             if (Hud.state != Hud.State.Playing) {
-                if (KeyPressed(Keys.D1)) { mode = 0; Hud.p1Score = 0; Hud.p2Score = 0; }
-                if (KeyPressed(Keys.D2)) { mode = 1; Hud.p1Score = 0; Hud.p2Score = 0; }
-                if (KeyPressed(Keys.D3)) { mode = 2; Hud.p1Score = 0; Hud.p2Score = 0; }
-                if (KeyPressed(Keys.D4)) { mode = 3; Hud.p1Score = 3; Hud.p2Score = 3; }
+                if (KeyPressed(Keys.D1)) { mode = GameMode.Classic; Hud.p1Score = 0; Hud.p2Score = 0; }
+                if (KeyPressed(Keys.D2)) { mode = GameMode.Rally; Hud.p1Score = 0; Hud.p2Score = 0; }
+                if (KeyPressed(Keys.D3)) { mode = GameMode.SD; Hud.p1Score = 0; Hud.p2Score = 0; }
+                if (KeyPressed(Keys.D4)) { mode = GameMode.Lives; Hud.p1Score = 3; Hud.p2Score = 3; }
             }
 
             /* Speed caps: hard speed limits on the ball.
-             * These are used to keep the game from becoming too impossible, while still allowing the ball to be fast enough during big rallies.
+             * These are used to keep the game from becoming too impossible, while still allowing the ball to be very fast during big rallies.
              */
             if (BallSpeed.X >= 35) { BallSpeed.X = 35;}
             if (BallSpeed.X <= -35) { BallSpeed.X = -35; }
