@@ -169,7 +169,7 @@ namespace Pong
                     {
                         Hud.p1Score++;
                         ResetBall();
-                        winner = 2;
+                        winner = 1;
                         Hud.over = true;
                     }
                 }
