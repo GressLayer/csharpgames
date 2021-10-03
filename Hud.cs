@@ -60,13 +60,13 @@ namespace Pong
 			if (over == true)
             {
 				spriteBatch.Draw(gameOver, new Vector2(0, 0), Color.White);
-				spriteBatch.DrawString(hudFont, "GAME OVER: PLAYER " + Ball.winner + " WINS", new Vector2(384, 300), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "Ended at " + p1Score + " - " + p2Score, new Vector2(720, 400), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "Press 1/2/3 for different gamemodes", new Vector2(568, 450), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "To play again, press ENTER", new Vector2(620, 550), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "1 = Classic", new Vector2(760, 650), Color.White);
-				spriteBatch.DrawString(hudFont, "2 = Rally", new Vector2(768, 675), Color.White);
-				spriteBatch.DrawString(hudFont, "3 = Sudden Death", new Vector2(740, 700), Color.White);
+				spriteBatch.DrawString(hudFont, "GAME OVER: PLAYER " + Ball.winner + " WINS", new Vector2(380, 250), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "Ended at " + p1Score + " - " + p2Score, new Vector2(720, 350), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "Press 1/2/3 for different gamemodes", new Vector2(568, 400), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "To play again, press ENTER", new Vector2(620, 450), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "1 = Classic", new Vector2(720, 550), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "2 = Rally", new Vector2(740, 600), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "3 = Sudden Death", new Vector2(680, 650), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
 			}
 		}
 	}
