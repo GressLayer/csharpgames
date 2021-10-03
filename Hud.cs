@@ -53,9 +53,9 @@ namespace Pong
 			if (over == true)
             {
 				spriteBatch.Draw(gameOver, new Vector2(0, 0), Color.White);
-				spriteBatch.DrawString(hudFont, "GAME OVER: PLAYER " + Ball.winner + " WINS", new Vector2(300, 300), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "Ended at " + p1Score + " - " + p2Score, new Vector2(300, 400), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "To play again, press ENTER", new Vector2(300, 500), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "GAME OVER: PLAYER " + Ball.winner + " WINS", new Vector2(400, 300), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "Ended at " + p1Score + " - " + p2Score, new Vector2(720, 400), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "To play again, press ENTER", new Vector2(616, 450), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
 			}
 		}
 	}
