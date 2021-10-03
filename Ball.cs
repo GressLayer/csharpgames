@@ -19,6 +19,12 @@ namespace Pong
         static Random angle, anglemod;
         int randomangle;
 
+        /* Mode variable:
+         * - Set to 0 for Classic Mode (1 point per score, first to 10 wins)
+         * - Set to 1 for Rally Mode (Rally becomes points scored, first to 200 wins)
+         */
+        public static int mode, winner;
+
         // Loads the ball sprite and assigns values to several of the ball's necesssary variables.
         public Ball(ContentManager Content)
         {
@@ -65,7 +71,7 @@ namespace Pong
             BallPosition.X = 800;
             BallPosition.Y = 450;
             Hud.Rally = 0;
-
+            winner = 0;
         }
 
         // Ball bounding box.
@@ -87,51 +93,92 @@ namespace Pong
             KeyboardCurrent = Keyboard.GetState();
 
             // Start button command: used to allow the ball to move after a reset.
-            if (KeyPressed(Keys.Space) && started == false)
-            {
-                BallSpeed = BallInitial;
-                started = true;
-            }
+            if (KeyPressed(Keys.Space) && started == false && Hud.over == false) { BallSpeed = BallInitial; started = true; }
 
-            // Reset button command: used for developer purposes only (comment out with /**/ in final version).
-            if (KeyPressed(Keys.R) && started == true)
-            {
-                ResetBall();
-            }
+            if (KeyPressed(Keys.D1) && started == false && Hud.over == true) { mode = 0; }
+            if (KeyPressed(Keys.D2) && started == false && Hud.over == true) { mode = 1; }
 
-            if (started)
+            if (started == true)
             {
+                Hud.over = false;
                 BallPosition += BallSpeed;
+
+                // Reset button command: used for developer purposes only (comment out with /**/ in final version).
+                if (KeyPressed(Keys.R) && Hud.over == false)
+                {
+                    ResetBall();
+                }
+
+                if (mode == 0) {
+                    if (BallPosition.X <= -30) {
+                        ResetBall();
+                        Hud.p2Score++; 
+                    }
+                    if (BallPosition.X >= 1600) {
+                        ResetBall();
+                        Hud.p1Score++; 
+                    }
+                    if (Hud.p1Score == 1)
+                    {
+                        winner = 1;
+                        Hud.over = true;
+                    }
+                    if (Hud.p2Score == 10)
+                    {
+                        winner = 2;
+                        Hud.over = true;
+                    }
+                }
+                if (mode == 1) {
+                    if (BallPosition.X <= -30) {
+                        
+                        Hud.p2Score += Hud.Rally;
+                        ResetBall();
+                    }
+                    if (BallPosition.X >= 1600) {
+                        
+                        Hud.p1Score += Hud.Rally;
+                        ResetBall();
+                    }
+                    if (Hud.p1Score == 200)
+                    {
+                        winner = 1;
+                        ResetBall();
+                        Hud.over = true;
+                    }
+                    if (Hud.p2Score == 200)
+                    {
+                        winner = 2;
+                        ResetBall();
+                        Hud.over = true;
+                    }
+                }
+
+                if (BallPosition.Y <= 15 || BallPosition.Y >= 885)
+                {
+                    BallSpeed.Y *= -1.1f;
+                }
             }
 
-            if (BallPosition.X <= -30) { ResetBall(); Hud.p2Score++; }
-            if (BallPosition.X >= 1600) { ResetBall(); Hud.p1Score++; }
-
-            if (BallPosition.Y <= 15 || BallPosition.Y >= 885)
+            if (Hud.over == true)
             {
-                BallSpeed.Y *= -1.1f;
+                if (KeyPressed(Keys.Enter) && started == false) 
+                { 
+                    Hud.over = false; 
+                    Hud.p1Score = 0; 
+                    Hud.p2Score = 0;
+                }
             }
 
-            // Speed caps: hard speed limits on the ball.
-            // These are used to keep the game from becoming too impossible, while still allowing the ball to be fast enough to easily score a point.
+            /* Speed caps: hard speed limits on the ball.
+             * These are used to keep the game from becoming too impossible, while still allowing the ball to be fast enough to easily score a point.
+             */
 
             // W: I would LOVE to use a cleaner structure here (like a switch-case), but that only allows for == checks (in short, useless for a speed cap).
-            if (BallSpeed.X >= 35)
-            {
-                BallSpeed.X = 35;
-            }
-            if (BallSpeed.X <= -35)
-            {
-                BallSpeed.X = -35;
-            }
-            if (BallSpeed.Y >= 30)
-            {
-                BallSpeed.Y = 30;
-            }
-            if (BallSpeed.Y <= -30)
-            {
-                BallSpeed.Y = -30;
-            }
+            if (BallSpeed.X >= 35) { BallSpeed.X = 35;}
+            if (BallSpeed.X <= -35) { BallSpeed.X = -35; }
+            if (BallSpeed.Y >= 30) { BallSpeed.X = 30; }
+            if (BallSpeed.Y <= -30) { BallSpeed.X = -30; }
         }
 
         // Draw method that... well... draws the ball.
