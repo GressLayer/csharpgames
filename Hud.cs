@@ -48,10 +48,7 @@ namespace Pong
 				case (2): spriteBatch.Draw(hudS, hudPos, Color.White); break;
 			}
 
-			/* if (Ball.mode == 0) { spriteBatch.Draw(hudC, hudPos, Color.White); }
-			if (Ball.mode == 1) { spriteBatch.Draw(hudR, hudPos, Color.White); }
-			if (Ball.mode == 2) { spriteBatch.Draw(hudS, hudPos, Color.White); } */
-
+			// Basic HUD during gameplay
 			if (over == false)
 			{
 				spriteBatch.DrawString(hudFont, "SPEED: " + Math.Round(Math.Abs(Ball.BallSpeed.X), 2), new Vector2(24, 924), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
@@ -59,12 +56,14 @@ namespace Pong
 				spriteBatch.DrawString(hudFont, "RALLY: " + Rally, new Vector2(1024, 924), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
 			}
 
+			// Game Over display
 			if (over == true)
             {
 				spriteBatch.Draw(gameOver, new Vector2(0, 0), Color.White);
-				spriteBatch.DrawString(hudFont, "GAME OVER: PLAYER " + Ball.winner + " WINS", new Vector2(400, 300), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "GAME OVER: PLAYER " + Ball.winner + " WINS", new Vector2(384, 300), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
 				spriteBatch.DrawString(hudFont, "Ended at " + p1Score + " - " + p2Score, new Vector2(720, 400), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "To play again, press ENTER", new Vector2(616, 450), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "Press 1/2/3 for different gamemodes", new Vector2(568, 450), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "To play again, press ENTER", new Vector2(620, 550), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
 			}
 		}
 	}

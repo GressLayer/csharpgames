@@ -162,12 +162,14 @@ namespace Pong
 
                         Hud.p2Score++;
                         ResetBall();
+                        winner = 2;
                         Hud.over = true;
                     }
                     if (BallPosition.X >= 1600)
                     {
                         Hud.p1Score++;
                         ResetBall();
+                        winner = 2;
                         Hud.over = true;
                     }
                 }
