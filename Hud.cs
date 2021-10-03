@@ -73,10 +73,10 @@ namespace Pong
 			if (state == State.Controls)
 			{
 				spriteBatch.DrawString(hudFont, "MOVEMENT", new Vector2(300, 50), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "Player 1: W/S to move\nPlayer 2: UP/DOWN to move\nSPACEBAR to ready the ball", new Vector2(300, 150), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "GAMEMODES", new Vector2(300, 300), Color.White, 0, new Vector2(0, 0), 3.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "Gamemode 1: CLASSIC MODE (blue)\n- Basic Pong: 1 point per goal, 10 points to win.\n\nGamemode 2: RALLY MODE (green)\n- Keep the rally going to raise the stakes! 200 points to win.\n\nGamemode 3: SUDDEN DEATH MODE (yellow)\n- One point to win, and one point only. Who budges first?\n\nGamemode 4: LIVES MODE (white)\n- 3 lives, with one lost per enemy goal. Stay alive the longest!", new Vector2(300, 375), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
-				spriteBatch.DrawString(hudFont, "Choose a gamemode, then press ENTER to start", new Vector2(300, 800), Color.White, 0, new Vector2(0, 0), 3.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "Player 1: W/S to move\nPlayer 2: UP/DOWN to move\nSPACEBAR to ready the ball\nNumber keys to choose a gamemode", new Vector2(300, 150), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "GAMEMODES", new Vector2(300, 325), Color.White, 0, new Vector2(0, 0), 3.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "Gamemode 1: CLASSIC MODE (blue)\n- Basic Pong: 1 point per goal, 10 points to win.\n\nGamemode 2: RALLY MODE (green)\n- Keep the rally going to raise the stakes! 200 points to win.\n\nGamemode 3: SUDDEN DEATH MODE (yellow)\n- One point to win, and one point only. Who budges first?\n\nGamemode 4: LIVES MODE (white)\n- 3 lives, with one lost per enemy goal. Stay alive the longest!", new Vector2(300, 400), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
+				spriteBatch.DrawString(hudFont, "Choose a gamemode, then press ENTER to start", new Vector2(300, 825), Color.White, 0, new Vector2(0, 0), 3.0f, SpriteEffects.None, 0f);
 			}
 
 			// Basic HUD during gameplay.
