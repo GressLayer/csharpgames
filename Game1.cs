@@ -14,7 +14,7 @@ namespace Pong
 
         public static Player1 player1;
         public static Player2 player2;
-        BallFunction ball;
+        Ball ball;
         Hud hud;
         
         
@@ -43,7 +43,7 @@ namespace Pong
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player1 = new Player1(Content);
             player2 = new Player2(Content);
-            ball = new BallFunction(Content);
+            ball = new Ball(Content);
             hud = new Hud(Content);
             //Loading the Sprites for the Bats and the Ball
         }
@@ -61,8 +61,8 @@ namespace Pong
             if (ball.BoundingBox.Intersects(player1.BoundingBox) || ball.BoundingBox.Intersects(player2.BoundingBox))
             {
                 ball.GenerateAngle();
-                BallFunction.BallSpeed.X = BallFunction.BallSpeed.X * -1.1f;
-                BallFunction.BallSpeed.Y = BallFunction.BallSpeed.Y + ball.RandomAngle*1.5f;
+                Ball.BallSpeed.X = Ball.BallSpeed.X * -1.1f;
+                Ball.BallSpeed.Y = Ball.BallSpeed.Y + ball.RandomAngle*1.5f;
                 Hud.Rally++;
             }
 

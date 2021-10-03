@@ -40,7 +40,7 @@ namespace Pong
 					The Rally counter is drawn, increasing by one for every successful bounce.
 			*/
 			spriteBatch.Draw(hud, hudPos, Color.White);
-			spriteBatch.DrawString(hudFont, "SPEED: " + Math.Round(Math.Abs(BallFunction.BallSpeed.X), 2), new Vector2(24, 924), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
+			spriteBatch.DrawString(hudFont, "SPEED: " + Math.Round(Math.Abs(Ball.BallSpeed.X), 2), new Vector2(24, 924), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
 			spriteBatch.DrawString(hudFont, p1Score + " - " + p2Score, new Vector2(736, 924), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
 			spriteBatch.DrawString(hudFont, "RALLY: " + Rally, new Vector2(1024, 924), Color.White, 0, new Vector2(0, 0), 4.0f, SpriteEffects.None, 0f);
 		}

@@ -9,22 +9,22 @@ using System;
 namespace Pong
 {
     // Constructor
-    class BallFunction
+    class Ball
     {
         Vector2 BallPosition, BallOrigin, BallInitial;
         public static Vector2 BallSpeed;
-        Texture2D Ball;
+        Texture2D ball;
         KeyboardState KeyboardCurrent, KeyboardPrevious;
         bool started;
         static Random angle, anglemod;
         int randomangle;
 
         // Loads the ball sprite and assigns values to several of the ball's necesssary variables.
-        public BallFunction(ContentManager Content)
+        public Ball(ContentManager Content)
         {
-            Ball = Content.Load<Texture2D>("Pong Ball");
+            ball = Content.Load<Texture2D>("Pong Ball");
             BallPosition = new Vector2(800, 450);
-            BallOrigin = new Vector2(Ball.Width / 2, Ball.Height / 2);
+            BallOrigin = new Vector2(ball.Width / 2, ball.Height / 2);
             BallInitial = new Vector2(5, 0);
             BallSpeed = new Vector2(0, 0);
             started = false;
@@ -73,7 +73,7 @@ namespace Pong
         {
             get
             {
-                Rectangle spriteBounds = Ball.Bounds;
+                Rectangle spriteBounds = ball.Bounds;
                 spriteBounds.Offset(BallPosition - BallOrigin);
                 return spriteBounds;
             }
@@ -137,7 +137,7 @@ namespace Pong
         // Draw method that... well... draws the ball.
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Ball, BallPosition, null, Color.White, 0.0f, BallOrigin, 1.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(ball, BallPosition, null, Color.White, 0.0f, BallOrigin, 1.0f, SpriteEffects.None, 0);
         }
     }
 }
