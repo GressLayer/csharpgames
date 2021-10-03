@@ -66,7 +66,7 @@ namespace Pong
 				spriteBatch.DrawString(hudFont, "To play again, press ENTER", new Vector2(620, 550), Color.White, 0, new Vector2(0, 0), 2.0f, SpriteEffects.None, 0f);
 				spriteBatch.DrawString(hudFont, "1 = Classic", new Vector2(760, 650), Color.White);
 				spriteBatch.DrawString(hudFont, "2 = Rally", new Vector2(768, 675), Color.White);
-				spriteBatch.DrawString(hudFont, "3 = Sudden Death", new Vector2(730, 700), Color.White);
+				spriteBatch.DrawString(hudFont, "3 = Sudden Death", new Vector2(740, 700), Color.White);
 			}
 		}
 	}
