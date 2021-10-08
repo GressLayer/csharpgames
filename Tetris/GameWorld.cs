@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace Tetris
@@ -47,6 +48,14 @@ namespace Tetris
 
         public void HandleInput(GameTime gameTime, InputHelper inputHelper)
         {
+            if (inputHelper.KeyPressed(Keys.D1))
+                gameState = State.Welcome;
+            if (inputHelper.KeyPressed(Keys.D2))
+                gameState = State.Controls;
+            if (inputHelper.KeyPressed(Keys.D3))
+                gameState = State.Playing;
+            if (inputHelper.KeyPressed(Keys.D4))
+                gameState = State.GameOver;
         }
 
         public void Update(GameTime gameTime)

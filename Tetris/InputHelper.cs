@@ -23,7 +23,7 @@ namespace Tetris
         }
 
         // Gets the current position of the mouse cursor.
-        public Vector2 MousePosition
+        public Vector2 mousePos
         {
             get { return new Vector2(mouseCurrent.X, mouseCurrent.Y); }
         }
