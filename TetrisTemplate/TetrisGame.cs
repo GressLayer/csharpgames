@@ -12,7 +12,7 @@ class TetrisGame : Game
     /// <summary>
     /// A static reference to the ContentManager object, used for loading assets.
     /// </summary>
-    public static ContentManager ContentManager { get; private set; }
+    public static ContentManager Content { get; private set; }
     
 
     /// <summary>
@@ -39,7 +39,7 @@ class TetrisGame : Game
         Content.RootDirectory = "Content";
 
         // set the desired window size
-        ScreenSize = new Point(800, 600);
+        ScreenSize = new Point(512, 384);
         graphics.PreferredBackBufferWidth = ScreenSize.X;
         graphics.PreferredBackBufferHeight = ScreenSize.Y;
 
@@ -65,7 +65,7 @@ class TetrisGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.White);
+        GraphicsDevice.Clear(Color.Transparent);
         gameWorld.Draw(gameTime, spriteBatch);
     }
 }

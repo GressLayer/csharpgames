@@ -17,6 +17,8 @@ class GameWorld
         GameOver
     }
 
+    Texture2D bg;
+
     /// <summary>
     /// The random-number generator of the game.
     /// </summary>
@@ -43,7 +45,8 @@ class GameWorld
         random = new Random();
         gameState = GameState.Playing;
 
-        font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
+        bg = TetrisGame.Content.Load<Texture2D>("bg");
+        font = TetrisGame.Content.Load<SpriteFont>("Font");
 
         grid = new TetrisGrid();
     }
@@ -60,6 +63,7 @@ class GameWorld
     {
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch);
+        spriteBatch.Draw(bg, Vector2.Zero, Color.White);
         spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
         spriteBatch.End();
     }

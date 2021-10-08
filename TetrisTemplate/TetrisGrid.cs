@@ -24,7 +24,7 @@ class TetrisGrid
     /// <param name="b"></param>
     public TetrisGrid()
     {
-        emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
+        emptyCell = TetrisGame.Content.Load<Texture2D>("sprites/tetrominoE");
         position = Vector2.Zero;
         Clear();
     }
