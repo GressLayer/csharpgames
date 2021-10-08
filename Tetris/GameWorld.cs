@@ -57,9 +57,20 @@ namespace Tetris
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(titleScreen, Vector2.Zero, Color.Transparent);
-            // spriteBatch.Draw(bg, Vector2.Zero, Color.Transparent);
-            // grid.Draw(gameTime, spriteBatch);
+            switch (gameState) 
+            {
+                case (State.Welcome):
+                    spriteBatch.Draw(titleScreen, Vector2.Zero, Color.White);
+                    break;
+                case (State.Controls):
+                    break;
+                case (State.Playing):
+                    spriteBatch.Draw(bg, Vector2.Zero, Color.White);
+                    grid.Draw(gameTime, spriteBatch);
+                    break;
+                case (State.GameOver):
+                    break;
+            }
 
             spriteBatch.End();
         }
