@@ -19,7 +19,7 @@ namespace Tetris
             GameOver
         }
 
-        Texture2D menu, bg;
+        Texture2D menu, menu2, menubar, menubarS, menubar2S, hud;
 
         // The random-number generator of the game.
         public static Random Random { get { return random; } }
@@ -37,10 +37,14 @@ namespace Tetris
         public GameWorld()
         {
             random = new Random();
-            gameState = State.Playing;
+            gameState = State.Welcome;
 
             menu = TetrisGame.ContentManager.Load<Texture2D>("sprites/menu");
-            bg = TetrisGame.ContentManager.Load<Texture2D>("sprites/bg");
+            menu2 = TetrisGame.ContentManager.Load<Texture2D>("sprites/menu2");
+            menubar = TetrisGame.ContentManager.Load<Texture2D>("sprites/menubar");
+            menubarS = TetrisGame.ContentManager.Load<Texture2D>("sprites/menubarS");
+            menubar2S = TetrisGame.ContentManager.Load<Texture2D>("sprites/menubar2S");
+            hud = TetrisGame.ContentManager.Load<Texture2D>("sprites/hud");
             font = TetrisGame.ContentManager.Load<SpriteFont>("Font");
 
             grid = new TetrisGrid();
@@ -71,16 +75,22 @@ namespace Tetris
             {
                 case (State.Welcome):
                     spriteBatch.Draw(menu, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(menubar, Vector2.Zero, Color.White);
                     break;
                 case (State.Controls):
-                    spriteBatch.Draw(menu, Vector2.Zero, Color.Aquamarine);
+                    spriteBatch.Draw(menu, Vector2.Zero, Color.PaleGoldenrod);
+                    spriteBatch.Draw(menubarS, Vector2.Zero, Color.PaleGoldenrod);
+                    spriteBatch.DrawString(font, "CONTROLS", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     break;
                 case (State.Playing):
-                    spriteBatch.Draw(bg, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(menu2, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(hud, Vector2.Zero, Color.White);
                     grid.Draw(gameTime, spriteBatch);
                     break;
                 case (State.GameOver):
-                    spriteBatch.Draw(menu, Vector2.Zero, Color.PaleGoldenrod);
+                    spriteBatch.Draw(menu2, Vector2.Zero, Color.DarkOrange);
+                    spriteBatch.Draw(menubar2S, Vector2.Zero, Color.DarkOrange);
+                    spriteBatch.DrawString(font, "GAME OVER", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     break;
             }
 
