@@ -2,74 +2,69 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-/// <summary>
-/// A class for representing the game world.
-/// This contains the grid, the falling block, and everything else that the player can see/do.
-/// </summary>
-class GameWorld
+namespace Tetris
 {
-    /// <summary>
-    /// An enum for the different game states that the game can have.
-    /// </summary>
-    enum GameState
+    // A class for representing the game world.
+    // This contains the grid, the falling block, and everything else that the player can see/do.
+
+    class GameWorld
     {
-        Playing,
-        GameOver
+        /// An enum for the different game states that the game can have.
+        enum State
+        {
+            Welcome,
+            Controls,
+            Playing,
+            Paused,
+            GameOver
+        }
+
+        Texture2D bg;
+
+        // The random-number generator of the game.
+        public static Random Random { get { return random; } }
+        static Random random;
+
+        // The main font of the game.
+        SpriteFont font;
+
+        // The current game state.
+        State gameState;
+
+        // The main grid of the game.
+        TetrisGrid grid;
+
+        public GameWorld()
+        {
+            random = new Random();
+            gameState = State.Playing;
+
+            bg = TetrisGame.ContentManager.Load<Texture2D>("sprites/bg");
+            font = TetrisGame.ContentManager.Load<SpriteFont>("Font");
+
+            grid = new TetrisGrid();
+        }
+
+        public void HandleInput(GameTime gameTime, InputHelper inputHelper)
+        {
+        }
+
+        public void Update(GameTime gameTime)
+        {
+        }
+
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            grid.Draw(gameTime, spriteBatch);
+            spriteBatch.Draw(bg, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
+            spriteBatch.End();
+        }
+
+        public void Reset()
+        {
+        }
+
     }
-
-    Texture2D bg;
-
-    /// <summary>
-    /// The random-number generator of the game.
-    /// </summary>
-    public static Random Random { get { return random; } }
-    static Random random;
-
-    /// <summary>
-    /// The main font of the game.
-    /// </summary>
-    SpriteFont font;
-
-    /// <summary>
-    /// The current game state.
-    /// </summary>
-    GameState gameState;
-
-    /// <summary>
-    /// The main grid of the game.
-    /// </summary>
-    TetrisGrid grid;
-
-    public GameWorld()
-    {
-        random = new Random();
-        gameState = GameState.Playing;
-
-        bg = TetrisGame.Content.Load<Texture2D>("bg");
-        font = TetrisGame.Content.Load<SpriteFont>("Font");
-
-        grid = new TetrisGrid();
-    }
-
-    public void HandleInput(GameTime gameTime, InputHelper inputHelper)
-    {
-    }
-
-    public void Update(GameTime gameTime)
-    {
-    }
-
-    public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-    {
-        spriteBatch.Begin();
-        grid.Draw(gameTime, spriteBatch);
-        spriteBatch.Draw(bg, Vector2.Zero, Color.White);
-        spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
-        spriteBatch.End();
-    }
-
-    public void Reset()
-    {
-    }
-
 }
