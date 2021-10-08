@@ -41,9 +41,12 @@ namespace Tetris
             ContentManager.RootDirectory = "Content";
 
             // set the desired window size
-            ScreenSize = new Point(512, 384);
+            ScreenSize = new Point(1024, 768);
             graphics.PreferredBackBufferWidth = ScreenSize.X;
             graphics.PreferredBackBufferHeight = ScreenSize.Y;
+            graphics.ApplyChanges();
+
+            IsMouseVisible = true;
 
             // create the input helper object
             inputHelper = new InputHelper();
