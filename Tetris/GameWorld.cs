@@ -15,7 +15,6 @@ namespace Tetris
             Welcome,
             Controls,
             Playing,
-            Paused,
             GameOver
         }
 
@@ -57,25 +56,10 @@ namespace Tetris
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            
 
-            switch (gameState)
-            {
-                case (State.Welcome):
-                    spriteBatch.Draw(titleScreen, Vector2.Zero, Color.Transparent);
-                    break;
-                case (State.Controls):
-                    break;
-                case (State.Playing):
-                    spriteBatch.Draw(bg, Vector2.Zero, Color.Transparent);
-                    grid.Draw(gameTime, spriteBatch);
-                    break;
-                case (State.Paused):
-                    break;
-                case (State.GameOver):
-                    break;
-                default: break;
-            }
+            spriteBatch.Draw(titleScreen, Vector2.Zero, Color.Transparent);
+            // spriteBatch.Draw(bg, Vector2.Zero, Color.Transparent);
+            // grid.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
         }
