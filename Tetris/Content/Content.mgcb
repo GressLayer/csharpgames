@@ -62,7 +62,7 @@
 /processorParam:TextureFormat=Color
 /build:sprites/empty.png
 
-#begin sprites/title.png
+#begin sprites/menu.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -72,5 +72,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/title.png
+/build:sprites/menu.png
 

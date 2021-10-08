@@ -19,7 +19,7 @@ namespace Tetris
             GameOver
         }
 
-        Texture2D titleScreen, bg;
+        Texture2D menu, bg;
 
         // The random-number generator of the game.
         public static Random Random { get { return random; } }
@@ -39,7 +39,7 @@ namespace Tetris
             random = new Random();
             gameState = State.Playing;
 
-            titleScreen = TetrisGame.ContentManager.Load<Texture2D>("sprites/title");
+            menu = TetrisGame.ContentManager.Load<Texture2D>("sprites/menu");
             bg = TetrisGame.ContentManager.Load<Texture2D>("sprites/bg");
             font = TetrisGame.ContentManager.Load<SpriteFont>("Font");
 
@@ -48,6 +48,7 @@ namespace Tetris
 
         public void HandleInput(GameTime gameTime, InputHelper inputHelper)
         {
+            // Quick-switch to test game states: comment out when no longer needed
             if (inputHelper.KeyPressed(Keys.D1))
                 gameState = State.Welcome;
             if (inputHelper.KeyPressed(Keys.D2))
@@ -69,15 +70,17 @@ namespace Tetris
             switch (gameState) 
             {
                 case (State.Welcome):
-                    spriteBatch.Draw(titleScreen, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(menu, Vector2.Zero, Color.White);
                     break;
                 case (State.Controls):
+                    spriteBatch.Draw(menu, Vector2.Zero, Color.Aquamarine);
                     break;
                 case (State.Playing):
                     spriteBatch.Draw(bg, Vector2.Zero, Color.White);
                     grid.Draw(gameTime, spriteBatch);
                     break;
                 case (State.GameOver):
+                    spriteBatch.Draw(menu, Vector2.Zero, Color.PaleGoldenrod);
                     break;
             }
 
