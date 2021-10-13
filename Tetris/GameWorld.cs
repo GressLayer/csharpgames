@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Input;
 using System;
 
@@ -20,6 +21,7 @@ namespace Tetris
         }
 
         Texture2D menu, menu2, menubar, menubarS, menubar2S, hud;
+        Song welcome, controls, playing, gameover;
 
         // The random-number generator of the game.
         public static Random Random { get { return random; } }
@@ -39,15 +41,25 @@ namespace Tetris
             random = new Random();
             gameState = State.Welcome;
 
+            MediaPlayer.IsRepeating = true;
+
             menu = TetrisGame.ContentManager.Load<Texture2D>("sprites/menu");
             menu2 = TetrisGame.ContentManager.Load<Texture2D>("sprites/menu2");
             menubar = TetrisGame.ContentManager.Load<Texture2D>("sprites/menubar");
             menubarS = TetrisGame.ContentManager.Load<Texture2D>("sprites/menubarS");
             menubar2S = TetrisGame.ContentManager.Load<Texture2D>("sprites/menubar2S");
             hud = TetrisGame.ContentManager.Load<Texture2D>("sprites/hud");
+
             font = TetrisGame.ContentManager.Load<SpriteFont>("Font");
 
+            welcome = TetrisGame.ContentManager.Load<Song>("music/welcome");
+            controls = TetrisGame.ContentManager.Load<Song>("music/controls");
+            playing = TetrisGame.ContentManager.Load<Song>("music/playing");
+            gameover = TetrisGame.ContentManager.Load<Song>("music/gameover");
+
             grid = new TetrisGrid();
+
+            MediaPlayer.Play(controls);
         }
 
         public void HandleInput(GameTime gameTime, InputHelper inputHelper)
