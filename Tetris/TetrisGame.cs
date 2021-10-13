@@ -1,27 +1,10 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
+using System.Collections.Generic;
 
 namespace Tetris
 {
-    class TetrisGame : Game
+    class TetrisGame : ExtendedGame
     {
-        SpriteBatch spriteBatch;
-        InputHelper inputHelper;
-        GameWorld gameWorld;
-
-        /// <summary>
-        /// A static reference to the ContentManager object, used for loading assets.
-        /// </summary>
-        public static ContentManager ContentManager { get; private set; }
-
-
-        /// <summary>
-        /// A static reference to the width and height of the screen.
-        /// </summary>
-        public static Point ScreenSize { get; private set; }
-
         [STAThread]
         static void Main(string[] args)
         {
@@ -31,48 +14,17 @@ namespace Tetris
 
         public TetrisGame()
         {
-            // initialize the graphics device
-            GraphicsDeviceManager graphics = new GraphicsDeviceManager(this);
-
-            // store a static reference to the content manager, so other objects can use it
-            ContentManager = Content;
-
-            // set the directory where game assets are located
-            ContentManager.RootDirectory = "Content";
-
-            // set the desired window size
-            ScreenSize = new Point(1024, 768);
-            graphics.PreferredBackBufferWidth = ScreenSize.X;
-            graphics.PreferredBackBufferHeight = ScreenSize.Y;
-            graphics.ApplyChanges();
-
             IsMouseVisible = true;
-
-            // create the input helper object
-            inputHelper = new InputHelper();
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            base.LoadContent();
             // create and reset the game world
-            gameWorld = new GameWorld();
-            gameWorld.Reset();
+            gameWorld1 = new GameWorld();
+            gameWorld1.Reset();
         }
 
-        protected override void Update(GameTime gameTime)
-        {
-            inputHelper.Update(gameTime);
-            gameWorld.HandleInput(gameTime, inputHelper);
-            gameWorld.Update(gameTime);
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.White);
-            gameWorld.Draw(gameTime, spriteBatch);
-        }
     }
 }
 
