@@ -48,12 +48,12 @@ namespace Tetris
             playing = ExtendedGame.ContentManager.Load<Song>("music/playing");
             gameover = ExtendedGame.ContentManager.Load<Song>("music/gameover");
 
-            SpriteGameObject menu = new SpriteGameObject("sprites/menu");
-            SpriteGameObject menu2 = new SpriteGameObject("sprites/menu2");
-            SpriteGameObject menubar = new SpriteGameObject("sprites/menubar");
-            SpriteGameObject menubarS = new SpriteGameObject("sprites/menubarS");
-            SpriteGameObject menubar2S = new SpriteGameObject("sprites/menubar2S");
-            SpriteGameObject hud = new SpriteGameObject("sprites/hud");
+            menu = new SpriteGameObject("sprites/menu");
+            menu2 = new SpriteGameObject("sprites/menu2");
+            menubar = new SpriteGameObject("sprites/menubar");
+            menubarS = new SpriteGameObject("sprites/menubarS");
+            menubar2S = new SpriteGameObject("sprites/menubar2S");
+            hud = new SpriteGameObject("sprites/hud");
 
             SpriteFont font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
 
