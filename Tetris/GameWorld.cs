@@ -55,7 +55,7 @@ namespace Tetris
             menubar2S = new SpriteGameObject("sprites/menubar2S");
             hud = new SpriteGameObject("sprites/hud");
 
-            SpriteFont font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
+            font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
 
             grid = new TetrisGrid();
 
@@ -73,10 +73,12 @@ namespace Tetris
                 gameState = State.Playing;
             if (inputHelper.KeyPressed(Keys.D4))
                 gameState = State.GameOver;
+
         }
 
         public void Update(GameTime gameTime)
         {
+
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
