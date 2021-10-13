@@ -58,7 +58,7 @@ namespace Tetris
 
             if (inputHelper.KeyPressed(Keys.Escape))
                 Exit();
-            if (inputHelper.KeyPressed(Keys.R))
+            if (inputHelper.KeyPressed(Keys.F11))
                 FullScreen = !FullScreen;
 
             gameWorld1.HandleInput(inputHelper);
