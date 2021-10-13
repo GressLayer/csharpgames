@@ -34,6 +34,8 @@ namespace Tetris
         TetrisGrid grid;
 
         SpriteGameObject menu, menu2, menubar, menubarS, menubar2S, hud;
+
+        Texture2D logo;
         Song welcome, controls, playing, gameover;
 
         public GameWorld()
@@ -48,18 +50,21 @@ namespace Tetris
             playing = ExtendedGame.ContentManager.Load<Song>("music/playing");
             gameover = ExtendedGame.ContentManager.Load<Song>("music/gameover");
 
+            logo = ExtendedGame.ContentManager.Load<Texture2D>("sprites/logo");
+
             menu = new SpriteGameObject("sprites/menu");
             menu2 = new SpriteGameObject("sprites/menu2");
             menubar = new SpriteGameObject("sprites/menubar");
             menubarS = new SpriteGameObject("sprites/menubarS");
             menubar2S = new SpriteGameObject("sprites/menubar2S");
+            // logo = new SpriteGameObject("sprites/logo");
             hud = new SpriteGameObject("sprites/hud");
 
-            SpriteFont font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
+            font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
 
             grid = new TetrisGrid();
 
-            MediaPlayer.Play(controls);
+            MediaPlayer.Play(welcome);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -86,6 +91,8 @@ namespace Tetris
                 case (State.Welcome):
                     menu.Draw(gameTime, spriteBatch);
                     menubar.Draw(gameTime, spriteBatch);
+                    spriteBatch.Draw(logo, new Vector2(40, 96), Color.White);
+                    spriteBatch.DrawString(font, "Wassim Chammat    Corne van Vliet\n2981351                              6790836", new Vector2(6, 731), Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
                     break;
                 case (State.Controls):
                     menu.Draw(gameTime, spriteBatch);
