@@ -15,18 +15,15 @@ namespace Tetris
         protected InputHelper inputHelper;
         protected GameWorld gameWorld1;
 
-        protected static List<GameObject> gameWorld;
+        // stores the width and height of the game world.
+        Point worldSize;
+        // stores the width and height of the window in pixels.
+        Point windowSize;
+        //Scales the game world based on screensize.
+        Matrix spriteScale;
 
-        /// <summary>
-        /// A static reference to the ContentManager object, used for loading assets.
-        /// </summary>
+        // A static reference to the ContentManager object, used for loading assets.
         public static ContentManager ContentManager { get; private set; }
-        
-        /// <summary>
-        /// A static reference to the width and height of the screen.
-        /// </summary>
-        public static Point ScreenSize { get; private set; }
-
 
         public ExtendedGame()
         {
@@ -35,11 +32,6 @@ namespace Tetris
             Content.RootDirectory = "Content";
 
             inputHelper = new InputHelper();
-            ScreenSize = new Point(1024, 768);
-
-            graphics.PreferredBackBufferWidth = ScreenSize.X;
-            graphics.PreferredBackBufferHeight = ScreenSize.Y;
-            graphics.ApplyChanges();
 
         }
         protected override void LoadContent()
@@ -47,10 +39,11 @@ namespace Tetris
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             ContentManager = Content;
-
-            gameWorld = new List<GameObject>();
-
-            /*Fullscreen = false;*/
+            worldSize = new Point(1024, 768);
+            windowSize = new Point(1024, 768);
+            FullScreen = false;
+            
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,8 +58,8 @@ namespace Tetris
 
             if (inputHelper.KeyPressed(Keys.Escape))
                 Exit();
-            /*if (inputHelper.KeyPressed(Keys.R))
-                FullScreen = !FullScreen;*/
+            if (inputHelper.KeyPressed(Keys.R))
+                FullScreen = !FullScreen;
 
             gameWorld1.HandleInput(inputHelper);
 
@@ -76,14 +69,66 @@ namespace Tetris
             GraphicsDevice.Clear(Color.Black);
 
             base.Draw(gameTime);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, spriteScale);
             gameWorld1.Draw(gameTime, spriteBatch);
             spriteBatch.End();
         }
 
-        public static List<GameObject> GameWorld
+        void ApplyResolutionSettings(bool fullScreen)
         {
-            get { return gameWorld; }
+            graphics.IsFullScreen = fullScreen;
+
+            Point screenSize;
+            if (fullScreen)
+            {
+                screenSize = new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
+                    GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+            }
+            else
+                screenSize = windowSize;
+            
+            graphics.PreferredBackBufferWidth = screenSize.X;
+            graphics.PreferredBackBufferHeight = screenSize.Y;
+
+            graphics.IsFullScreen = fullScreen;
+            graphics.ApplyChanges();
+
+            GraphicsDevice.Viewport = CalculateViewport(screenSize);
+            spriteScale = Matrix.CreateScale((float)GraphicsDevice.Viewport.Width / worldSize.X,
+                (float)GraphicsDevice.Viewport.Height / worldSize.Y, 1);
+        }
+
+        Viewport CalculateViewport(Point windowSize)
+        {
+            Viewport viewport = new Viewport();
+
+            float gameAspectRatio = (float)worldSize.X / worldSize.Y;
+            float windowAspectRatio = (float)windowSize.X / windowSize.Y;
+
+            if (windowAspectRatio > gameAspectRatio)
+            {
+                viewport.Width = (int)(windowSize.Y * gameAspectRatio);
+                viewport.Height = windowSize.Y;
+            }
+            else
+            {
+                viewport.Width = windowSize.X;
+                viewport.Height = (int)(windowSize.X / gameAspectRatio);
+            }
+
+            viewport.X = (windowSize.X - viewport.Width) / 2;
+            viewport.Y = (windowSize.Y - viewport.Height) / 2;
+
+            return viewport;
+        }
+        
+        // A boolean property that sets full screen or disables it.
+        public bool FullScreen
+        {
+            get { return graphics.IsFullScreen; }
+            protected set { ApplyResolutionSettings(value); }
         }
     }
+
+
 }

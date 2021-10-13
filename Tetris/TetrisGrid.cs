@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Tetris
 {
     // A class for representing the Tetris playing grid.
-    class TetrisGrid
+    class TetrisGrid : GameObject
     {
         
         Texture2D empty; // The sprite of a single empty cell in the grid.
