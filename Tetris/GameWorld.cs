@@ -60,7 +60,7 @@ namespace Tetris
 
             grid = new TetrisGrid();
 
-            MediaPlayer.Play(playing);
+            MediaPlayer.Play(welcome);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -75,23 +75,43 @@ namespace Tetris
             if (inputHelper.KeyPressed(Keys.D4))
                 gameState = State.GameOver;
 
+            // Holds input options per game state
+
             switch (gameState)
             {
                 case (State.Welcome):
                     if (inputHelper.KeyPressed(Keys.Space))
+                    {
                         gameState = State.Controls;
+                        MediaPlayer.Play(controls);
+                    }
                     break;
                 case (State.Controls):
                     if (inputHelper.KeyPressed(Keys.Back))
+                    {
                         gameState = State.Welcome;
+                    }
                     if (inputHelper.KeyPressed(Keys.Space))
+                    {
                         gameState = State.Playing;
+                        MediaPlayer.Play(playing);
+                    }
                     break;
                 case (State.Playing):
+                    if (inputHelper.KeyPressed(Keys.R))
+                    {
+                        gameState = State.GameOver;
+                        MediaPlayer.IsRepeating = false;
+                        MediaPlayer.Play(gameover);
+                    }
                     break;
                 case (State.GameOver):
                     if (inputHelper.KeyPressed(Keys.Space))
+                    {
                         gameState = State.Welcome;
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Play(welcome);
+                    }
                     break;
             }
 
