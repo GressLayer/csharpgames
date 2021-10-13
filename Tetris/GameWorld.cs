@@ -91,6 +91,7 @@ namespace Tetris
                     if (inputHelper.KeyPressed(Keys.Back))
                     {
                         gameState = State.Welcome;
+                        MediaPlayer.Play(welcome);
                     }
                     if (inputHelper.KeyPressed(Keys.Space))
                     {
