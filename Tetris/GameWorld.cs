@@ -78,10 +78,12 @@ namespace Tetris
                 gameState = State.Playing;
             if (inputHelper.KeyPressed(Keys.D4))
                 gameState = State.GameOver;
+
         }
 
         public void Update(GameTime gameTime)
         {
+
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

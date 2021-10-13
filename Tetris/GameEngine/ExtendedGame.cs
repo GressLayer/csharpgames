@@ -57,9 +57,6 @@ namespace Tetris
         {
             HandleInput();
             base.Update(gameTime);
-
-            foreach (GameObject obj in gameWorld)
-                obj.Update(gameTime);
         }
 
         protected void HandleInput()
@@ -71,8 +68,7 @@ namespace Tetris
             /*if (inputHelper.KeyPressed(Keys.R))
                 FullScreen = !FullScreen;*/
 
-            foreach(GameObject obj in gameWorld)
-                obj.HandleInput(inputHelper);
+            gameWorld1.HandleInput(inputHelper);
 
         }
         protected override void Draw(GameTime gameTime)
