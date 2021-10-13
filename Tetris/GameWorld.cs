@@ -60,12 +60,12 @@ namespace Tetris
 
             grid = new TetrisGrid();
 
-            MediaPlayer.Play(welcome);
+            MediaPlayer.Play(playing);
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-            // Quick-switch to test game states: comment out when no longer needed
+            // Developer quick-switch to test game states: comment out when no longer needed
             if (inputHelper.KeyPressed(Keys.D1))
                 gameState = State.Welcome;
             if (inputHelper.KeyPressed(Keys.D2))
@@ -74,6 +74,26 @@ namespace Tetris
                 gameState = State.Playing;
             if (inputHelper.KeyPressed(Keys.D4))
                 gameState = State.GameOver;
+
+            switch (gameState)
+            {
+                case (State.Welcome):
+                    if (inputHelper.KeyPressed(Keys.Space))
+                        gameState = State.Controls;
+                    break;
+                case (State.Controls):
+                    if (inputHelper.KeyPressed(Keys.Back))
+                        gameState = State.Welcome;
+                    if (inputHelper.KeyPressed(Keys.Space))
+                        gameState = State.Playing;
+                    break;
+                case (State.Playing):
+                    break;
+                case (State.GameOver):
+                    if (inputHelper.KeyPressed(Keys.Space))
+                        gameState = State.Welcome;
+                    break;
+            }
 
         }
 
@@ -88,6 +108,7 @@ namespace Tetris
                 case (State.Welcome):
                     menu.Draw(gameTime, spriteBatch);
                     menubar.Draw(gameTime, spriteBatch);
+                    spriteBatch.DrawString(font, "PRESS SPACE TO START", new Vector2(280, 480), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "Wassim Chammat    Corne van Vliet\n2981351                              6790836", new Vector2(6, 731), Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
                     break;
                 case (State.Controls):
