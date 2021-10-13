@@ -6,30 +6,41 @@ namespace Tetris
     // A class for representing the Tetris playing grid.
     class TetrisGrid : GameObject
     {
-        
-        Texture2D empty; // The sprite of a single empty cell in the grid.
 
-        Vector2 position;  // The position at which this TetrisGrid should be drawn.
-        // The number of grid elements in the x- and y-directions
-        public int Width { get { return 12; } }
-        public int Height { get { return 20; } }
+        Tile[,] grid;
+        int Width, Height, cellSize; 
 
         // Creates a new TetrisGrid.
-        public TetrisGrid()
+        public TetrisGrid(int width, int height, int cellSize, Vector2 offset)
         {
-            /*empty = ExtendedGame.ContentManager.Load<Texture2D>("empty");*/
-            position = Vector2.Zero;
-            Clear();
+            Width = width;
+            Height = height;
+            this.cellSize = cellSize;
+            LocalPosition = offset;
+
+            Reset();
         }
 
         // Draws the grid on the screen.
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            foreach (Tile tile in grid)
+                tile.Draw(gameTime, spriteBatch);
         }
 
         // Clears the grid.
-        public void Clear()
+        public override void Reset()
         {
+            grid = new Tile[Width, Height];
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    grid[x, y] = new Tile(0);
+                    grid[x, y].LocalPosition = LocalPosition + new Vector2(x * cellSize, y * cellSize);
+                }
+            }
         }
     }
 }

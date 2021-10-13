@@ -38,6 +38,12 @@ namespace Tetris
 
         Song welcome, controls, playing, gameover;
 
+        public int GridWidth { get; private set; }
+        public int GridHeight { get; private set; }
+        public int CellSize { get; private set; }
+        public Vector2 GridOffset { get; private set; }
+
+
         public GameWorld()
         {
             random = new Random();
@@ -59,7 +65,12 @@ namespace Tetris
 
             font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
 
-            grid = new TetrisGrid();
+            GridWidth = 15; 
+            GridHeight = 24; 
+            CellSize = 32;
+            GridOffset = Vector2.Zero;
+
+            grid = new TetrisGrid(GridWidth, GridHeight, CellSize, GridOffset);
 
             MediaPlayer.Play(playing);
         }
