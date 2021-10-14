@@ -65,10 +65,10 @@ namespace Tetris
 
             font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
 
-            GridWidth = 15; 
-            GridHeight = 24; 
+            GridWidth = 10; 
+            GridHeight = 20; 
             CellSize = 32;
-            GridOffset = Vector2.Zero;
+            GridOffset = new Vector2(96, 64);
 
             grid = new TetrisGrid(GridWidth, GridHeight, CellSize, GridOffset);
 
