@@ -35,8 +35,8 @@ namespace Tetris
         // The main grid of the game.
         TetrisGrid grid;
 
-        // 
-        SpriteGameObject menu, menu2, menubar, menubarS, menubar2S, hud;
+        Texture2D menubar;
+        SpriteGameObject menu, menu2, menubarS, menubar2S, hud;
 
         Song welcome, controls, playing, gameover;
 
@@ -54,6 +54,8 @@ namespace Tetris
 
             MediaPlayer.IsRepeating = true;
 
+            menubar = ExtendedGame.ContentManager.Load<Texture2D>("sprites/menubar");
+
             welcome = ExtendedGame.ContentManager.Load<Song>("music/welcome");
             controls = ExtendedGame.ContentManager.Load<Song>("music/controls");
             playing = ExtendedGame.ContentManager.Load<Song>("music/playing");
@@ -61,7 +63,6 @@ namespace Tetris
 
             menu = new SpriteGameObject("sprites/menu");
             menu2 = new SpriteGameObject("sprites/menu2");
-            menubar = new SpriteGameObject("sprites/menubar");
             menubarS = new SpriteGameObject("sprites/menubarS");
             menubar2S = new SpriteGameObject("sprites/menubar2S");
             hud = new SpriteGameObject("sprites/hud");
@@ -144,7 +145,7 @@ namespace Tetris
             {
                 case (State.Welcome):
                     menu.Draw(gameTime, spriteBatch);
-                    menubar.Draw(gameTime, spriteBatch);
+                    spriteBatch.Draw(menubar, new Vector2(0, 96), Color.White);
                     spriteBatch.DrawString(font, "PRESS SPACE TO START", new Vector2(280, 480), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     break;
                 case (State.Controls):
@@ -154,9 +155,16 @@ namespace Tetris
                     spriteBatch.DrawString(font, "PRESS SPACE TO PLAY", new Vector2(292, 660), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "or press BACKSPACE to return", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
-                    spriteBatch.DrawString(font, "MOVEMENT", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "LEFT/RIGHT to move the Tetromino.\nA/D to rotate.", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "The Tetromino falls on its own: press DOWN to drop faster!\nPress UP for a \"Hard Drop\", to INSTANTLY place the block.", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "MOVEMENT", new Vector2(64, 82), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "LEFT/RIGHT to move the Tetromino.\nA/D to rotate.", new Vector2(64, 122), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "DROP", new Vector2(64, 218), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "The Tetromino falls on its own: press DOWN to drop faster!\nPress UP for a \"Hard Drop\", to instantly place the block!", new Vector2(64, 258), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+                    spriteBatch.DrawString(font, "THE BASICS OF TETRIS", new Vector2(64, 364), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "- Align the blocks to fill a whole row.\n  Clear rows to empty the grid and score points!", new Vector2(64, 404), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "- Clearing multiple rows at once means more points.\n  Go for a TETRIS!", new Vector2(64, 452), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "- Try playing for as long as possible.\n  Hitting the top of the grid equals GAME OVER.", new Vector2(64, 500), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
 
                     break;
                 case (State.Playing):

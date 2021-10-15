@@ -7,15 +7,14 @@ namespace Tetris
 	{
 		public BlockJ() : base()
 		{
-            blockShape = new bool[blockWidth, blockHeight];
-            for (int x = 0; x < blockWidth; x++)
-            {
-                for (int y = 0; y < blockHeight; y++)
-                {
-                    blockShape[x, y] = false;
-                }
-            }
-        }
+			blockShape = new bool[blockWidth, blockHeight]
+			{
+				{ false, false, true, false },
+				{ false, false, true, false },
+				{ false, true, true, false },
+				{ false, false, false, false }
+			};
+		}
 
 	}
 }
