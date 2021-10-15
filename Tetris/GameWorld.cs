@@ -136,19 +136,20 @@ namespace Tetris
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+
             switch (gameState) 
             {
                 case (State.Welcome):
                     menu.Draw(gameTime, spriteBatch);
                     menubar.Draw(gameTime, spriteBatch);
                     spriteBatch.DrawString(font, "PRESS SPACE TO START", new Vector2(280, 480), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "Wassim Chammat    Corne van Vliet\n2981351                              6790836", new Vector2(6, 731), Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
                     break;
                 case (State.Controls):
                     menu.Draw(gameTime, spriteBatch);
                     menubarS.Draw(gameTime, spriteBatch);
                     spriteBatch.DrawString(font, "CONTROLS", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "PRESS BACKSPACE TO RETURN", new Vector2(640,8), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "PRESS SPACE TO PLAY", new Vector2(292, 660), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "or press BACKSPACE to return", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
                     break;
                 case (State.Playing):
                     menu2.Draw(gameTime, spriteBatch);
@@ -161,6 +162,9 @@ namespace Tetris
                     spriteBatch.DrawString(font, "GAME OVER", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     break;
             }
+
+            // if (gameState != State.Playing)
+                spriteBatch.DrawString(font, "Wassim Chammat    Corne van Vliet\n2981351                              6790836", new Vector2(6, 731), Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
         }
 
         public void Reset()
