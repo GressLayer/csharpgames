@@ -78,17 +78,17 @@ namespace Tetris
         public void HandleInput(InputHelper inputHelper)
         {
             // Developer quick-switch to test game states: comment out when no longer needed
-            if (inputHelper.KeyPressed(Keys.D1))
+            
+            /* if (inputHelper.KeyPressed(Keys.D1))
                 gameState = State.Welcome;
             if (inputHelper.KeyPressed(Keys.D2))
                 gameState = State.Controls;
             if (inputHelper.KeyPressed(Keys.D3))
                 gameState = State.Playing;
             if (inputHelper.KeyPressed(Keys.D4))
-                gameState = State.GameOver;
+                gameState = State.GameOver; */
 
             // Holds input options per game state
-
             switch (gameState)
             {
                 case (State.Welcome):
@@ -148,6 +148,7 @@ namespace Tetris
                     menu.Draw(gameTime, spriteBatch);
                     menubarS.Draw(gameTime, spriteBatch);
                     spriteBatch.DrawString(font, "CONTROLS", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "PRESS BACKSPACE TO RETURN", new Vector2(640,8), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
                     break;
                 case (State.Playing):
                     menu2.Draw(gameTime, spriteBatch);

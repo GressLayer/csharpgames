@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tetris
 {
-    class TetrisBlock
+    public class TetrisBlock
     {
         bool[,] blockShape;
         const int blockSize = 4;
