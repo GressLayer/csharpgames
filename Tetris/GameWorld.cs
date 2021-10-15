@@ -11,7 +11,7 @@ namespace Tetris
 
     class GameWorld
     {
-        /// An enum for the different game states that the game can have.
+        // An enum for the different game states that the game can have.
         enum State
         {
             Welcome,
