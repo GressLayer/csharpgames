@@ -20,6 +20,8 @@ namespace Tetris
             GameOver
         }
 
+        int score;
+
         // The random-number generator of the game.
         public static Random Random { get { return random; } }
         static Random random;
@@ -46,6 +48,7 @@ namespace Tetris
 
         public GameWorld()
         {
+            score = 0;
             random = new Random();
             gameState = State.Welcome;
 
@@ -160,11 +163,13 @@ namespace Tetris
                     menu2.Draw(gameTime, spriteBatch);
                     menubar2S.Draw(gameTime, spriteBatch);
                     spriteBatch.DrawString(font, "GAME OVER", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "Ended with a score of:", new Vector2(360, 400), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "" + score, new Vector2(360, 440), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "PRESS SPACE TO TRY AGAIN", new Vector2(240, 660), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     break;
             }
 
-            // if (gameState != State.Playing)
-                spriteBatch.DrawString(font, "Wassim Chammat    Corne van Vliet\n2981351                              6790836", new Vector2(6, 731), Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, "Wassim Chammat    Corne van Vliet\n2981351                              6790836", new Vector2(6, 731), Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
         }
 
         public void Reset()
