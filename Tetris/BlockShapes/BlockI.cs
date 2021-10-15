@@ -5,14 +5,13 @@ namespace Tetris
 {
 	public class BlockI : TetrisBlock
 	{
-		public BlockI()
+		public BlockI() : base()
 		{
-		}
-
-		protected virtual void RotateRight()
-		{ }
-
-		protected virtual void RotateLeft()
-		{ }
+			blockShape = new bool[blockWidth, blockHeight]
+			{{ false, true, false, false},
+			{ false, true, false, false},
+			{ false, true, false, false},
+			{ false, true, false, false}};
+        }
 	}
 }

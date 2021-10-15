@@ -5,41 +5,42 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tetris
 {
-    public class TetrisBlock
+    public abstract class TetrisBlock
     {
-        bool[,] blockShape;
-        const int blockSize = 4;
+        protected bool[,] blockShape;
+        protected const int blockWidth = 4;
+        protected const int blockHeight = 4;
 
         public TetrisBlock()
         {
-            blockShape = new bool[blockSize, blockSize];
-            for (int x = 0; x < blockSize; x++)
+            blockShape = new bool[blockWidth, blockHeight];
+            for (int x = 0; x < blockWidth; x++)
             {
-                for (int y = 0; y < blockSize; y++)
+                for (int y = 0; y < blockHeight; y++)
                 {
                     blockShape[x, y] = false;
                 }
             }
         }
 
-        protected virtual void RotateRight()
+        protected void RotateRight()
         {
             bool[,] oldState = blockShape;
-            for (int x = 0; x < blockSize; x++)
+            for (int x = 0; x < blockWidth; x++)
             {
-                for (int y = 0; y < blockSize; y++)
+                for (int y = 0; y < blockHeight; y++)
                 {
                     blockShape[x, y] = oldState[3 - y, x];
                 }
             }
         }
 
-        protected virtual void RotateLeft()
+        protected void RotateLeft()
         {
             bool[,] oldState = blockShape;
-            for(int x = 0; x < blockSize; x++)
+            for(int x = 0; x < blockWidth; x++)
             {
-                for (int y = 0; y < blockSize; y++)
+                for (int y = 0; y < blockHeight; y++)
                 {
                     blockShape[x, y] = oldState[y, 3 - x];
                 }
