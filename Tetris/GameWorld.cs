@@ -153,6 +153,11 @@ namespace Tetris
                     spriteBatch.DrawString(font, "CONTROLS", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "PRESS SPACE TO PLAY", new Vector2(292, 660), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "or press BACKSPACE to return", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+                    spriteBatch.DrawString(font, "MOVEMENT", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "LEFT/RIGHT to move the Tetromino.\nA/D to rotate.", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "The Tetromino falls on its own: press DOWN to drop faster!\nPress UP for a \"Hard Drop\", to INSTANTLY place the block.", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
                     break;
                 case (State.Playing):
                     menu2.Draw(gameTime, spriteBatch);

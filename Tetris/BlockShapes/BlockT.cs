@@ -5,8 +5,9 @@ namespace Tetris
 {
 	public class BlockT : TetrisBlock
 	{
-		public BlockT()
+		public BlockT() : base()
 		{
+			blockShape = new bool[blockWidth, blockHeight];
 		}
 
 		protected virtual void RotateRight()
