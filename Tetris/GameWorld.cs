@@ -22,10 +22,6 @@ namespace Tetris
 
         int score;
 
-        // The random-number generator of the game.
-        public static Random Random { get { return random; } }
-        static Random random;
-
         // The main font of the game.
         SpriteFont font;
 
@@ -49,7 +45,6 @@ namespace Tetris
         public GameWorld()
         {
             score = 0;
-            random = new Random();
             gameState = State.Welcome;
 
             MediaPlayer.IsRepeating = true;
@@ -82,7 +77,7 @@ namespace Tetris
         public void HandleInput(InputHelper inputHelper)
         {
             // Developer quick-switch to test game states: comment out when no longer needed
-            
+
             /* if (inputHelper.KeyPressed(Keys.D1))
                 gameState = State.Welcome;
             if (inputHelper.KeyPressed(Keys.D2))
@@ -93,6 +88,8 @@ namespace Tetris
                 gameState = State.GameOver; */
 
             // Holds input options per game state
+
+            grid.HandleInput(inputHelper);
             switch (gameState)
             {
                 case (State.Welcome):
@@ -136,6 +133,7 @@ namespace Tetris
 
         public void Update(GameTime gameTime)
         {
+            grid.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

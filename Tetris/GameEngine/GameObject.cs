@@ -6,8 +6,9 @@ namespace Tetris
 {
     class GameObject
     {
-        public Vector2 LocalPosition { get; set; }
+        protected Vector2 localPosition;
         protected Vector2 velocity;
+        public GameObject Parent { get; set; }
 
         public bool Visible { get; set; }
 
@@ -33,6 +34,20 @@ namespace Tetris
         {
             velocity = Vector2.Zero;
         }
+
+        public Vector2 GlobalPosition
+        {
+            get
+            {
+                if (Parent == null)
+                    return LocalPosition;
+                return LocalPosition + Parent.GlobalPosition;
+
+            }
+        }
+
+        public Vector2 LocalPosition { get { return localPosition; } set { localPosition = value; } }
+
     }
 
 

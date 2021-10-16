@@ -13,7 +13,7 @@ namespace Tetris
         private SpriteBatch spriteBatch;
 
         protected InputHelper inputHelper;
-        protected GameWorld gameWorld1;
+        public static GameWorld gameWorld1 { get; protected set; }
 
         // stores the width and height of the game world.
         Point worldSize;
@@ -25,6 +25,8 @@ namespace Tetris
         // A static reference to the ContentManager object, used for loading assets.
         public static ContentManager ContentManager { get; private set; }
 
+        public static Random Random { get; private set; }
+
         public ExtendedGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -32,6 +34,8 @@ namespace Tetris
             Content.RootDirectory = "Content";
 
             inputHelper = new InputHelper();
+
+            Random = new Random();
 
         }
         protected override void LoadContent()
@@ -50,6 +54,7 @@ namespace Tetris
         {
             HandleInput();
             base.Update(gameTime);
+            gameWorld1.Update(gameTime);
         }
 
         protected void HandleInput()

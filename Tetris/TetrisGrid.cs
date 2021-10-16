@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Tetris
 {
@@ -8,7 +9,9 @@ namespace Tetris
     {
 
         Tile[,] grid;
-        int Width, Height, cellSize; 
+        int Width, Height, cellSize;
+
+        BlockObject testBlock;
 
         // Creates a new TetrisGrid.
         public TetrisGrid(int width, int height, int cellSize, Vector2 offset)
@@ -19,6 +22,18 @@ namespace Tetris
             LocalPosition = offset;
 
             Reset();
+            AddBlock();
+
+        }
+
+        public override void HandleInput(InputHelper inputHelper)
+        {
+            testBlock.HandleInput(inputHelper);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            testBlock.Update(gameTime);
         }
 
         // Draws the grid on the screen.
@@ -26,6 +41,7 @@ namespace Tetris
         {
             foreach (Tile tile in grid)
                 tile.Draw(gameTime, spriteBatch);
+            testBlock.Draw(gameTime, spriteBatch);
         }
 
         // Clears the grid.
@@ -42,6 +58,14 @@ namespace Tetris
                 }
             }
         }
+
+        void AddBlock()
+        {
+            testBlock = new BlockObject();
+            testBlock.Parent = this;
+        }
+        
+
     }
 }
 

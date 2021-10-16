@@ -10,6 +10,8 @@ namespace Tetris
         protected Texture2D sprite;
         protected Vector2 origin;
 
+        protected Rectangle boundingBox;
+
         public SpriteGameObject(string spriteName)
         {
             sprite = ExtendedGame.ContentManager.Load<Texture2D>(spriteName);
@@ -20,7 +22,16 @@ namespace Tetris
         {
             if (Visible)
             {
-                spriteBatch.Draw(sprite, LocalPosition, null, Color.White, 0, origin, 1.0f, SpriteEffects.None, 0);
+                spriteBatch.Draw(sprite, GlobalPosition, null, Color.White, 0, origin, 1.0f, SpriteEffects.None, 0);
+            }
+        }    
+        public Rectangle BoundingBox
+        {
+            get
+            {
+                boundingBox = sprite.Bounds;
+                boundingBox.Offset(GlobalPosition);
+                return boundingBox;
             }
         }
     }
