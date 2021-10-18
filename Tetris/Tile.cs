@@ -13,6 +13,7 @@ namespace Tetris
 
         Rectangle spriteRectangle;
 
+
         int index;
 
         public Tile() : base("sprites/Tetromino")
@@ -25,7 +26,7 @@ namespace Tetris
 
             /*if (IsOccupied)
             {
-                switch (ColorNumber)
+                switch (colorNumber)
                 {
                     case (0): currentColor = Color.White; break;
                     case (1): currentColor = Color.Orange; break;

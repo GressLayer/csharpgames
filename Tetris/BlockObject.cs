@@ -29,9 +29,10 @@ namespace Tetris
             if (inputHelper.KeyPressed(Keys.Left))
                 LocalPosition = LocalPosition - new Vector2(32, 0);
             if (inputHelper.KeyPressed(Keys.Right))
-                LocalPosition = LocalPosition + new Vector2(32, 0);
-            if (inputHelper.KeyPressed(Keys.F))
-                angle = angle + 1.57f;
+                LocalPosition = LocalPosition + new Vector2(32,0);
+            if(inputHelper.KeyPressed(Keys.F))
+                angle = angle + (float)Math.PI / 2f;
+
         }
 
         public override void Update(GameTime gameTime)
@@ -59,6 +60,9 @@ namespace Tetris
         }
 
         public override void Reset()
+
+
+        public Vector2 Movement()
         {
             LocalPosition = new Vector2(128, -64);
             int lastBlock;

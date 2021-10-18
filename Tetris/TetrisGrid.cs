@@ -13,7 +13,7 @@ namespace Tetris
         int Width, Height; 
         public int CellSize { get; private set; }
 
-        BlockObject testBlock;
+        BlockObject testBlock, nextBlock, heldBlock, drawnBlock;
 
         int bottomRow = 19;
 
@@ -28,6 +28,10 @@ namespace Tetris
             testBlock = new BlockObject();
 
             Reset();
+
+            testBlock = new BlockObject();
+            testBlock.Parent = this;
+
             AddBlock();
 
         }
@@ -41,6 +45,14 @@ namespace Tetris
 
             foreach (Tile tile in grid)
                 tile.HandleInput(inputHelper);
+            if (inputHelper.KeyPressed(Keys.LeftShift) || inputHelper.KeyPressed(Keys.RightShift))
+            {
+                heldBlock = testBlock;
+                testBlock = heldBlock;
+                nextBlock = testBlock;
+                Reset();
+                AddBlock();
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -59,11 +71,6 @@ namespace Tetris
                     else
                         grid[x, y].IsOccupied = false;
                 }
-                    
-
-
-
-               
             }
 
         }
@@ -74,6 +81,9 @@ namespace Tetris
             foreach (Tile tile in grid)
                 tile.Draw(gameTime, spriteBatch);
             testBlock.Draw(gameTime, spriteBatch);
+            nextBlock.DrawNext(gameTime, spriteBatch);
+
+
         }
 
         // Clears the grid.
@@ -91,10 +101,11 @@ namespace Tetris
             }
         }
 
+
         void AddBlock()
         {
-            testBlock = new BlockObject();
-            testBlock.Parent = this;
+            nextBlock = new BlockObject();
+            nextBlock.Parent = this;
         }
         
 
