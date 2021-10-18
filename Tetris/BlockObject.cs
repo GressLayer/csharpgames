@@ -3,22 +3,41 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
+using Tetris;
+
 namespace Tetris
 {
     class BlockObject : SpriteGameObject
     {
-
         public static int BlockType { get; set; }
-        float level = 0f;
-        
-        Rectangle spriteRectangle;
+        float level = 1.0f;
+
         public static Vector2 rect;
-        
-        float angle;
+
+        float angle = 0f;
+
+        bool firstTurn() 
+        {
+            if (angle == 0f)
+                return true;
+            else if (angle == (float)Math.PI * -1f)
+                return false;
+            else
+                return false;
+        }
+        bool secondTurn()
+        {
+            if (angle == (float)Math.PI * -1f)
+                return true;
+            else if (angle == 0f)
+                return false;
+            else
+                return false;
+        }
 
         static string shape()
         {
-            BlockType = ExtendedGame.Random.Next(7);
+            // BlockType = ExtendedGame.Random.Next(7);
             if (BlockType == 0) return "sprites/blockL";
             else if (BlockType == 1) return "sprites/blockJ";
             else if (BlockType == 2) return "sprites/blockS";
@@ -29,12 +48,11 @@ namespace Tetris
             else return "sprites/blockL";
         }
 
-        public BlockObject() : base(shape())
+        public BlockObject(int blockType) : base(shape())
         {
-            spriteRectangle = new Rectangle(sprite.Width, 0, sprite.Width, sprite.Height);
+            blockType = BlockType;
 
-            LocalPosition = new Vector2(160, 32);
-            angle = 0f;
+            LocalPosition = new Vector2(256, 0);
 
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
@@ -44,18 +62,29 @@ namespace Tetris
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyPressed(Keys.Left))
-                LocalPosition = LocalPosition - new Vector2(32, 0);
+            if (GameWorld.gameState == State.Playing) {
+                if (inputHelper.KeyPressed(Keys.Left))
+                    LocalPosition = LocalPosition - MovementX();
 
-            if (inputHelper.KeyPressed(Keys.Right))
-                LocalPosition = LocalPosition + new Vector2(32, 0);
+                if (inputHelper.KeyPressed(Keys.Right))
+                    LocalPosition = LocalPosition + MovementX();
 
-            if (inputHelper.KeyDown(Keys.Down))
-                LocalPosition = LocalPosition + MovementY();
-                
-            if(inputHelper.KeyPressed(Keys.F))
-                angle = angle + (float)Math.PI / -2f;
+                if (inputHelper.KeyDown(Keys.Down))
+                    LocalPosition = LocalPosition + MovementY();
 
+                if (inputHelper.KeyPressed(Keys.Space))
+                {
+                    if (firstTurn())
+                    {
+                        localPosition.X -= 32;
+                    }
+                    else if (secondTurn())
+                    {
+                        localPosition.X += 32;
+                    }
+                    angle = angle + (float)Math.PI / -2f;
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -64,22 +93,29 @@ namespace Tetris
             if (LocalPosition.X <= 0)
                 localPosition.X = 0;
 
-            if (LocalPosition.X >= 256)
-                localPosition.X = 256;
+            if (LocalPosition.X >= 352)
+                localPosition.X = 352;
 
             if (LocalPosition.Y >= 640)
+            {
+                TetrisGrid.NextBlock();
                 Reset();
+            }
         }
+
+        // Draws the current block on the grid.
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, GlobalPosition, null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
         }
 
+        // Draws the incoming block in the HUD.
         public void DrawNext(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, new Vector2(660, 216), null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
         }
 
+        // Draws the currently held Block in the HUD.
         public void DrawHeld(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, new Vector2(916, 216), null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
@@ -87,17 +123,16 @@ namespace Tetris
 
         public override void Reset()
         {
-            LocalPosition = new Vector2(160, 32);
+            LocalPosition = new Vector2(256, 0);
             int lastBlock = BlockType;
             BlockType = ExtendedGame.Random.Next(7);
-            
+            angle = 0f;
         }
 
         public Vector2 MovementX()
         {
             return new Vector2(32, 0);
         }
-
         public Vector2 MovementY()
         {
             return new Vector2(0, 32);
