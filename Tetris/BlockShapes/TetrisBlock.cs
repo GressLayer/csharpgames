@@ -11,6 +11,8 @@ namespace Tetris
         protected const int blockWidth = 4;
         protected const int blockHeight = 4;
 
+        protected Tile[,] block;
+
         public TetrisBlock()
         {
             blockShape = new bool[blockWidth, blockHeight];
