@@ -18,23 +18,25 @@ namespace Tetris
 
         static string shape()
         {
-            if (BlockType == 1) return "sprites/blockL";
-            if (BlockType == 2) return "sprites/blockJ";
-            if (BlockType == 3) return "sprites/blockS";
-            if (BlockType == 4) return "sprites/blockZ";
-            if (BlockType == 5) return "sprites/blockI";
-            if (BlockType == 6) return "sprites/blockO";
-            if (BlockType == 7) return "sprites/blockT";
+            BlockType = ExtendedGame.Random.Next(7);
+            if (BlockType == 0) return "sprites/blockL";
+            else if (BlockType == 1) return "sprites/blockJ";
+            else if (BlockType == 2) return "sprites/blockS";
+            else if (BlockType == 3) return "sprites/blockZ";
+            else if (BlockType == 4) return "sprites/blockI";
+            else if (BlockType == 5) return "sprites/blockO";
+            else if (BlockType == 6) return "sprites/blockT";
             else return "sprites/blockL";
         }
 
         public BlockObject() : base(shape())
         {
-            BlockType = ExtendedGame.Random.Next(7);
             spriteRectangle = new Rectangle(sprite.Width, 0, sprite.Width, sprite.Height);
 
             LocalPosition = new Vector2(160, 32);
             angle = 0f;
+
+            origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
             rect = new Vector2(32, 32);
             velocity = new Vector2(0, 100f + (0.15f * level));

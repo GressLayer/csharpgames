@@ -30,7 +30,7 @@ namespace Tetris
             get
             {
                 boundingBox = sprite.Bounds;
-                boundingBox.Offset(LocalPosition);
+                boundingBox.Offset(GlobalPosition);
                 return boundingBox;
             }
         }
