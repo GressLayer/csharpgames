@@ -48,6 +48,11 @@ namespace Tetris
             spriteBatch.Draw(sprite, GlobalPosition, spriteRectangle, Color.White, angle, origin, 1.0f, SpriteEffects.None, 0);
         }
 
+        public void DrawNext(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(sprite, new Vector2(600, 300), spriteRectangle, Color.White, angle, origin, 0.5f, SpriteEffects.None, 0);
+        }
+
         public Vector2 Movement()
         {
             return new Vector2(32, 0);
