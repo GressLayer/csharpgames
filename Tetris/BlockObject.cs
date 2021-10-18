@@ -9,9 +9,10 @@ namespace Tetris
     {
 
         public static int BlockType { get; set; }
+        float level = 0f;
         
         Rectangle spriteRectangle;
-        Vector2 rect;
+        public static Vector2 rect;
         
         float angle;
 
@@ -29,15 +30,14 @@ namespace Tetris
 
         public BlockObject() : base(shape())
         {
-            BlockType = 1 + ExtendedGame.Random.Next(6);
-            int index = BlockType;
-            spriteRectangle = new Rectangle(sprite.Width, sprite.Height, sprite.Width, sprite.Height);
+            BlockType = ExtendedGame.Random.Next(7);
+            spriteRectangle = new Rectangle(sprite.Width, 0, sprite.Width, sprite.Height);
 
-            LocalPosition = new Vector2(192, 64);
+            LocalPosition = new Vector2(160, 32);
             angle = 0f;
 
-            rect = new Vector2(32, 96);
-            velocity = new Vector2(0, 128);
+            rect = new Vector2(32, 32);
+            velocity = new Vector2(0, 100f + (0.15f * level));
         }
 
         public override void HandleInput(InputHelper inputHelper)
@@ -46,13 +46,13 @@ namespace Tetris
                 LocalPosition = LocalPosition - new Vector2(32, 0);
 
             if (inputHelper.KeyPressed(Keys.Right))
-                LocalPosition = LocalPosition + new Vector2(32,0);
+                LocalPosition = LocalPosition + new Vector2(32, 0);
 
             if (inputHelper.KeyDown(Keys.Down))
                 LocalPosition = LocalPosition + MovementY();
                 
             if(inputHelper.KeyPressed(Keys.F))
-                angle = angle + (float)Math.PI / 2f;
+                angle = angle + (float)Math.PI / -2f;
 
         }
 
@@ -66,27 +66,29 @@ namespace Tetris
                 localPosition.X = 256;
 
             if (LocalPosition.Y >= 640)
-                localPosition.Y = 640;
-
-            if (LocalPosition.Y >= 544)
                 Reset();
-
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            int index = BlockType;
-            spriteRectangle = new Rectangle(index * sprite.Height / 2, 0, sprite.Height / 2, sprite.Height);
-            spriteBatch.Draw(sprite, GlobalPosition, null, Color.White, angle, origin, 1.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprite, GlobalPosition, null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
+        }
+
+        public void DrawNext(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(sprite, new Vector2(660, 216), null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
+        }
+
+        public void DrawHeld(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(sprite, new Vector2(916, 216), null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
         }
 
         public override void Reset()
         {
-            spriteBatch.Draw(sprite, new Vector2(624, 312), null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
-            LocalPosition = new Vector2(128, -64);
+            LocalPosition = new Vector2(160, 32);
             int lastBlock = BlockType;
-            BlockType = 1 + ExtendedGame.Random.Next(6);
-            if (lastBlock == BlockType)
-                Reset();
+            BlockType = ExtendedGame.Random.Next(7);
+            
         }
 
         public Vector2 MovementX()

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-
 namespace Tetris
 {
     class GameObject
@@ -15,16 +14,17 @@ namespace Tetris
         public GameObject()
         {
             LocalPosition = Vector2.Zero;
-            velocity = Vector2.Zero;
+            velocity = new Vector2(0, 128);
             Visible = true;
         }
 
         public virtual void HandleInput(InputHelper inputHelper)
-        {}
+        { }
 
         public virtual void Update(GameTime gameTime)
         {
-            LocalPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (gameTime.ElapsedGameTime.TotalSeconds % 32 == 0)
+                localPosition.Y += 32;
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -42,7 +42,6 @@ namespace Tetris
                 if (Parent == null)
                     return LocalPosition;
                 return LocalPosition + Parent.GlobalPosition;
-
             }
         }
 

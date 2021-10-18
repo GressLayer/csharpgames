@@ -21,6 +21,7 @@ namespace Tetris
         }
 
         int score;
+        string blank = "            ";
 
         // The main font of the game.
         SpriteFont font;
@@ -154,15 +155,20 @@ namespace Tetris
                     spriteBatch.DrawString(font, "or press BACKSPACE to return", new Vector2(384, 710), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
                     spriteBatch.DrawString(font, "MOVEMENT", new Vector2(64, 82), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "LEFT/RIGHT to move the Tetromino.\nA/D to rotate.", new Vector2(64, 122), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "DROP", new Vector2(64, 218), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "The Tetromino falls on its own: press DOWN to drop faster!\nPress UP for a \"Hard Drop\", to instantly place the block!", new Vector2(64, 258), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "LEFT/RIGHT to move the Tetromino.\nSPACE to rotate.", new Vector2(64, 122), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "DROP", new Vector2(64, 202), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "The Tetromino falls on its own: press DOWN to drop faster!\nPress UP for a \"Hard Drop\", to instantly place the block!\nPressing SHIFT lets you \"hold\" a block, to store it for later use.", new Vector2(64, 242), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
-                    spriteBatch.DrawString(font, "THE BASICS OF TETRIS", new Vector2(64, 364), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "- Align the blocks to fill a whole row.\n  Clear rows to empty the grid and score points!", new Vector2(64, 404), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "- Clearing multiple rows at once means more points.\n  Go for a TETRIS!", new Vector2(64, 452), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "- Try playing for as long as possible.\n  Hitting the top of the grid equals GAME OVER.", new Vector2(64, 500), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "THE BASICS OF TETRIS", new Vector2(64, 358), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "- Align the blocks to fill a whole row.\n  Clear rows to empty the grid and score points!", new Vector2(64, 398), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "- Clearing multiple rows at once means more points.\n  Go for a TETRIS!", new Vector2(64, 448), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "- Try playing for as long as possible.\n  Hitting the top of the grid equals GAME OVER.", new Vector2(64, 498), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
+                    spriteBatch.DrawString(font, "Note: F11 toggles between fullscreen and windowed mode.", new Vector2(64, 588), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+                    spriteBatch.DrawString(font, "SCORE CHART", new Vector2(728, 312), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "1 PT PER BLOCK", new Vector2(728, 352), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "1 ROW" + blank + "       100 PTS\n2 ROWS" + blank + "    250 PTS\n3 ROWS" + blank + "    800 PTS\n\n4 ROWS" + blank + "      TETRIS\n" + blank + blank + "    10000 PTS", new Vector2(728, 384), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
                     break;
                 case (State.Playing):

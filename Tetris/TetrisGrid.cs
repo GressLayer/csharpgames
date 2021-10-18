@@ -13,7 +13,9 @@ namespace Tetris
         int Width, Height; 
         public int CellSize { get; private set; }
 
-        BlockObject testBlock, nextBlock, heldBlock;
+        BlockObject testBlock, nextBlock, heldBlock, blockBuffer;
+
+        bool blockHeld;
 
         int bottomRow = 19;
 
@@ -26,12 +28,15 @@ namespace Tetris
             LocalPosition = offset;
 
             testBlock = new BlockObject();
-
-            Reset();
-
-            testBlock = new BlockObject();
             testBlock.Parent = this;
 
+            heldBlock = new BlockObject();
+            heldBlock.Parent = this;
+
+            blockBuffer = new BlockObject();
+            blockBuffer.Parent = this;
+
+            Reset();
             AddBlock();
 
         }
@@ -50,13 +55,23 @@ namespace Tetris
             }
             foreach (Tile tile in grid)
                 tile.HandleInput(inputHelper);
+
             if (inputHelper.KeyPressed(Keys.LeftShift) || inputHelper.KeyPressed(Keys.RightShift))
             {
-                heldBlock = testBlock;
-                testBlock = heldBlock;
-                nextBlock = testBlock;
-                Reset();
-                AddBlock();
+                if (blockHeld)
+                {
+                    blockBuffer = heldBlock;
+                    heldBlock = testBlock;
+                    testBlock = blockBuffer;
+                    heldBlock.LocalPosition = new Vector2(160, 32);
+                }
+                else
+                {
+                    heldBlock = testBlock;
+                    blockHeld = true;
+                    heldBlock.LocalPosition = new Vector2(160, 32);
+                    NextBlock();
+                }
             }
         }
 
@@ -85,9 +100,11 @@ namespace Tetris
         {
             foreach (Tile tile in grid)
                 tile.Draw(gameTime, spriteBatch);
+
             testBlock.Draw(gameTime, spriteBatch);
 
-
+            nextBlock.DrawNext(gameTime, spriteBatch);
+            heldBlock.DrawHeld(gameTime, spriteBatch);
         }
 
         // Clears the grid.
@@ -108,7 +125,6 @@ namespace Tetris
         void NextBlock()
         {
             testBlock = nextBlock;
-            Reset();
             AddBlock();
         }
 
