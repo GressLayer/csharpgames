@@ -7,7 +7,7 @@ namespace Tetris
 {
     class Tile : SpriteGameObject
     {
-        public int ColorNumber { get; private set; }
+        public int colorNumber { get; private set; }
         Color currentColor;
 
         bool isOccupied = false;
@@ -20,11 +20,11 @@ namespace Tetris
             else
                 textureBase = "sprites/empty";
 
-            ColorNumber = color;
+            colorNumber = color;
 
             if (isOccupied)
             {
-                switch (ColorNumber)
+                switch (colorNumber)
                 {
                     case (0): currentColor = Color.White; break;
                     case (1): currentColor = Color.Orange; break;
