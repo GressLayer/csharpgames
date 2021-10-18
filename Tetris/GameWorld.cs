@@ -9,25 +9,24 @@ namespace Tetris
     // A class for representing the game world.
     // This contains the grid, the falling block, and everything else that the player can see/do.
 
+    // An enum for the different game states that the game can have.
+    public enum State
+    {
+        Welcome,
+        Controls,
+        Playing,
+        GameOver
+    }
+
     class GameWorld
     {
-        // An enum for the different game states that the game can have.
-        enum State
-        {
-            Welcome,
-            Controls,
-            Playing,
-            GameOver
-        }
+        // The current game state.
+        public static State gameState;
 
-        int score;
         string blank = "            ";
 
         // The main font of the game.
         SpriteFont font;
-
-        // The current game state.
-        State gameState;
 
         // The main grid of the game.
         public static TetrisGrid grid { get; private set; }
@@ -45,7 +44,6 @@ namespace Tetris
 
         public GameWorld()
         {
-            score = 0;
             gameState = State.Welcome;
 
             MediaPlayer.IsRepeating = true;
@@ -168,20 +166,26 @@ namespace Tetris
 
                     spriteBatch.DrawString(font, "SCORE CHART", new Vector2(728, 312), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "1 PT PER BLOCK", new Vector2(728, 352), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "1 ROW" + blank + "       100 PTS\n2 ROWS" + blank + "    250 PTS\n3 ROWS" + blank + "    800 PTS\n\n4 ROWS" + blank + "      TETRIS\n" + blank + blank + "    10000 PTS", new Vector2(728, 384), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "1 ROW" + blank + "       100 PTS\n2 ROWS" + blank + "    250 PTS\n3 ROWS" + blank + "    800 PTS\n\n4 ROWS" + blank + "      TETRIS\n" + blank + blank + "      5000 PTS\n\nx2 PTS WHEN HIGHER UP\n 20000 PTS TO LEVEL UP", new Vector2(728, 384), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
                     break;
                 case (State.Playing):
                     menu2.Draw(gameTime, spriteBatch);
                     hud.Draw(gameTime, spriteBatch);
                     grid.Draw(gameTime, spriteBatch);
+                    spriteBatch.DrawString(font, "" + TetrisGrid.score, new Vector2(582, 60), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "" + TetrisGrid.level, new Vector2(864, 60), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "" + TetrisGrid.blocksUsed, new Vector2(582, 340), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "" + TetrisGrid.holdsUsed, new Vector2(864, 340), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+
                     break;
                 case (State.GameOver):
                     menu2.Draw(gameTime, spriteBatch);
                     menubar2S.Draw(gameTime, spriteBatch);
                     spriteBatch.DrawString(font, "GAME OVER", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "Ended with a score of:", new Vector2(360, 400), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "" + score, new Vector2(360, 440), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "Ended with a score of:", new Vector2(360, 300), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "" + TetrisGrid.score, new Vector2(360, 340), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "You have used " + TetrisGrid.blocksUsed + " blocks and held " + TetrisGrid.holdsUsed + ".", new Vector2(224, 440), Color.White, 0f, Vector2.Zero, 1.8f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "PRESS SPACE TO TRY AGAIN", new Vector2(240, 660), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     break;
             }
@@ -192,6 +196,5 @@ namespace Tetris
         public void Reset()
         {
         }
-
     }
 }

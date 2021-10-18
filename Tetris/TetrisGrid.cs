@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
+using Tetris;
+
 namespace Tetris
 {
     // A class for representing the Tetris playing grid.
@@ -13,9 +15,10 @@ namespace Tetris
         int Width, Height; 
         public int CellSize { get; private set; }
 
-        BlockObject testBlock, nextBlock, heldBlock, blockBuffer;
+        static BlockObject currentBlock, nextBlock, heldBlock, blockBuffer;
 
         bool blockHeld;
+        public static int score, level, blocksUsed, holdsUsed;
 
         int bottomRow = 19;
 
@@ -27,13 +30,15 @@ namespace Tetris
             this.CellSize = cellSize;
             LocalPosition = offset;
 
-            testBlock = new BlockObject();
-            testBlock.Parent = this;
+            currentBlock = new BlockObject(ExtendedGame.Random.Next(7));
+            currentBlock.Parent = this;
 
-            heldBlock = new BlockObject();
+            // The block currently being held.
+            heldBlock = new BlockObject(4);
             heldBlock.Parent = this;
 
-            blockBuffer = new BlockObject();
+            // Block buffer: used to swap the values of the current and held block when pressing the hold key.
+            blockBuffer = new BlockObject(4);
             blockBuffer.Parent = this;
 
             Reset();
@@ -43,10 +48,10 @@ namespace Tetris
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            testBlock.HandleInput(inputHelper);
+            currentBlock.HandleInput(inputHelper);
 
             if (inputHelper.KeyPressed(Keys.B))
-                testBlock.Reset();
+                currentBlock.Reset();
 
             // Advance the "block queue": first block gets replaced by the next block.
             if (inputHelper.KeyPressed(Keys.N))
@@ -56,28 +61,35 @@ namespace Tetris
             foreach (Tile tile in grid)
                 tile.HandleInput(inputHelper);
 
-            if (inputHelper.KeyPressed(Keys.LeftShift) || inputHelper.KeyPressed(Keys.RightShift))
+            if (GameWorld.gameState == State.Playing)
             {
-                if (blockHeld)
+
+                if (inputHelper.KeyPressed(Keys.LeftShift) || inputHelper.KeyPressed(Keys.RightShift))
                 {
-                    blockBuffer = heldBlock;
-                    heldBlock = testBlock;
-                    testBlock = blockBuffer;
-                    heldBlock.LocalPosition = new Vector2(160, 32);
-                }
-                else
-                {
-                    heldBlock = testBlock;
-                    blockHeld = true;
-                    heldBlock.LocalPosition = new Vector2(160, 32);
-                    NextBlock();
+                    if (blockHeld)
+                    {
+                        blockBuffer = heldBlock;
+                        heldBlock = currentBlock;
+                        currentBlock = blockBuffer;
+                        heldBlock.LocalPosition = new Vector2(160, 32);
+
+                        // Only tracks the amount of holds used after a hold has been created.
+                        holdsUsed++;
+                    }
+                    else
+                    {
+                        heldBlock = currentBlock;
+                        blockHeld = true;
+                        heldBlock.LocalPosition = new Vector2(160, 32);
+                        NextBlock();
+                    }
                 }
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            testBlock.Update(gameTime);
+            currentBlock.Update(gameTime);
 
             foreach (Tile tile in grid)
                 tile.Update(gameTime);
@@ -86,7 +98,7 @@ namespace Tetris
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    if (grid[x, y].BoundingBox.Intersects(testBlock.BoundingBox))
+                    if (grid[x, y].BoundingBox.Intersects(currentBlock.BoundingBox))
                         grid[x, y].IsOccupied = true;
                     else
                         grid[x, y].IsOccupied = false;
@@ -101,7 +113,7 @@ namespace Tetris
             foreach (Tile tile in grid)
                 tile.Draw(gameTime, spriteBatch);
 
-            testBlock.Draw(gameTime, spriteBatch);
+            currentBlock.Draw(gameTime, spriteBatch);
 
             nextBlock.DrawNext(gameTime, spriteBatch);
             heldBlock.DrawHeld(gameTime, spriteBatch);
@@ -122,19 +134,18 @@ namespace Tetris
             }
         }
 
-        void NextBlock()
+        public static void NextBlock()
         {
-            testBlock = nextBlock;
+            currentBlock = nextBlock;
             AddBlock();
+            score++;
+            blocksUsed++;
         }
 
-        void AddBlock()
+        static void AddBlock()
         {
-            nextBlock = new BlockObject();
-            nextBlock.Parent = this;
+            nextBlock = new BlockObject(ExtendedGame.Random.Next(7));
         }
-        
-
     }
 }
 

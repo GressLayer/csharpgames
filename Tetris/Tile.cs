@@ -3,32 +3,35 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
+using Tetris;
+
 namespace Tetris
 {
+
     class Tile : SpriteGameObject
     {
-        public int ColorNumber { get; private set; }
-
+        public static int colorNumber;
         public bool IsOccupied { get; set; }
 
         Rectangle spriteRectangle;
 
+        Color currentColor;
 
         int index;
 
         public Tile() : base("sprites/Tetromino")
         {
+            colorNumber = BlockObject.BlockType + 1;
 
             if (IsOccupied == false)
                 index = 0;
             if (IsOccupied == true)
                 index = 1;
 
-            /*if (IsOccupied)
+            if (IsOccupied)
             {
                 switch (colorNumber)
                 {
-                    case (0): currentColor = Color.White; break;
                     case (1): currentColor = Color.Orange; break;
                     case (2): currentColor = Color.Blue; break;
                     case (3): currentColor = Color.Red; break;
@@ -39,7 +42,7 @@ namespace Tetris
                 }
             }
             else
-                currentColor = Color.White;*/
+                currentColor = Color.White;
         }
 
         public override void HandleInput(InputHelper inputHelper)
