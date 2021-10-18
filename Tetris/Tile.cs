@@ -7,22 +7,24 @@ namespace Tetris
 {
     class Tile : SpriteGameObject
     {
-        public int colorNumber { get; private set; }
-        Color currentColor;
+        public int ColorNumber { get; private set; }
 
-        bool isOccupied = false;
-        static string textureBase = "sprites/empty";
+        public bool IsOccupied { get; set; }
 
-        public Tile(int color) : base(textureBase)
+        Rectangle spriteRectangle;
+
+
+        int index;
+
+        public Tile() : base("sprites/Tetromino")
         {
-            if (isOccupied)
-                textureBase = "sprites/tetromino";
-            else
-                textureBase = "sprites/empty";
 
-            colorNumber = color;
+            if (IsOccupied == false)
+                index = 0;
+            if (IsOccupied == true)
+                index = 1;
 
-            if (isOccupied)
+            /*if (IsOccupied)
             {
                 switch (colorNumber)
                 {
@@ -37,14 +39,34 @@ namespace Tetris
                 }
             }
             else
-                currentColor = Color.White;
+                currentColor = Color.White;*/
+        }
+
+        public override void HandleInput(InputHelper inputHelper)
+        {
+            if (inputHelper.KeyPressed(Keys.H))
+                IsOccupied = true;
+        }
+        public override void Update(GameTime gameTime)
+        {
+
+            if (IsOccupied == false)
+                index = 0;
+            if (IsOccupied == true)
+                index = 1;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             {
-                spriteBatch.Draw(sprite, LocalPosition, null, currentColor, 0, origin, 1.0f, SpriteEffects.None, 0);
+                spriteRectangle = new Rectangle(index * sprite.Height, 0, sprite.Height, sprite.Height);
+                spriteBatch.Draw(sprite, GlobalPosition, spriteRectangle, Color.White, 0, origin, 1.0f, SpriteEffects.None, 0);
             }
+        }
+
+        public void SetTile()
+        {
+            IsOccupied = true;
         }
     }
 }

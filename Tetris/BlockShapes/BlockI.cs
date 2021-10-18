@@ -3,7 +3,7 @@ using System;
 
 namespace Tetris
 {
-	public class BlockI : TetrisBlock
+	class BlockI : TetrisBlock
 	{
 		public BlockI() : base()
 		{
@@ -15,5 +15,6 @@ namespace Tetris
 				{ false, true, false, false }
 			};
         }
+
 	}
 }

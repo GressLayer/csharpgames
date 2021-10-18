@@ -13,18 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin sprites/empty.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:sprites/empty.png
-
 #begin sprites/hud.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -109,18 +97,6 @@
 /processorParam:TextureFormat=Color
 /build:sprites/playbar.png
 
-#begin sprites/tetromino.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:sprites/tetromino.png
-
 #begin Font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -191,7 +167,7 @@
 #begin sprites/blockI.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=69,69,69,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
@@ -203,7 +179,7 @@
 #begin sprites/blockJ.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=69,69,69,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
@@ -215,7 +191,7 @@
 #begin sprites/blockL.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=69,69,69,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
@@ -227,7 +203,7 @@
 #begin sprites/blockO.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=69,69,69,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
@@ -239,7 +215,7 @@
 #begin sprites/blockT.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=69,69,69,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
@@ -251,7 +227,7 @@
 #begin sprites/blockZ.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=69,69,69,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
@@ -260,15 +236,15 @@
 /processorParam:TextureFormat=Color
 /build:sprites/blockZ.png
 
-#begin sprites/block.png
+#begin sprites/Tetromino.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=69,69,69,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/block.png
+/build:sprites/Tetromino.png
 

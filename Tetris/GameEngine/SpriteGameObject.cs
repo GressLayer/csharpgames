@@ -25,12 +25,12 @@ namespace Tetris
                 spriteBatch.Draw(sprite, GlobalPosition, null, Color.White, 0, origin, 1.0f, SpriteEffects.None, 0);
             }
         }    
-        public Rectangle BoundingBox
+        public virtual Rectangle BoundingBox
         {
             get
             {
                 boundingBox = sprite.Bounds;
-                boundingBox.Offset(GlobalPosition);
+                boundingBox.Offset(LocalPosition - origin);
                 return boundingBox;
             }
         }

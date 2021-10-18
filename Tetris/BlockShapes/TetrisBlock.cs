@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tetris
 {
-    public abstract class TetrisBlock
+    abstract class TetrisBlock : GameObject
     {
         protected bool[,] blockShape;
         protected const int blockWidth = 4;
@@ -14,13 +14,7 @@ namespace Tetris
         public TetrisBlock()
         {
             blockShape = new bool[blockWidth, blockHeight];
-            for (int x = 0; x < blockWidth; x++)
-            {
-                for (int y = 0; y < blockHeight; y++)
-                {
-                    blockShape[x, y] = false;
-                }
-            }
+
         }
 
         protected void RotateRight()

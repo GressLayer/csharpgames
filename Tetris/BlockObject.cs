@@ -37,41 +37,56 @@ namespace Tetris
             angle = 0f;
 
             rect = new Vector2(32, 96);
+            velocity = new Vector2(0, 128);
         }
 
         public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyPressed(Keys.Left))
-                LocalPosition = LocalPosition - MovementX();
+                LocalPosition = LocalPosition - new Vector2(32, 0);
 
             if (inputHelper.KeyPressed(Keys.Right))
-                LocalPosition = LocalPosition + MovementX();
+                LocalPosition = LocalPosition + new Vector2(32,0);
 
             if (inputHelper.KeyDown(Keys.Down))
                 LocalPosition = LocalPosition + MovementY();
-
-            if (inputHelper.KeyPressed(Keys.F))
+                
+            if(inputHelper.KeyPressed(Keys.F))
                 angle = angle + (float)Math.PI / 2f;
+
         }
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             if (LocalPosition.X <= 0)
                 localPosition.X = 0;
+
             if (LocalPosition.X >= 256)
                 localPosition.X = 256;
+
             if (LocalPosition.Y >= 640)
                 localPosition.Y = 640;
+
+            if (LocalPosition.Y >= 544)
+                Reset();
 
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, GlobalPosition, null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
+            int index = BlockType;
+            spriteRectangle = new Rectangle(index * sprite.Height / 2, 0, sprite.Height / 2, sprite.Height);
+            spriteBatch.Draw(sprite, GlobalPosition, null, Color.White, angle, origin, 1.0f, SpriteEffects.None, 0);
         }
 
-        public void DrawNext(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Reset()
         {
             spriteBatch.Draw(sprite, new Vector2(624, 312), null, Color.White, angle, rect, 1.0f, SpriteEffects.None, 0);
+            LocalPosition = new Vector2(128, -64);
+            int lastBlock = BlockType;
+            BlockType = 1 + ExtendedGame.Random.Next(6);
+            if (lastBlock == BlockType)
+                Reset();
         }
 
         public Vector2 MovementX()
