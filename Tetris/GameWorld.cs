@@ -29,7 +29,7 @@ namespace Tetris
         State gameState;
 
         // The main grid of the game.
-        TetrisGrid grid;
+        public static TetrisGrid grid { get; private set; }
 
         Texture2D menubar;
         SpriteGameObject menu, menu2, menubarS, menubar2S, hud;

@@ -3,7 +3,7 @@ using System;
 
 namespace Tetris
 {
-	public class BlockT : TetrisBlock
+	class BlockT : TetrisBlock
 	{
 		public BlockT() : base()
 		{
