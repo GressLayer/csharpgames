@@ -50,7 +50,7 @@ namespace Tetris
 
         public void DrawNext(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, new Vector2(600, 300), spriteRectangle, Color.White, angle, origin, 0.5f, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprite, new Vector2(624, 184), spriteRectangle, Color.White, angle, origin, 1.0f, SpriteEffects.None, 0);
         }
 
         public Vector2 Movement()

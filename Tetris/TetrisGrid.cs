@@ -37,9 +37,7 @@ namespace Tetris
             // Advance the "block queue": first block gets replaced by the next block.
             if (inputHelper.KeyPressed(Keys.N))
             {
-                testBlock = nextBlock;
-                Reset();
-                AddBlock();
+                NextBlock();
             }
             if (inputHelper.KeyPressed(Keys.LeftShift) || inputHelper.KeyPressed(Keys.RightShift))
             {
@@ -80,6 +78,13 @@ namespace Tetris
                     grid[x, y].LocalPosition = LocalPosition + new Vector2(x * cellSize, y * cellSize);
                 }
             }
+        }
+
+        void NextBlock()
+        {
+            testBlock = nextBlock;
+            Reset();
+            AddBlock();
         }
 
         void AddBlock()
