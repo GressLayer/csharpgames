@@ -22,6 +22,10 @@ namespace Tetris
             LocalPosition = offset;
 
             Reset();
+
+            testBlock = new BlockObject();
+            testBlock.Parent = this;
+
             AddBlock();
 
         }
@@ -84,8 +88,6 @@ namespace Tetris
 
         void AddBlock()
         {
-            testBlock = new BlockObject();
-            testBlock.Parent = this;
             nextBlock = new BlockObject();
             nextBlock.Parent = this;
         }
