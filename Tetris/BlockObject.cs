@@ -20,7 +20,6 @@ namespace Tetris
             int index = BlockType;
             spriteRectangle = new Rectangle(index * sprite.Height / 2, 0, sprite.Height / 2, sprite.Height);
 
-           
             LocalPosition = new Vector2(128, -64);
             angle = 0f;
         }
@@ -32,7 +31,7 @@ namespace Tetris
             if (inputHelper.KeyPressed(Keys.Right))
                 LocalPosition = LocalPosition + Movement();
             if(inputHelper.KeyPressed(Keys.F))
-                angle = angle + 1.57f;
+                angle = angle + (float)Math.PI / 2f;
         }
 
         public override void Update(GameTime gameTime)
