@@ -43,6 +43,11 @@ namespace Tetris
             if (inputHelper.KeyPressed(Keys.B))
                 testBlock.Reset();
 
+            // Advance the "block queue": first block gets replaced by the next block.
+            if (inputHelper.KeyPressed(Keys.N))
+            {
+                NextBlock();
+            }
             foreach (Tile tile in grid)
                 tile.HandleInput(inputHelper);
             if (inputHelper.KeyPressed(Keys.LeftShift) || inputHelper.KeyPressed(Keys.RightShift))
@@ -101,6 +106,12 @@ namespace Tetris
             }
         }
 
+        void NextBlock()
+        {
+            testBlock = nextBlock;
+            Reset();
+            AddBlock();
+        }
 
         void AddBlock()
         {
