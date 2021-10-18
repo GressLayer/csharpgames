@@ -16,8 +16,6 @@ namespace Tetris
 
         float angle;
 
-        public static Vector2 rect;
-
         bool isTilted;
 
         static string shape()
