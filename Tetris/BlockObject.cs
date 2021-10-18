@@ -14,7 +14,7 @@ namespace Tetris
 
         float angle;
 
-        public BlockObject() : base("sprites/LBlock")
+        public BlockObject() : base("sprites/BlockL")
         {
             BlockType = ExtendedGame.Random.Next(7);
 
@@ -41,13 +41,10 @@ namespace Tetris
             if (LocalPosition.X <= 0)
                 localPosition.X = 0;
 
-            if (LocalPosition.X >= 256 && BlockType != 4)
+            if (LocalPosition.X >= 256)
                 localPosition.X = 256;
-
-            if (LocalPosition.X >= 288)
-                localPosition.X = 288;
             
-            if (LocalPosition.Y >= 608)
+            if (LocalPosition.Y >= 544)
                 Reset();
 
 
@@ -60,16 +57,12 @@ namespace Tetris
         }
 
         public override void Reset()
-
-
-        public Vector2 Movement()
         {
             LocalPosition = new Vector2(128, -64);
-            int lastBlock;
-            lastBlock = BlockType;
+            int lastBlock = BlockType;
             BlockType = ExtendedGame.Random.Next(7);
-            if (BlockType == lastBlock)
-            Reset();
+            if (lastBlock == BlockType)
+                Reset();
         }
 
     }

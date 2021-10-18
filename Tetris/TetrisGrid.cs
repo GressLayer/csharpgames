@@ -13,7 +13,7 @@ namespace Tetris
         int Width, Height; 
         public int CellSize { get; private set; }
 
-        BlockObject testBlock, nextBlock, heldBlock, drawnBlock;
+        BlockObject testBlock, nextBlock, heldBlock;
 
         int bottomRow = 19;
 
@@ -86,7 +86,6 @@ namespace Tetris
             foreach (Tile tile in grid)
                 tile.Draw(gameTime, spriteBatch);
             testBlock.Draw(gameTime, spriteBatch);
-            nextBlock.DrawNext(gameTime, spriteBatch);
 
 
         }
