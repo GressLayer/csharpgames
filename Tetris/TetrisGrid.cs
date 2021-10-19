@@ -10,6 +10,7 @@ namespace Tetris
     // A class for representing the Tetris playing grid.
     class TetrisGrid : GameObject
     {
+        int bottomRow = 19;
 
         Tile[,] grid;
         int Width, Height; 
@@ -103,9 +104,26 @@ namespace Tetris
                 for (int y = 0; y < Height; y++)
                 {
                     if (grid[x, y].BoundingBox.Intersects(currentBlock.BoundingBox))
-                        grid[x, y].IsOccupied = true;
-                    else
-                        grid[x, y].IsOccupied = false;
+                    {
+                        if (grid[x, 19].BoundingBox.Intersects(currentBlock.BoundingBox))
+                        {
+                            grid[x, y].IsOccupied = true;
+                            if (BlockObject.BlockType == 0)
+                                grid[x, y].colorNumber = 0;
+                            if (BlockObject.BlockType == 1)
+                                grid[x, y].colorNumber = 1;
+                            if (BlockObject.BlockType == 2)
+                                grid[x, y].colorNumber = 2;
+                            if (BlockObject.BlockType == 3)
+                                grid[x, y].colorNumber = 3;
+                            if (BlockObject.BlockType == 4)
+                                grid[x, y].colorNumber = 4;
+                            if (BlockObject.BlockType == 5)
+                                grid[x, y].colorNumber = 5;
+                            if (BlockObject.BlockType == 6)
+                                grid[x, y].colorNumber = 6;
+                        }
+                    }
                 }
             }
 
@@ -134,7 +152,7 @@ namespace Tetris
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    grid[x, y] = new Tile();
+                    grid[x, y] = new Tile(false);
                     grid[x, y].LocalPosition = LocalPosition + new Vector2(x * CellSize, y * CellSize);
                 }
             }
@@ -150,7 +168,7 @@ namespace Tetris
 
         static void AddBlock()
         {
-            nextBlock = new BlockObject(ExtendedGame.Random.Next(7));
+            nextBlock = new BlockObject(BlockObject.BlockType);
         }
     }
 }

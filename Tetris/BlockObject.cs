@@ -15,9 +15,9 @@ namespace Tetris
 
         bool isTilted;
 
-        static string shape()
+        public static string shape()
         {
-            // BlockType = ExtendedGame.Random.Next(7);
+            //BlockType = ExtendedGame.Random.Next(7);
             if (BlockType == 0) return "sprites/blockL";
             else if (BlockType == 1) return "sprites/blockJ";
             else if (BlockType == 2) return "sprites/blockS";
@@ -109,7 +109,7 @@ namespace Tetris
                 if (BoundingBox.Y >= 640)
                 {
                     TetrisGrid.NextBlock();
-                    Reset();
+
                 }
 
                 LocalPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -135,8 +135,6 @@ namespace Tetris
         public override void Reset()
         {
             LocalPosition = new Vector2(128 + origin.X, 32 + origin.Y);
-            int lastBlock = BlockType;
-            BlockType = ExtendedGame.Random.Next(7);
             angle = 0f;
             shape();
         }
