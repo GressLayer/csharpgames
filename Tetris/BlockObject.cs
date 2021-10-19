@@ -9,10 +9,7 @@ namespace Tetris
 {
     class BlockObject : SpriteGameObject
     {
-        public static int BlockType { get; set; }
-        float level = 1.0f;
-
-        public static Vector2 rect;
+        public static int BlockType { get; set; } = ExtendedGame.Random.Next(7);
 
         float angle;
 
@@ -34,80 +31,101 @@ namespace Tetris
         public BlockObject(int blockType) : base(shape())
         {
             blockType = BlockType;
+            BlockType = ExtendedGame.Random.Next(7);
 
-            origin = new Vector2(32, 64);
+            /* Sets the origin of the block.
+            /* Blocks with an origin that is NOT a multiple of 32 would be placed halfway inside a grid space.
+             * These get a default origin value.
+             */
+            if (sprite.Width % 64 != 0)
+                origin = new Vector2(32, sprite.Height / 2);
+            else if (sprite.Height % 64 != 0)
+                origin = new Vector2(sprite.Width / 2, 64);
+            else
+                origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
-            LocalPosition = new Vector2(128 + origin.X, 32 + origin.Y) ;
+            LocalPosition = new Vector2(origin.X, origin.Y);
             angle = 0f;
-
-            velocity = new Vector2(0, 100f + (0.15f * level)) /** T*/;
 
             isTilted = false;
         }
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (GameWorld.gameState == State.Playing) {
+            // These inputs should ONLY be possible during the Playing state: this enclosing if-statement makes sure of it.
+            if (GameWorld.gameState == State.Playing) 
+            {
+                // Left and right movement. As simple as it gets.
                 if (inputHelper.KeyPressed(Keys.Left))
-                    LocalPosition = LocalPosition - MovementX();
-
+                    LocalPosition += new Vector2(-32, 0);
                 if (inputHelper.KeyPressed(Keys.Right))
-                    LocalPosition = LocalPosition + MovementX();
+                    LocalPosition += new Vector2(32, 0);
 
-                if (inputHelper.KeyDown(Keys.Down))
-                    LocalPosition = LocalPosition + MovementY();
-                    
+                /* Further elaboration:
+                 *   The combination of KeyPressed and KeyUp (instead of KeyDown) is used for a reason.
+                 *   Using KeyDown constantly multiplies velocity.Y by 3, causing exponential speed growth.
+                 *   The button needs to be held down anyway to not activate the KeyUp if-statement, so KeyPressed works.
+                 *   
+                 *   KeyUp is also the initial state, so it still allows for velocity to get its initial value.
+                 */
+                if (inputHelper.KeyPressed(Keys.Down))
+                    velocity.Y *= 3f;
+                if (inputHelper.KeyUp(Keys.Down))
+                    velocity.Y = 100f + (0.15f * TetrisGrid.level);
+
+                // Right rotation.
                 if (inputHelper.KeyPressed(Keys.D))
                 {
                     angle = angle + (float)Math.PI / -2f;
                     isTilted = !isTilted;
-                    localPosition.X = localPosition.X + 32;
                 }
-
+                
+                // Left rotation.
                 if (inputHelper.KeyPressed(Keys.A))
                 {
                     angle = angle + (float)Math.PI / +2f;
                     isTilted = !isTilted;
-                    localPosition.X = localPosition.X - 32;
                 }
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-            if (LocalPosition.X <= 0 + origin.X && isTilted == false)
-                localPosition.X = 0 + origin.X;
+            if (GameWorld.gameState == State.Playing)
+            {
+                base.Update(gameTime);
+                if (LocalPosition.X <= 0 + origin.X && isTilted == false)
+                    localPosition.X = 0 + origin.X;
 
-            if (LocalPosition.X <= 0 + origin.Y && isTilted == true)
-                localPosition.X = 0 + origin.Y;
+                if (LocalPosition.X <= 0 + origin.Y && isTilted == true)
+                    localPosition.X = 0 + origin.Y;
 
-            if (LocalPosition.X >= 256 + origin.X && isTilted == false)
-                localPosition.X = 256 + origin.X;
+                if (LocalPosition.X >= 256 + origin.X && isTilted == false)
+                    localPosition.X = 256 + origin.X;
 
-            if (LocalPosition.X >= 320 - origin.Y && isTilted == true)
-                localPosition.X = 320 - origin.Y;
+                if (LocalPosition.X >= 320 - origin.Y && isTilted == true)
+                    localPosition.X = 320 - origin.Y;
 
-            if (BoundingBox.Y >= 640)
-                TetrisGrid.NextBlock();
-                Reset();
+                if (BoundingBox.Y >= 640)
+                {
+                    TetrisGrid.NextBlock();
+                    Reset();
+                }
 
-            //LocalPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                LocalPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
         }
 
         // Draws the current block on the grid.
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            
             spriteBatch.Draw(sprite, GlobalPosition, null, Color.White, angle, origin, 1.0f, SpriteEffects.None, 0);
         }
-
         // Draws the incoming block in the HUD.
         public void DrawNext(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, new Vector2(660, 250), null, Color.White, angle, origin, 1.0f, SpriteEffects.None, 0);
         }
-
         // Draws the currently held Block in the HUD.
         public void DrawHeld(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -116,21 +134,11 @@ namespace Tetris
 
         public override void Reset()
         {
-            LocalPosition = new Vector2(256, 0);
+            LocalPosition = new Vector2(128 + origin.X, 32 + origin.Y);
             int lastBlock = BlockType;
             BlockType = ExtendedGame.Random.Next(7);
             angle = 0f;
             shape();
-            
-        }
-
-        public Vector2 MovementX()
-        {
-            return new Vector2(32, 0);
-        }
-        public Vector2 MovementY()
-        {
-            return new Vector2(0, 32);
         }
 
         public override Rectangle BoundingBox

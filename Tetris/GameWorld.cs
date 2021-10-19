@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Input;
 using System;
 
+using Tetris;
+
 namespace Tetris
 {
     // A class for representing the game world.
@@ -23,6 +25,7 @@ namespace Tetris
         // The current game state.
         public static State gameState;
 
+        // Used to draw blank spaces in a more space-efficient way (if only strings could be multiplied...).
         string blank = "            ";
 
         // The main font of the game.
@@ -31,9 +34,11 @@ namespace Tetris
         // The main grid of the game.
         public static TetrisGrid grid { get; private set; }
 
+        // All the sprites used for menus and HUDs.
         Texture2D menubar;
         SpriteGameObject menu, menu2, menubarS, menubar2S, hud;
 
+        // All music in the game.
         Song welcome, controls, playing, gameover;
 
         public int GridWidth { get; private set; }
@@ -44,32 +49,37 @@ namespace Tetris
 
         public GameWorld()
         {
+            // Game starts out in the Welcome game state, with looping music.
             gameState = State.Welcome;
-
             MediaPlayer.IsRepeating = true;
 
-            menubar = ExtendedGame.ContentManager.Load<Texture2D>("sprites/menubar");
-
+            // Loads all the music.
             welcome = ExtendedGame.ContentManager.Load<Song>("music/welcome");
             controls = ExtendedGame.ContentManager.Load<Song>("music/controls");
             playing = ExtendedGame.ContentManager.Load<Song>("music/playing");
             gameover = ExtendedGame.ContentManager.Load<Song>("music/gameover");
 
+            // Loads all the menu and HUD sprites.
             menu = new SpriteGameObject("sprites/menu");
+            menubar = ExtendedGame.ContentManager.Load<Texture2D>("sprites/menubar");
             menu2 = new SpriteGameObject("sprites/menu2");
             menubarS = new SpriteGameObject("sprites/menubarS");
             menubar2S = new SpriteGameObject("sprites/menubar2S");
             hud = new SpriteGameObject("sprites/hud");
 
+            // Loads the game font.
             font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
 
+            // Sets the size of the grid (height, width, cell size and where the grid is placed on the screen).
             GridWidth = 10; 
             GridHeight = 20; 
             CellSize = 32;
             GridOffset = new Vector2(96, 64);
 
+            // Creates a grid object.
             grid = new TetrisGrid(GridWidth, GridHeight, CellSize, GridOffset);
 
+            // Starts playing the music for the welcome screen.
             MediaPlayer.Play(welcome);
         }
 
@@ -86,8 +96,7 @@ namespace Tetris
             if (inputHelper.KeyPressed(Keys.D4))
                 gameState = State.GameOver; */
 
-            // Holds input options per game state
-
+            // Holds input options per game state.
             grid.HandleInput(inputHelper);
             switch (gameState)
             {
@@ -137,7 +146,9 @@ namespace Tetris
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
+            /* One beefy switch.
+             * Based on gameState's value, all the necessary menu/HUD sprites and strings are drawn.
+             */
             switch (gameState) 
             {
                 case (State.Welcome):
@@ -190,8 +201,10 @@ namespace Tetris
                     break;
             }
 
+            // Student names and numbers.
             spriteBatch.DrawString(font, "Wassim Chammat    Corne van Vliet\n2981351                              6790836", new Vector2(6, 731), Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
         }
+
 
         public void Reset()
         {

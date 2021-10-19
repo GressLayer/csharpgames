@@ -15,11 +15,11 @@ namespace Tetris
         protected InputHelper inputHelper;
         public static GameWorld gameWorld1 { get; protected set; }
 
-        // stores the width and height of the game world.
+        // Stores the width and height of the game world.
         Point worldSize;
-        // stores the width and height of the window in pixels.
+        // Stores the width and height of the window in pixels.
         Point windowSize;
-        //Scales the game world based on screensize.
+        // Scales the game world based on screen size.
         Matrix spriteScale;
 
         // A static reference to the ContentManager object, used for loading assets.
@@ -43,11 +43,11 @@ namespace Tetris
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             ContentManager = Content;
+
+            // Sets up world and window sizes. Game starts out in windowed mode (not fullscreen).
             worldSize = new Point(1024, 768);
             windowSize = new Point(1024, 768);
             FullScreen = false;
-            
-            
         }
 
         protected override void Update(GameTime gameTime)
@@ -61,13 +61,14 @@ namespace Tetris
         {
             inputHelper.Update();
 
+            // ESCAPE is used to exit and close the game.
             if (inputHelper.KeyPressed(Keys.Escape))
                 Exit();
+            // Fullscreen toggle.
             if (inputHelper.KeyPressed(Keys.F11))
                 FullScreen = !FullScreen;
 
             gameWorld1.HandleInput(inputHelper);
-
         }
         protected override void Draw(GameTime gameTime)
         {
@@ -127,7 +128,7 @@ namespace Tetris
             return viewport;
         }
         
-        // A boolean property that sets full screen or disables it.
+        // A bool that acts as a toggle for the fullscreen button.
         public bool FullScreen
         {
             get { return graphics.IsFullScreen; }

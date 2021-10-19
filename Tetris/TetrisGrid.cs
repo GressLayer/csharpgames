@@ -20,8 +20,6 @@ namespace Tetris
         bool blockHeld;
         public static int score, level, blocksUsed, holdsUsed;
 
-        int bottomRow = 19;
-
         // Creates a new TetrisGrid.
         public TetrisGrid(int width, int height, int cellSize, Vector2 offset)
         {
@@ -29,6 +27,8 @@ namespace Tetris
             Height = height;
             this.CellSize = cellSize;
             LocalPosition = offset;
+
+            level = 1;
 
             currentBlock = new BlockObject(ExtendedGame.Random.Next(7));
             currentBlock.Parent = this;
@@ -38,7 +38,7 @@ namespace Tetris
             heldBlock.Parent = this;
 
             // Block buffer: used to swap the values of the current and held block when pressing the hold key.
-            blockBuffer = new BlockObject(4);
+            blockBuffer = new BlockObject(3);
             blockBuffer.Parent = this;
 
             Reset();
@@ -53,17 +53,21 @@ namespace Tetris
             if (inputHelper.KeyPressed(Keys.B))
                 currentBlock.Reset();
 
-            // Advance the "block queue": first block gets replaced by the next block.
-            if (inputHelper.KeyPressed(Keys.N))
-            {
-                NextBlock();
-            }
             foreach (Tile tile in grid)
                 tile.HandleInput(inputHelper);
 
             if (GameWorld.gameState == State.Playing)
             {
+                // Advance the "block queue": first block gets replaced by the next block.
+                // Developer input: comment out when finished.
+                if (inputHelper.KeyPressed(Keys.N))
+                {
+                    NextBlock();
+                }
 
+                /* Hold button.
+                 * Held block is saved in a buffer variable to be able to "swap" heldBlock and currentBlock's values.
+                 */
                 if (inputHelper.KeyPressed(Keys.LeftShift) || inputHelper.KeyPressed(Keys.RightShift))
                 {
                     if (blockHeld)
@@ -76,7 +80,7 @@ namespace Tetris
                         // Only tracks the amount of holds used after a hold has been created.
                         holdsUsed++;
                     }
-                    else
+                    else if (blockHeld == false)
                     {
                         heldBlock = currentBlock;
                         blockHeld = true;
@@ -116,7 +120,9 @@ namespace Tetris
             currentBlock.Draw(gameTime, spriteBatch);
 
             nextBlock.DrawNext(gameTime, spriteBatch);
-            heldBlock.DrawHeld(gameTime, spriteBatch);
+
+            if (blockHeld)
+                heldBlock.DrawHeld(gameTime, spriteBatch);
         }
 
         // Clears the grid.

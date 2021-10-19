@@ -45,5 +45,10 @@ namespace Tetris
         {
             return keyboardCurrent.IsKeyDown(k);
         }
+
+        public bool KeyUp(Keys k)
+        {
+            return keyboardCurrent.IsKeyUp(k);
+        }
     }
 }
