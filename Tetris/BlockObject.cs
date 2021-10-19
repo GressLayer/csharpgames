@@ -35,7 +35,7 @@ namespace Tetris
         {
             blockType = BlockType;
 
-            origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            origin = new Vector2(32, 64);
 
             LocalPosition = new Vector2(128 + origin.X, 32 + origin.Y) ;
             angle = 0f;
@@ -61,14 +61,14 @@ namespace Tetris
                 {
                     angle = angle + (float)Math.PI / -2f;
                     isTilted = !isTilted;
-                    localPosition.X = localPosition.X + 16;
+                    localPosition.X = localPosition.X + 32;
                 }
 
                 if (inputHelper.KeyPressed(Keys.A))
                 {
                     angle = angle + (float)Math.PI / +2f;
                     isTilted = !isTilted;
-                    localPosition.X = localPosition.X - 16;
+                    localPosition.X = localPosition.X - 32;
                 }
             }
         }
