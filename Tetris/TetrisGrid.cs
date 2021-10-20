@@ -13,7 +13,7 @@ namespace Tetris
         int bottomRow = 19;
 
         Tile[,] grid;
-        int Width, Height; 
+        int Width, Height;
         public int CellSize { get; private set; }
 
         static BlockObject currentBlock, nextBlock, heldBlock, blockBuffer;
@@ -29,17 +29,19 @@ namespace Tetris
             this.CellSize = cellSize;
             LocalPosition = offset;
 
+            // Level starts out at 1.
             level = 1;
 
-            currentBlock = new BlockObject(ExtendedGame.Random.Next(7));
+            // The block currently being dropped and controlled.
+            currentBlock = new BlockObject();
             currentBlock.Parent = this;
 
             // The block currently being held.
-            heldBlock = new BlockObject(4);
+            heldBlock = new BlockObject();
             heldBlock.Parent = this;
 
             // Block buffer: used to swap the values of the current and held block when pressing the hold key.
-            blockBuffer = new BlockObject(3);
+            blockBuffer = new BlockObject();
             blockBuffer.Parent = this;
 
             Reset();
@@ -108,20 +110,16 @@ namespace Tetris
                         if (grid[x, 19].BoundingBox.Intersects(currentBlock.BoundingBox))
                         {
                             grid[x, y].IsOccupied = true;
-                            if (BlockObject.BlockType == 0)
-                                grid[x, y].colorNumber = 0;
-                            if (BlockObject.BlockType == 1)
-                                grid[x, y].colorNumber = 1;
-                            if (BlockObject.BlockType == 2)
-                                grid[x, y].colorNumber = 2;
-                            if (BlockObject.BlockType == 3)
-                                grid[x, y].colorNumber = 3;
-                            if (BlockObject.BlockType == 4)
-                                grid[x, y].colorNumber = 4;
-                            if (BlockObject.BlockType == 5)
-                                grid[x, y].colorNumber = 5;
-                            if (BlockObject.BlockType == 6)
-                                grid[x, y].colorNumber = 6;
+                            switch (BlockObject.BlockType)
+                            {
+                                case (0): grid[x, y].colorNumber = 0; break;
+                                case (1): grid[x, y].colorNumber = 1; break;
+                                case (2): grid[x, y].colorNumber = 2; break;
+                                case (3): grid[x, y].colorNumber = 3; break;
+                                case (4): grid[x, y].colorNumber = 4; break;
+                                case (5): grid[x, y].colorNumber = 5; break;
+                                case (6): grid[x, y].colorNumber = 6; break;
+                            }
                         }
                     }
                 }
@@ -168,7 +166,7 @@ namespace Tetris
 
         static void AddBlock()
         {
-            nextBlock = new BlockObject(BlockObject.BlockType);
+            nextBlock = new BlockObject(/* BlockObject.BlockType */);
         }
     }
 }

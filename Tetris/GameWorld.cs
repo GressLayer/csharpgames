@@ -177,7 +177,7 @@ namespace Tetris
 
                     spriteBatch.DrawString(font, "SCORE CHART", new Vector2(728, 312), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "1 PT PER BLOCK", new Vector2(728, 352), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "1 ROW" + blank + "       100 PTS\n2 ROWS" + blank + "    250 PTS\n3 ROWS" + blank + "    800 PTS\n\n4 ROWS" + blank + "      TETRIS\n" + blank + blank + "      5000 PTS\n\nx2 PTS WHEN HIGHER UP\n 20000 PTS TO LEVEL UP", new Vector2(728, 384), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "1 ROW" + blank + "       100 PTS\n2 ROWS" + blank + "    250 PTS\n3 ROWS" + blank + "    800 PTS\n\n4 ROWS" + blank + "      TETRIS\n" + blank + blank + "      5000 PTS\n\n 20000 PTS TO LEVEL UP", new Vector2(728, 384), Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
                     break;
                 case (State.Playing):

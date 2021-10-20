@@ -28,9 +28,8 @@ namespace Tetris
             else return "sprites/blockL";
         }
 
-        public BlockObject(int blockType) : base(shape())
+        public BlockObject() : base(shape())
         {
-            blockType = BlockType;
             BlockType = ExtendedGame.Random.Next(7);
 
             /* Sets the origin of the block.
@@ -40,7 +39,7 @@ namespace Tetris
             if (sprite.Width % 64 != 0)
                 origin = new Vector2(32, sprite.Height / 2);
             else if (sprite.Height % 64 != 0)
-                origin = new Vector2(sprite.Width / 2, 64);
+                origin = new Vector2(sprite.Width / 2, 32);
             else
                 origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
@@ -69,9 +68,9 @@ namespace Tetris
                  *   KeyUp is also the initial state, so it still allows for velocity to get its initial value.
                  */
                 if (inputHelper.KeyPressed(Keys.Down))
-                    velocity.Y *= 3f;
+                    velocity *= 3;
                 if (inputHelper.KeyUp(Keys.Down))
-                    velocity.Y = 100f + (0.15f * TetrisGrid.level);
+                    velocity = 100 + (15 * TetrisGrid.level);
 
                 // Right rotation.
                 if (inputHelper.KeyPressed(Keys.D))
@@ -109,10 +108,25 @@ namespace Tetris
                 if (BoundingBox.Y >= 640)
                 {
                     TetrisGrid.NextBlock();
-
                 }
 
-                LocalPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                localPosition.Y += velocity * (int)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+        }
+
+        public override void Reset()
+        {
+            angle = 0f;
+        }
+
+        public override Rectangle BoundingBox
+        {
+            get
+            {
+                boundingBox = sprite.Bounds;
+                boundingBox.Offset(GlobalPosition - origin);
+                Parent = GameWorld.grid;
+                return boundingBox;            
             }
         }
 
@@ -130,24 +144,6 @@ namespace Tetris
         public void DrawHeld(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, new Vector2(916, 250), null, Color.White, angle, origin, 1.0f, SpriteEffects.None, 0);
-        }
-
-        public override void Reset()
-        {
-            LocalPosition = new Vector2(128 + origin.X, 32 + origin.Y);
-            angle = 0f;
-            shape();
-        }
-
-        public override Rectangle BoundingBox
-        {
-            get
-            {
-                boundingBox = sprite.Bounds;
-                boundingBox.Offset(GlobalPosition - origin);
-                Parent = GameWorld.grid;
-                return boundingBox;            
-            }
         }
     }
 }

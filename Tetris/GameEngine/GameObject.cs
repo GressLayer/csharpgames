@@ -6,7 +6,8 @@ namespace Tetris
     class GameObject
     {
         protected Vector2 localPosition;
-        protected Vector2 velocity;
+        protected Point gridPosition;
+        protected int velocity;
         public GameObject Parent { get; set; }
 
         public bool Visible { get; set; }
@@ -14,7 +15,8 @@ namespace Tetris
         public GameObject()
         {
             LocalPosition = Vector2.Zero;
-            velocity = new Vector2(0, 128);
+            GridPosition = Point.Zero;
+            velocity = 128;
             Visible = true;
         }
 
@@ -32,7 +34,6 @@ namespace Tetris
 
         public virtual void Reset()
         {
-            velocity = Vector2.Zero;
         }
 
         public Vector2 GlobalPosition
@@ -46,6 +47,7 @@ namespace Tetris
         }
 
         public Vector2 LocalPosition { get { return localPosition; } set { localPosition = value; } }
+        public Point GridPosition { get { return gridPosition; } set { gridPosition = value; } }
 
     }
 
