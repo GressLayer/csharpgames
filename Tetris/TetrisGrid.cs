@@ -166,7 +166,7 @@ namespace Tetris
 
         static void AddBlock()
         {
-            nextBlock = new BlockObject(/* BlockObject.BlockType */);
+            nextBlock = new BlockObject();
         }
     }
 }

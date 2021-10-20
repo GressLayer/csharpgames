@@ -75,15 +75,15 @@ namespace Tetris
                 // Right rotation.
                 if (inputHelper.KeyPressed(Keys.D))
                 {
-                    angle = angle + (float)Math.PI / -2f;
-                    isTilted = !isTilted;
+                    RotateRight();
+                    
                 }
                 
                 // Left rotation.
                 if (inputHelper.KeyPressed(Keys.A))
                 {
-                    angle = angle + (float)Math.PI / +2f;
-                    isTilted = !isTilted;
+                    RotateLeft();
+                    
                 }
             }
         }
@@ -110,8 +110,19 @@ namespace Tetris
                     TetrisGrid.NextBlock();
                 }
 
-                localPosition.Y += velocity * (int)gameTime.ElapsedGameTime.TotalSeconds;
+                localPosition.Y += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
+        }
+
+        void RotateRight()
+        {
+            angle = angle + (float)Math.PI / -2f;
+            isTilted = !isTilted;
+        }
+        void RotateLeft()
+        {
+            angle = angle + (float)Math.PI / +2f;
+            isTilted = !isTilted;
         }
 
         public override void Reset()
@@ -124,9 +135,11 @@ namespace Tetris
             get
             {
                 boundingBox = sprite.Bounds;
+                boundingBox.Location += new Point (32, 0);
+                boundingBox.Size -= new Point(32, 32);
                 boundingBox.Offset(GlobalPosition - origin);
                 Parent = GameWorld.grid;
-                return boundingBox;            
+                return boundingBox;
             }
         }
 
