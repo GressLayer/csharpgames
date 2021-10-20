@@ -14,7 +14,8 @@ namespace Tetris
 				{ false, true, true, false },
 				{ false, false, false, false }
 			};
-		}
 
+			FillTiles();
+		}
 	}
 }

@@ -41,9 +41,9 @@ namespace Tetris
         // All music in the game.
         Song welcome, controls, playing, gameover;
 
-        public int GridWidth { get; private set; }
-        public int GridHeight { get; private set; }
-        public int CellSize { get; private set; }
+        public int GridWidth { get; private set; } = 10;
+        public int GridHeight { get; private set; } = 20;
+        public int CellSize { get; private set; } = 32;
         public Vector2 GridOffset { get; private set; }
 
 
@@ -71,9 +71,9 @@ namespace Tetris
             font = ExtendedGame.ContentManager.Load<SpriteFont>("Font");
 
             // Sets the size of the grid (height, width, cell size and where the grid is placed on the screen).
-            GridWidth = 10; 
-            GridHeight = 20; 
-            CellSize = 32;
+            // GridWidth = 10; 
+            // GridHeight = 20; 
+            // CellSize = 32;
             GridOffset = new Vector2(96, 64);
 
             // Creates a grid object.
@@ -187,7 +187,7 @@ namespace Tetris
                     spriteBatch.DrawString(font, "" + TetrisGrid.score, new Vector2(582, 60), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "" + TetrisGrid.level, new Vector2(864, 60), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "" + TetrisGrid.blocksUsed, new Vector2(582, 340), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "" + TetrisGrid.holdsUsed, new Vector2(864, 340), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "" + TetrisGrid.holdsUsed, new Vector2(840, 340), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
 
                     break;
                 case (State.GameOver):
@@ -204,7 +204,6 @@ namespace Tetris
             // Student names and numbers.
             spriteBatch.DrawString(font, "Wassim Chammat    Corne van Vliet\n2981351                              6790836", new Vector2(6, 731), Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
         }
-
 
         public void Reset()
         {

@@ -17,31 +17,70 @@ namespace Tetris
 
         public TetrisBlock()
         {
-            blockShape = new bool[blockWidth, blockHeight];
-
         }
 
-        protected void RotateRight()
+        protected void FillTiles()
+        {
+            block = new Tile[blockWidth, blockHeight];
+
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
+                {
+                    if (blockShape[x, y])
+                    {
+                        block[x, y] = new Tile();
+                        block[x, y].IsOccupied = true;
+                        block[x, y].LocalPosition = new Vector2(y * 32, x * 32);
+                        block[x, y].Parent = this;
+                    }
+                }
+            }
+        }
+
+        public void RotateRight()
         {
             bool[,] oldState = blockShape;
+            Tile[,] oldBlock = block;
             for (int x = 0; x < blockWidth; x++)
             {
                 for (int y = 0; y < blockHeight; y++)
                 {
                     blockShape[x, y] = oldState[3 - y, x];
+                    block[x, y] = oldBlock[3 - y, x];
                 }
             }
         }
 
-        protected void RotateLeft()
+        public void RotateLeft()
         {
             bool[,] oldState = blockShape;
-            for(int x = 0; x < blockWidth; x++)
+            Tile[,] oldBlock = block;
+            for (int x = 0; x < blockWidth; x++)
             {
                 for (int y = 0; y < blockHeight; y++)
                 {
                     blockShape[x, y] = oldState[y, 3 - x];
+                    block[x, y] = oldBlock[y, 3 - x];
                 }
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            foreach (Tile tile in block)
+            {
+                if (tile != null)
+                    tile.Update(gameTime);
+            }
+        }
+
+        public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            foreach (Tile tile in block)
+            {
+                if (tile != null)
+                    tile.Draw(gameTime, spriteBatch);
             }
         }
     }

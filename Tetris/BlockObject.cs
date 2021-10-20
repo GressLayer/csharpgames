@@ -54,11 +54,6 @@ namespace Tetris
             // These inputs should ONLY be possible during the Playing state: this enclosing if-statement makes sure of it.
             if (GameWorld.gameState == State.Playing) 
             {
-                // Left and right movement. As simple as it gets.
-                if (inputHelper.KeyPressed(Keys.Left))
-                    LocalPosition += new Vector2(-32, 0);
-                if (inputHelper.KeyPressed(Keys.Right))
-                    LocalPosition += new Vector2(32, 0);
 
                 /* Further elaboration:
                  *   The combination of KeyPressed and KeyUp (instead of KeyDown) is used for a reason.
@@ -75,15 +70,11 @@ namespace Tetris
                 // Right rotation.
                 if (inputHelper.KeyPressed(Keys.D))
                 {
-                    RotateRight();
-                    
                 }
                 
                 // Left rotation.
                 if (inputHelper.KeyPressed(Keys.A))
                 {
-                    RotateLeft();
-                    
                 }
             }
         }
@@ -107,22 +98,11 @@ namespace Tetris
 
                 if (BoundingBox.Y >= 640)
                 {
-                    TetrisGrid.NextBlock();
+                    //TetrisGrid.NextBlock();
                 }
 
                 localPosition.Y += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-        }
-
-        void RotateRight()
-        {
-            angle = angle + (float)Math.PI / -2f;
-            isTilted = !isTilted;
-        }
-        void RotateLeft()
-        {
-            angle = angle + (float)Math.PI / +2f;
-            isTilted = !isTilted;
         }
 
         public override void Reset()

@@ -25,8 +25,6 @@ namespace Tetris
 
         public virtual void Update(GameTime gameTime)
         {
-            if (gameTime.ElapsedGameTime.TotalSeconds % 32 == 0)
-                localPosition.Y += 32;
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
