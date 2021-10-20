@@ -9,7 +9,7 @@ namespace Tetris
 {
     class BlockObject : SpriteGameObject
     {
-        public static int BlockType { get; set; }
+        public static int BlockType { get; set; } = ExtendedGame.Random.Next(7);
 
         float angle;
 
@@ -17,6 +17,7 @@ namespace Tetris
 
         public static string shape()
         {
+            //BlockType = ExtendedGame.Random.Next(7);
             if (BlockType == 0) return "sprites/blockL";
             else if (BlockType == 1) return "sprites/blockJ";
             else if (BlockType == 2) return "sprites/blockS";
@@ -29,6 +30,7 @@ namespace Tetris
 
         public BlockObject(int blockType) : base(shape())
         {
+            blockType = BlockType;
             BlockType = ExtendedGame.Random.Next(7);
 
             /* Sets the origin of the block.
@@ -106,7 +108,8 @@ namespace Tetris
 
                 if (BoundingBox.Y >= 640)
                 {
-                    GameWorld.grid.NextBlock();
+                    TetrisGrid.NextBlock();
+
                 }
 
                 LocalPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;

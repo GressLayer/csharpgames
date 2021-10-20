@@ -12,13 +12,11 @@ namespace Tetris
     {
         int bottomRow = 19;
 
-        int previousBlock;
-
         Tile[,] grid;
         int Width, Height; 
         public int CellSize { get; private set; }
 
-        BlockObject currentBlock, nextBlock, heldBlock, blockBuffer;
+        static BlockObject currentBlock, nextBlock, heldBlock, blockBuffer;
 
         bool blockHeld;
         public static int score, level, blocksUsed, holdsUsed;
@@ -32,10 +30,8 @@ namespace Tetris
             LocalPosition = offset;
 
             level = 1;
-            
+
             currentBlock = new BlockObject(ExtendedGame.Random.Next(7));
-            
-            nextBlock = new BlockObject(ExtendedGame.Random.Next(7));
             currentBlock.Parent = this;
 
             // The block currently being held.
@@ -162,18 +158,17 @@ namespace Tetris
             }
         }
 
-        public void NextBlock()
+        public static void NextBlock()
         {
-            previousBlock = BlockObject.BlockType;
             currentBlock = nextBlock;
             AddBlock();
             score++;
             blocksUsed++;
         }
 
-        void AddBlock()
+        static void AddBlock()
         {
-            nextBlock = new BlockObject(previousBlock);
+            nextBlock = new BlockObject(BlockObject.BlockType);
         }
     }
 }
