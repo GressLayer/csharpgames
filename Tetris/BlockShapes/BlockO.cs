@@ -7,6 +7,7 @@ namespace Tetris
 	{
 		public BlockO() : base()
 		{
+			origin = new Vector2(96, 96);
 			blockShape = new bool[blockWidth, blockHeight]
 			{
 				{ false, false, false, false },

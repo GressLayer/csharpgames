@@ -7,7 +7,7 @@ namespace Tetris
 {
     class SpriteGameObject : GameObject
     {
-        protected Texture2D sprite;
+        public Texture2D sprite { get; protected set; }
         protected Vector2 origin;
 
         protected Rectangle boundingBox;

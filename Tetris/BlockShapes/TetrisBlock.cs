@@ -12,6 +12,9 @@ namespace Tetris
         protected bool[,] blockShape;
         protected const int blockWidth = 4;
         protected const int blockHeight = 4;
+        public Vector2 origin { get; protected set; }
+        public float originX { get { return origin.X; } }
+        public float originY { get { return origin.Y; } }
 
         protected Tile[,] block;
 
@@ -48,11 +51,8 @@ namespace Tetris
                 for (int y = 0; y < blockHeight; y++)
                 {
                     blockShape[x, y] = oldState[y, 3 - x];
-                    if (blockShape[x, y] != false)
+                    if (block[x, y] != null)
                     {
-                        block[x, y] = new Tile();
-                        block[x, y].IsOccupied = true;
-                        block[x, y].Parent = this;
                         block[x, y].LocalPosition = new Vector2(3 - y * 32, x * 32);
                     }
                     //if (block[x, y] != null)
@@ -91,7 +91,7 @@ namespace Tetris
         {
             foreach (Tile tile in block)
             {
-                if (tile != null)
+                if (tile != null)                   
                     tile.Update(gameTime);
             }
         }

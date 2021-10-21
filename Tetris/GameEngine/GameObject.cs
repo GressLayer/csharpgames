@@ -8,6 +8,7 @@ namespace Tetris
         protected Vector2 localPosition;
         protected Point gridPosition;
         protected int velocity;
+
         public GameObject Parent { get; set; }
 
         public bool Visible { get; set; }
@@ -45,6 +46,8 @@ namespace Tetris
         }
 
         public Vector2 LocalPosition { get { return localPosition; } set { localPosition = value; } }
+        public float LocalPositionX { get { return localPosition.X; } set { localPosition.X = value; } }
+        public float LocalPositionY { get { return localPosition.Y; } set { localPosition.Y = value; } }
         public Point GridPosition { get { return gridPosition; } set { gridPosition = value; } }
 
     }

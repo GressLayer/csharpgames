@@ -32,7 +32,7 @@ namespace Tetris
             level = 1;
 
             // The block currently being dropped and controlled.
-            currentBlock = new BlockL ();
+            currentBlock = new BlockI ();
             currentBlock.Parent = this;
 
             // The block currently being held.
@@ -46,10 +46,12 @@ namespace Tetris
             Reset();
         }
 
+        //Handles player input of objects in the grid
         public override void HandleInput(InputHelper inputHelper)
         {
             currentBlock.HandleInput(inputHelper);
 
+            //Handles rotation of a block in the grid
             if (inputHelper.KeyPressed(Keys.A))
             {
                 currentBlock.RotateLeft();
@@ -58,30 +60,34 @@ namespace Tetris
             {
                 currentBlock.RotateRight();
             }
-        }
 
-        public override void Reset()
-        {
-            grid = new Tile[Width, Height];
+            //Handles movement of the block over the grid
+            if (inputHelper.KeyPressed(Keys.Right))
+                currentBlock.LocalPositionX += 32;
+            if (inputHelper.KeyPressed(Keys.Left))
+                currentBlock.LocalPositionX -= 32;
+            if (inputHelper.KeyPressed(Keys.Down))
+                currentBlock.LocalPositionY = 640 - currentBlock.originY;
 
-            for (int x = 0; x < Width; x++)
-            {
-                for (int y = 0; y < Height; y++)
-                {
-                    grid[x, y] = new Tile();
-                    grid[x, y].LocalPosition = LocalPosition + new Vector2(x * CellSize, y * CellSize);
-                }
-            }
         }
 
         public override void Update(GameTime gameTime)
         {
-            currentBlock.Update(gameTime);
 
             foreach (Tile tile in grid)
             {
                 tile.Update(gameTime);
-            } 
+            }
+
+            currentBlock.Update(gameTime);
+
+
+            if (currentBlock.LocalPositionX <= -32)
+                currentBlock.LocalPositionX = -32;
+            if (currentBlock.LocalPositionX >= 320 - currentBlock.originX)
+                currentBlock.LocalPositionX = 320 - currentBlock.originX;
+            if (currentBlock.LocalPositionY >= 640 - currentBlock.originY)
+                currentBlock.LocalPositionY = 640 - currentBlock.originY;
         }
 
         // Draws the grid on the screen.
@@ -98,6 +104,21 @@ namespace Tetris
 
             //if (blockHeld)
             //heldBlock.DrawHeld(gameTime, spriteBatch);
+        }
+
+        //Sets a new empty grid
+        public override void Reset()
+        {
+            grid = new Tile[Width, Height];
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    grid[x, y] = new Tile();
+                    grid[x, y].LocalPosition = LocalPosition + new Vector2(x * CellSize, y * CellSize);
+                }
+            }
         }
     }
 }
