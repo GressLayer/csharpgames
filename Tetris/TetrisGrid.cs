@@ -32,8 +32,8 @@ namespace Tetris
             level = 1;
 
             // The block currently being dropped and controlled.
-            currentBlock = new BlockI ();
-            currentBlock.Parent = this;
+            //currentBlock = new BlockI ();
+            //currentBlock.Parent = this;
 
             // The block currently being held.
             heldBlock = new BlockObject();
@@ -43,7 +43,8 @@ namespace Tetris
             blockBuffer = new BlockObject();
             blockBuffer.Parent = this;
 
-            Reset();
+            ResetGrid();
+            ResetBlock();
         }
 
         //Handles player input of objects in the grid
@@ -92,6 +93,9 @@ namespace Tetris
                 currentBlock.GridPositionX = 10 - currentBlock.originX;
             if (currentBlock.GridPositionY >= 20 - currentBlock.originY)
                 currentBlock.GridPositionY = 20 - currentBlock.originY;
+
+            if (currentBlock.GridPositionY == 20 - currentBlock.originY)
+                ResetBlock();
         }
 
         // Draws the grid on the screen.
@@ -111,7 +115,7 @@ namespace Tetris
         }
 
         //Sets a new empty grid
-        public override void Reset()
+        public void ResetGrid()
         {
             grid = new Tile[Width, Height];
 
@@ -123,6 +127,28 @@ namespace Tetris
                     grid[x, y].LocalPosition = LocalPosition + new Vector2(x * CellSize, y * CellSize);
                 }
             }
+        }
+
+        public void ResetBlock()
+        {
+            int newBlock = ExtendedGame.Random.Next(7);
+
+            if (newBlock == 0)
+                currentBlock = new BlockI();
+            else if (newBlock == 1)
+                currentBlock = new BlockL();
+            else if (newBlock == 2)
+                currentBlock = new BlockJ();
+            else if (newBlock == 3)
+                currentBlock = new BlockO();
+            else if (newBlock == 4)
+                currentBlock = new BlockS();
+            else if (newBlock == 5)
+                currentBlock = new BlockZ();
+            else
+                currentBlock = new BlockT();
+            currentBlock.Parent = this;
+
         }
     }
 }

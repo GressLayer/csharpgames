@@ -17,6 +17,15 @@ namespace Tetris
 			};
 
 			FillTiles();
+			for (int x = 0; x < blockWidth; x++)
+			{
+				for (int y = 0; y < blockHeight; y++)
+				{
+					if (block[x, y] != null)
+						block[x, y].currentColor = Color.Yellow;
+				}
+			}
+
 		}
 	}
 }

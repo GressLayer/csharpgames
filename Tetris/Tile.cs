@@ -46,20 +46,7 @@ namespace Tetris
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             {
-                if (IsOccupied)
-                {
-                    switch (colorNumber)
-                    {
-                        case (1): currentColor = Color.Orange; break;
-                        case (2): currentColor = Color.Blue; break;
-                        case (3): currentColor = Color.Red; break;
-                        case (4): currentColor = Color.Lime; break;
-                        case (5): currentColor = Color.Cyan; break;
-                        case (6): currentColor = Color.Yellow; break;
-                        case (7): currentColor = Color.Magenta; break;
-                    }
-                }
-                else
+                if (IsOccupied == false)
                     currentColor = Color.White;
 
                 spriteRectangle = new Rectangle(index * sprite.Height, 0, sprite.Height, sprite.Height);
