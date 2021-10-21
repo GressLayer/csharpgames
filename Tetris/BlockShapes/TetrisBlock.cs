@@ -2,23 +2,23 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-
 using Tetris;
 
 namespace Tetris
 {
     abstract class TetrisBlock : GameObject
-    {
+    { 
+
         protected bool[,] blockShape;
         protected const int blockWidth = 4;
         protected const int blockHeight = 4;
-        public Vector2 origin { get; protected set; }
-        public float originX { get { return origin.X; } }
-        public float originY { get { return origin.Y; } }
+        public Point origin { get; protected set; }
+        public int originX { get { return origin.X; } }
+        public int originY { get { return origin.Y; } }
 
         protected Tile[,] block;
 
-        public TetrisBlock()
+        public TetrisBlock() : base()
         {
         }
 
@@ -34,7 +34,9 @@ namespace Tetris
                     {
                         block[x, y] = new Tile();
                         block[x, y].IsOccupied = true;
-                        block[x, y].LocalPosition = new Vector2(x * 32, y * 32);
+                        block[x, y].GridPositionX = x;
+                        block[x, y].GridPositionY = y;
+                        block[x, y].LocalPosition = new Vector2(block[x,y].GridPositionX * 32, block[x,y].GridPositionY * 32);
                         block[x, y].Parent = this;
                     }
                 }
@@ -50,10 +52,11 @@ namespace Tetris
             {
                 for (int y = 0; y < blockHeight; y++)
                 {
-                    blockShape[x, y] = oldState[y, 3 - x];
+                    blockShape[x, y] = oldState[3 - y, x];
                     if (block[x, y] != null)
                     {
-                        block[x, y].LocalPosition = new Vector2(3 - y * 32, x * 32);
+                        block[x, y].GridPosition = new Point(3 - y, x);
+                        block[x, y].LocalPosition = new Vector2(block[x, y].GridPositionX * 32, block[x, y].GridPositionY * 32);
                     }
                     //if (block[x, y] != null)
 
@@ -82,7 +85,10 @@ namespace Tetris
                     blockShape[x, y] = oldState[y, 3 - x];
 
                     if (block[x, y] != null)
-                        block[x, y].LocalPosition = new Vector2(y * 32, (3 - x) * 32);
+                    {
+                        block[x, y].GridPosition = new Point(y, 3 - x);
+                        block[x, y].LocalPosition = new Vector2(block[x, y].GridPositionX * 32, block[x, y].GridPositionY * 32);
+                    }
                 }
             }
         }

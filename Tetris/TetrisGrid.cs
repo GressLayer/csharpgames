@@ -62,12 +62,14 @@ namespace Tetris
             }
 
             //Handles movement of the block over the grid
-            if (inputHelper.KeyPressed(Keys.Right))
-                currentBlock.LocalPositionX += 32;
-            if (inputHelper.KeyPressed(Keys.Left))
-                currentBlock.LocalPositionX -= 32;
+            if (currentBlock.GridPositionX < 10 - currentBlock.originX)
+                if (inputHelper.KeyPressed(Keys.Right))
+                    currentBlock.GridPositionX += 1;
+            if (currentBlock.GridPositionX > -1)
+                if (inputHelper.KeyPressed(Keys.Left))
+                    currentBlock.GridPositionX -= 1;
             if (inputHelper.KeyPressed(Keys.Down))
-                currentBlock.LocalPositionY = 640 - currentBlock.originY;
+                currentBlock.GridPositionY = 20 - currentBlock.originY;
 
         }
 
@@ -81,13 +83,15 @@ namespace Tetris
 
             currentBlock.Update(gameTime);
 
+            currentBlock.GridPosition = new Point(currentBlock.GridPositionX, currentBlock.GridPositionY);
+            currentBlock.LocalPosition = new Vector2(currentBlock.GridPositionX * 32, currentBlock.GridPositionY * 32);
 
-            if (currentBlock.LocalPositionX <= -32)
-                currentBlock.LocalPositionX = -32;
-            if (currentBlock.LocalPositionX >= 320 - currentBlock.originX)
-                currentBlock.LocalPositionX = 320 - currentBlock.originX;
-            if (currentBlock.LocalPositionY >= 640 - currentBlock.originY)
-                currentBlock.LocalPositionY = 640 - currentBlock.originY;
+            if (currentBlock.GridPositionX <= -1)
+                currentBlock.GridPositionX = -1;
+            if (currentBlock.GridPositionX >= 10 - currentBlock.originX)
+                currentBlock.GridPositionX = 10 - currentBlock.originX;
+            if (currentBlock.GridPositionY >= 20 - currentBlock.originY)
+                currentBlock.GridPositionY = 20 - currentBlock.originY;
         }
 
         // Draws the grid on the screen.

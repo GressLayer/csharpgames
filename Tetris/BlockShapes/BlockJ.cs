@@ -7,7 +7,7 @@ namespace Tetris
 	{
 		public BlockJ() : base()
 		{
-			origin = new Vector2(96, 96);
+			origin = new Point(3, 3);
 
 		blockShape = new bool[blockWidth, blockHeight]
 			{

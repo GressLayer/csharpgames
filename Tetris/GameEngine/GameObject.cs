@@ -49,6 +49,8 @@ namespace Tetris
         public float LocalPositionX { get { return localPosition.X; } set { localPosition.X = value; } }
         public float LocalPositionY { get { return localPosition.Y; } set { localPosition.Y = value; } }
         public Point GridPosition { get { return gridPosition; } set { gridPosition = value; } }
+        public int GridPositionX { get { return gridPosition.X; } set { gridPosition.X = value; } }
+        public int GridPositionY { get { return gridPosition.Y; } set { gridPosition.Y = value; } }
 
     }
 
