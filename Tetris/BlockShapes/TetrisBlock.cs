@@ -31,28 +31,15 @@ namespace Tetris
                     {
                         block[x, y] = new Tile();
                         block[x, y].IsOccupied = true;
-                        block[x, y].LocalPosition = new Vector2(y * 32, x * 32);
+                        block[x, y].LocalPosition = new Vector2(x * 32, y * 32);
                         block[x, y].Parent = this;
                     }
                 }
             }
         }
 
-        public void RotateRight()
-        {
-            bool[,] oldState = blockShape;
-            Tile[,] oldBlock = block;
-            for (int x = 0; x < blockWidth; x++)
-            {
-                for (int y = 0; y < blockHeight; y++)
-                {
-                    blockShape[x, y] = oldState[3 - y, x];
-                    block[x, y] = oldBlock[3 - y, x];
-                }
-            }
-        }
-
-        public void RotateLeft()
+        //Ik word helemaal gek van die rotation, ik krijg het maar niet aan de praat.
+        public virtual void RotateRight()
         {
             bool[,] oldState = blockShape;
             Tile[,] oldBlock = block;
@@ -61,7 +48,41 @@ namespace Tetris
                 for (int y = 0; y < blockHeight; y++)
                 {
                     blockShape[x, y] = oldState[y, 3 - x];
-                    block[x, y] = oldBlock[y, 3 - x];
+                    if (blockShape[x, y] != false)
+                    {
+                        block[x, y] = new Tile();
+                        block[x, y].IsOccupied = true;
+                        block[x, y].Parent = this;
+                        block[x, y].LocalPosition = new Vector2(3 - y * 32, x * 32);
+                    }
+                    //if (block[x, y] != null)
+
+                    //block[x, y].LocalPosition = new Vector2((3 - y) * 32, x * 32);
+
+                }
+            }
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
+                {
+                    /*if (block[x, y] != null)
+                        block[x, y].LocalPosition = new Vector2(x * 32, y * 32);*/
+                }
+            }
+        }
+
+        public virtual void RotateLeft()
+        {
+            bool[,] oldState = blockShape;
+            Tile[,] oldBlock = block;
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
+                {
+                    blockShape[x, y] = oldState[y, 3 - x];
+
+                    if (block[x, y] != null)
+                        block[x, y].LocalPosition = new Vector2(y * 32, (3 - x) * 32);
                 }
             }
         }

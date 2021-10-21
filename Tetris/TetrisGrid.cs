@@ -32,7 +32,7 @@ namespace Tetris
             level = 1;
 
             // The block currently being dropped and controlled.
-            currentBlock = new BlockI();
+            currentBlock = new BlockL ();
             currentBlock.Parent = this;
 
             // The block currently being held.
