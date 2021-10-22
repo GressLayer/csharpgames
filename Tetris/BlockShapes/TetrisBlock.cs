@@ -9,14 +9,14 @@ namespace Tetris
     abstract class TetrisBlock : GameObject
     { 
 
-        protected bool[,] blockShape;
+        public bool[,] blockShape { get; protected set; }
         protected const int blockWidth = 4;
         protected const int blockHeight = 4;
         public Point origin { get; protected set; }
         public int originX { get { return origin.X; } }
         public int originY { get { return origin.Y; } }
 
-        protected Tile[,] block;
+        public Tile[,] block { get; protected set; }
 
         public TetrisBlock() : base()
         {
@@ -100,6 +100,7 @@ namespace Tetris
                 if (tile != null)                   
                     tile.Update(gameTime);
             }
+
         }
 
         public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
@@ -108,6 +109,21 @@ namespace Tetris
             {
                 if (tile != null)
                     tile.Draw(gameTime, spriteBatch);
+            }
+        }
+
+        public override void HandleInput(InputHelper inputHelper)
+        {
+            foreach (Tile tile in block)
+            {
+                if (tile != null && inputHelper.KeyPressed(Keys.Right))
+                    tile.GridPositionX += 1;
+                if (tile != null && inputHelper.KeyPressed(Keys.Left))
+                    tile.GridPositionX -= 1;
+                if (tile != null && inputHelper.KeyPressed(Keys.Up))
+                    tile.GridPositionY -= 1;
+                if (tile != null && inputHelper.KeyPressed(Keys.Down))
+                    tile.GridPositionY += 1;
             }
         }
     }

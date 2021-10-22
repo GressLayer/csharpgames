@@ -79,6 +79,8 @@ namespace Tetris
             // Creates a grid object.
             grid = new TetrisGrid(GridWidth, GridHeight, CellSize, GridOffset);
 
+
+
             // Starts playing the music for the welcome screen.
             MediaPlayer.Play(welcome);
         }

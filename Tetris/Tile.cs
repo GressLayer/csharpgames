@@ -46,8 +46,6 @@ namespace Tetris
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             {
-                if (IsOccupied == false)
-                    currentColor = Color.White;
 
                 spriteRectangle = new Rectangle(index * sprite.Height, 0, sprite.Height, sprite.Height);
                 spriteBatch.Draw(sprite, GlobalPosition, spriteRectangle, currentColor, 0, origin, 1.0f, SpriteEffects.None, 0);
