@@ -77,6 +77,7 @@ namespace Tetris
             }
             if (inputHelper.KeyPressed(Keys.Down) && currentBlock.GridPositionY < 20 - currentBlock.originY)
             {
+                //currentBlock.GridPositionY = 20 - currentBlock.originY;
                 currentBlock.GridPositionY += 1;
                 OccupyUpdate();
             }
@@ -102,13 +103,6 @@ namespace Tetris
 
             currentBlock.GridPosition = new Point(currentBlock.GridPositionX, currentBlock.GridPositionY);
             currentBlock.LocalPosition = new Vector2(currentBlock.GridPositionX * 32, currentBlock.GridPositionY * 32);
-
-            if (currentBlock.GridPositionX <= -1)
-                currentBlock.GridPositionX = -1;
-            if (currentBlock.GridPositionX >= 10 - currentBlock.originX)
-                currentBlock.GridPositionX = 10 - currentBlock.originX;
-            if (currentBlock.GridPositionY >= 20 - currentBlock.originY)
-                currentBlock.GridPositionY = 20 - currentBlock.originY;
 
             if (currentBlock.GridPositionY == 20 - currentBlock.originY)
                 ResetBlock();
@@ -167,8 +161,6 @@ namespace Tetris
                 currentBlock = new BlockZ();
             else
                 currentBlock = new BlockT();
-            //REMOVE THIS LINE WHEN TESTING WITH LOCKING A BLOCK IS FINISHED!
-            currentBlock.GridPositionX = 3;
             currentBlock.Parent = this;
             OccupyUpdate();
 
@@ -185,7 +177,13 @@ namespace Tetris
             {
                 for (int y = 0; y < Height; y++)
                 {
-                            grid[x, y].IsOccupied = false;
+                    if (grid[x, y].IsLocked == false)
+                    {
+                        grid[x, y].IsOccupied = false;
+                        grid[x, y].currentColor = Color.White;
+                    }
+                    else
+                        continue;
                 }
             }
             //This loop recalculates which tiles are occupied.
@@ -198,7 +196,14 @@ namespace Tetris
                         if (tile != null)
                         {
                             if (tile.GridPosition == new Point(x, y))
+                            {
                                 grid[x, y].IsOccupied = true;
+                                if (currentBlock.GridPositionY == 20 - currentBlock.originY)
+                                {
+                                    grid[x, y].currentColor = currentBlock.blockColor;
+                                    grid[x, y].IsLocked = true;
+                                }
+                            }
                         }
                     }
                 }

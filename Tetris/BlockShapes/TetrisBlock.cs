@@ -18,6 +18,8 @@ namespace Tetris
 
         public Tile[,] block { get; protected set; }
 
+        public Color blockColor { get; protected set; }
+
         public TetrisBlock() : base()
         {
         }
@@ -116,14 +118,17 @@ namespace Tetris
         {
             foreach (Tile tile in block)
             {
-                if (tile != null && inputHelper.KeyPressed(Keys.Right))
+                if (tile != null && inputHelper.KeyPressed(Keys.Right) && GridPositionX < 10 - originX)
                     tile.GridPositionX += 1;
-                if (tile != null && inputHelper.KeyPressed(Keys.Left))
+                if (tile != null && inputHelper.KeyPressed(Keys.Left) && GridPositionX > -1)
                     tile.GridPositionX -= 1;
-                if (tile != null && inputHelper.KeyPressed(Keys.Up))
+                if (tile != null && inputHelper.KeyPressed(Keys.Up) && GridPositionY > 0)
                     tile.GridPositionY -= 1;
                 if (tile != null && inputHelper.KeyPressed(Keys.Down))
+                {
                     tile.GridPositionY += 1;
+                    //tile.GridPositionY += (20 - originY - GridPositionY);
+                }
             }
         }
     }

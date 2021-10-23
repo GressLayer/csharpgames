@@ -7,9 +7,9 @@ namespace Tetris
 	{
 		public BlockJ() : base()
 		{
+			blockColor = Color.Blue;
 			origin = new Point(3, 3);
-
-		blockShape = new bool[blockWidth, blockHeight]
+			blockShape = new bool[blockWidth, blockHeight]
 			{
 				{ false, false, false, false },
 				{ false, false, true, false },
@@ -22,7 +22,7 @@ namespace Tetris
 				for (int y = 0; y < blockHeight; y++)
 				{
 					if (block[x, y] != null)
-						block[x, y].currentColor = Color.Blue;
+						block[x, y].currentColor = blockColor;
 				}
 			}
 		}

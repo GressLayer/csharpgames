@@ -7,8 +7,8 @@ namespace Tetris
 	{
 		public BlockI() : base()
 		{
+			blockColor = Color.Cyan;
 			origin = new Point(2, 4);
-
 			blockShape = new bool[blockWidth, blockHeight]
 			{
 				{ false, false, false, false },
@@ -22,7 +22,7 @@ namespace Tetris
 				for (int y = 0; y < blockHeight; y++)
 				{
 					if (block[x, y] != null)
-						block[x, y].currentColor = Color.Cyan;
+						block[x, y].currentColor = blockColor;
 				}
 			}
 		}

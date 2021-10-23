@@ -13,6 +13,8 @@ namespace Tetris
         public int colorNumber { get; set; }
         public bool IsOccupied { get; set; }
 
+        public bool IsLocked { get; set; }
+
         Rectangle spriteRectangle;
 
         public Color currentColor { get; set; }
