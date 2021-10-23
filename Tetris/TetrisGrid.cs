@@ -75,7 +75,7 @@ namespace Tetris
                 currentBlock.GridPositionX -= 1;
                 OccupyUpdate();
             }
-            if (inputHelper.KeyPressed(Keys.Down) && currentBlock.GridPositionY < 20 - currentBlock.originY)
+            if (inputHelper.KeyPressed(Keys.Down) && (currentBlock.GridPositionY < 20 - currentBlock.originY))
             {
                 //currentBlock.GridPositionY = 20 - currentBlock.originY;
                 currentBlock.GridPositionY += 1;
@@ -106,6 +106,12 @@ namespace Tetris
 
             if (currentBlock.GridPositionY == 20 - currentBlock.originY)
                 ResetBlock();
+
+            foreach (Tile tile in currentBlock.block)
+
+            if ( tile != null && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
+                ResetBlock();
+
         }
 
         // Draws the grid on the screen.
@@ -162,6 +168,7 @@ namespace Tetris
             else
                 currentBlock = new BlockT();
             currentBlock.Parent = this;
+            // currentBlock.GridPositionX += 3;
             OccupyUpdate();
 
         }
@@ -193,21 +200,29 @@ namespace Tetris
                 {
                     for (int y = 0; y < Height; y++)
                     {
-                        if (tile != null)
+                        if (tile != null && tile.GridPosition == new Point(x, y))
                         {
-                            if (tile.GridPosition == new Point(x, y))
-                            {
                                 grid[x, y].IsOccupied = true;
-                                if (currentBlock.GridPositionY == 20 - currentBlock.originY)
-                                {
-                                    grid[x, y].currentColor = currentBlock.blockColor;
-                                    grid[x, y].IsLocked = true;
-                                }
+                            if (currentBlock.GridPositionY == 20 - currentBlock.originY)
+                                //ADD A HELPER BOOL THAT CHECKS WHETER THE CURRENTBLOCK IS ORIGINY DISTANCE FROM A LOCKED BLOCK)*/
+                            {
+                                grid[x, y].currentColor = currentBlock.blockColor;
+                                grid[x, y].IsLocked = true;
                             }
                         }
                     }
                 }
+
             }
+            //DIT MAG WAARSCHIJNLIJK VERWIJDERD WORDEN, MAAR MOET NOG EVEN EXPERIMENTEREN.
+            /*foreach (Tile tile in currentBlock.block)
+                for (int x = 0; x < Width; x++)
+                {
+                    for (int y = 0; y < Height; y++)
+                    {
+                        if (tile != null && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
+                    }
+                }*/
         }
     }
 }
