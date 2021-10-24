@@ -365,12 +365,14 @@ namespace Tetris
             if (combo == 1)
                 score += 100;
             if (combo == 2)
-                score += 500;
+                score += 250;
             if (combo == 3)
                 score += 800;
             if (combo >= 4)
-                score += 2000;
-            
+                score += 5000;
+
+            if (score % 20000 == 0)
+                level += score / 20000;
         }
 
         public void MoveRowDown(int row)
