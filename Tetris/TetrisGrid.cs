@@ -22,6 +22,9 @@ namespace Tetris
         // bool blockHeld;
         public static int score, level, blocksUsed, holdsUsed;
 
+        public bool isLeft { get; private set; } 
+        public bool isRight { get; private set; }
+
         public TetrisGrid(int width, int height, int cellSize, Vector2 offset)
         {
             Width = width;
@@ -65,12 +68,12 @@ namespace Tetris
 
             //These instructions handle movement of the block over the grid and make sure the grid follows the presence of blocks
             //to allow them to lock in the grid when needed.
-            if (inputHelper.KeyPressed(Keys.Right) && currentBlock.GridPositionX < 10 - currentBlock.originX)
+            if (inputHelper.KeyPressed(Keys.Right) && currentBlock.GridPositionX < 10 - currentBlock.originX && isRight == false)
             {
                 currentBlock.GridPositionX += 1;
                 OccupyBottomRow();
             }
-            if (inputHelper.KeyPressed(Keys.Left) && currentBlock.GridPositionX > -1)
+            if (inputHelper.KeyPressed(Keys.Left) && currentBlock.GridPositionX > -1 && isLeft == false)
             {
                 currentBlock.GridPositionX -= 1;
                 OccupyBottomRow();
@@ -94,12 +97,14 @@ namespace Tetris
         //It is also responsible for setting boundaries on the movement of blocks over the grid.
         public override void Update(GameTime gameTime)
         {
+            
+
+            currentBlock.Update(gameTime);
+
             foreach (Tile tile in grid)
             {
                 tile.Update(gameTime);
             }
-
-            currentBlock.Update(gameTime);
 
             currentBlock.GridPosition = new Point(currentBlock.GridPositionX, currentBlock.GridPositionY);
             currentBlock.LocalPosition = new Vector2(currentBlock.GridPositionX * 32, currentBlock.GridPositionY * 32);
@@ -114,6 +119,8 @@ namespace Tetris
                     OccupyRow();
                     ResetBlock();
                 }
+            CheckRightCollision();
+            CheckLeftCollision();
         }
 
         // Draws the grid on the screen.
@@ -121,7 +128,7 @@ namespace Tetris
         {
             foreach (Tile tile in grid)
             {
-                    tile.Draw(gameTime, spriteBatch);
+                tile.Draw(gameTime, spriteBatch);
             }
 
             currentBlock.Draw(gameTime, spriteBatch);
@@ -152,7 +159,7 @@ namespace Tetris
         //This method is responsible for generating a new random block. It is called when a block reaches the bottom of the screen
         //and is 'locked' in the grid.
         public void ResetBlock()
-        { 
+        {
             int newBlock = ExtendedGame.Random.Next(7);
 
             if (newBlock == 0)
@@ -175,10 +182,10 @@ namespace Tetris
 
         }
 
-       //This method is called after every movement of the currentblock and resets the occupation of the tiles in the grid.
-       //After that, it recaculates which tiles are occupied.
-       //This method does not ''reset' the grid, it is only used to follow blocks in the grid when they fall down and when they have
-       //to lock in the grid.
+        //This method is called after every movement of the currentblock and resets the occupation of the tiles in the grid.
+        //After that, it recaculates which tiles are occupied.
+        //This method does not ''reset' the grid, it is only used to follow blocks in the grid when they fall down and when they have
+        //to lock in the grid.
         public void OccupyBottomRow()
         {
             //This loop sets the occupation of all tiles to false.
@@ -204,9 +211,9 @@ namespace Tetris
                     {
                         if (tile != null && tile.GridPosition == new Point(x, y))
                         {
-                                grid[x, y].IsOccupied = true;
+                            grid[x, y].IsOccupied = true;
                             if (currentBlock.GridPositionY == 20 - currentBlock.originY)
-                                //ADD A HELPER BOOL THAT CHECKS WHETER THE CURRENTBLOCK IS ORIGINY DISTANCE FROM A LOCKED BLOCK)*/
+                            //ADD A HELPER BOOL THAT CHECKS WHETER THE CURRENTBLOCK IS ORIGINY DISTANCE FROM A LOCKED BLOCK)*/
                             {
                                 grid[x, y].currentColor = currentBlock.blockColor;
                                 grid[x, y].IsLocked = true;
@@ -236,6 +243,32 @@ namespace Tetris
                         }
                     }
             }
+        }
+
+        public void CheckLeftCollision()
+        {
+            foreach (Tile tile in currentBlock.block)
+                if (tile != null && tile.GridPositionX - 1 > 0 &&
+                     grid[tile.GridPositionX - 1, tile.GridPositionY].IsLocked == true)
+                {
+                    isLeft = true;
+                    break;
+                }
+                else 
+                isLeft = false;
+        }
+
+        public void CheckRightCollision()
+        {
+            foreach (Tile tile in currentBlock.block)
+                if (tile != null && tile.GridPositionX + 1 < Width - 1 &&
+                    grid[tile.GridPositionX + 1, tile.GridPositionY].IsLocked == true)
+                {
+                    isRight = true;
+                    break;
+                }
+                else                   
+                    isRight = false;
         }
     }
 }

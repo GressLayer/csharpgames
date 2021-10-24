@@ -118,9 +118,11 @@ namespace Tetris
         {
             foreach (Tile tile in block)
             {
-                if (tile != null && inputHelper.KeyPressed(Keys.Right) && GridPositionX < 10 - originX)
+                if (tile != null && inputHelper.KeyPressed(Keys.Right) && GridPositionX < 10 - originX &&
+                    GameWorld.grid.isRight == false)
                     tile.GridPositionX += 1;
-                if (tile != null && inputHelper.KeyPressed(Keys.Left) && GridPositionX > -1)
+                if (tile != null && inputHelper.KeyPressed(Keys.Left) && GridPositionX > -1 &&
+                    GameWorld.grid.isLeft == false)
                     tile.GridPositionX -= 1;
                 if (tile != null && inputHelper.KeyPressed(Keys.Up) && GridPositionY > 0)
                     tile.GridPositionY -= 1;
