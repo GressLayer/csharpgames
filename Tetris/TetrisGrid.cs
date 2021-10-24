@@ -16,8 +16,11 @@ namespace Tetris
         int Width, Height;
         public int CellSize { get; private set; }
 
-        TetrisBlock currentBlock, nextBlock;
-        static BlockObject heldBlock, blockBuffer;
+        /* currentBlock is the block currently being controlled.
+         * nextBlock is the incoming block, controlled after currentBlock has been locked into the grid.
+         * heldBlock is the block being held for later use, which can swap with currentBlock through the use of a third object, blockBuffer.
+         */
+        TetrisBlock currentBlock, nextBlock, heldBlock, blockBuffer;
 
         // bool blockHeld;
         public static int score, level, blocksUsed, holdsUsed;
@@ -34,22 +37,10 @@ namespace Tetris
 
             // Level starts out at 1.
             level = 1;
-
-
-
-            // The block currently being held.
-            heldBlock = new BlockObject();
-            heldBlock.Parent = this;
-
-            // Block buffer: used to swap the values of the current and held block when pressing the hold key.
-            blockBuffer = new BlockObject();
-            blockBuffer.Parent = this;
             
             ResetGrid();
             StartBlock();
             ResetBlock();
-
-
         }
 
         //Handles player input of objects in the grid
@@ -86,10 +77,19 @@ namespace Tetris
                 OccupyBottomRow();
             }
 
-            if (inputHelper.KeyPressed(Keys.Up) && currentBlock.GridPositionY > 0)
+            if (inputHelper.KeyPressed(Keys.Up) && currentBlock.GridPositionY >= 0 && currentBlock.GridPositionY < 19)
             {
-                currentBlock.GridPositionY -= 1;
+                currentBlock.GridPositionY += 1;
+                if (inputHelper.KeyUp(Keys.Up) && currentBlock.GridPositionY > 0 && currentBlock.GridPositionY < 19)
+                {
+                    currentBlock.GridPositionY += 0;
+                }
                 OccupyBottomRow();
+            }
+
+            if (inputHelper.KeyPressed(Keys.RightShift) || inputHelper.KeyPressed(Keys.LeftShift))
+            {
+                HoldBlock();
             }
 
         }
@@ -98,8 +98,9 @@ namespace Tetris
         //It is also responsible for setting boundaries on the movement of blocks over the grid.
         public override void Update(GameTime gameTime)
         {
+            if (nextBlock != null)
+                nextBlock.Update(gameTime);
 
-            nextBlock.Update(gameTime);
             currentBlock.Update(gameTime);
 
             foreach (Tile tile in grid)
@@ -120,8 +121,16 @@ namespace Tetris
                     OccupyRow();
                     ResetBlock();
                 }
+
             CheckRightCollision();
             CheckLeftCollision();
+
+            if (GameWorld.gameState == State.Playing)
+            {
+                for (int x = 0; x < 10; x++)
+                    if (grid[x, 0].IsLocked == true)
+                        GameWorld.EndGame(true);
+            }
         }
 
         // Draws the grid on the screen.
@@ -134,7 +143,11 @@ namespace Tetris
 
             currentBlock.Draw(gameTime, spriteBatch);
 
-            nextBlock.Draw(gameTime, spriteBatch);
+            if (nextBlock != null)
+                nextBlock.Draw(gameTime, spriteBatch);
+
+            if (heldBlock != null)
+                heldBlock.Draw(gameTime, spriteBatch);
 
             //if (blockHeld)
             //heldBlock.DrawHeld(gameTime, spriteBatch);
@@ -178,32 +191,65 @@ namespace Tetris
             currentBlock.Parent = this;
         }
 
-        //This method is responsible for generating a new random block. It is called when a block reaches the bottom of the screen
-        //and is 'locked' in the grid.
-        public void ResetBlock()
+        public void NextBlock()
         {
             if (nextBlock != null)
                 currentBlock = nextBlock;
             currentBlock.Parent = this;
 
             int newBlock = ExtendedGame.Random.Next(7);
-            if (newBlock == 0)
-                nextBlock = new BlockI();
-            else if (newBlock == 1)
-                nextBlock = new BlockL();
-            else if (newBlock == 2)
-                nextBlock = new BlockJ();
-            else if (newBlock == 3)
-                nextBlock = new BlockO();
-            else if (newBlock == 4)
-                nextBlock = new BlockS();
-            else if (newBlock == 5)
-                nextBlock = new BlockZ();
-            else
-                nextBlock = new BlockT();
 
-            nextBlock.LocalPosition = new Vector2(590, 200);
-            OccupyBottomRow();
+            switch (newBlock)
+            {
+                case (0): nextBlock = new BlockL(); break;
+                case (1): nextBlock = new BlockJ(); break;
+                case (2): nextBlock = new BlockS(); break;
+                case (3): nextBlock = new BlockZ(); break;
+                case (4): nextBlock = new BlockI(); break;
+                case (5): nextBlock = new BlockO(); break;
+                case (6): nextBlock = new BlockT(); break;
+            }
+            if (newBlock >= 7)
+                NextBlock();
+
+            nextBlock.LocalPosition = new Vector2(590, 192);
+        }
+
+        //This method is responsible for generating a new random block. It is called when a block reaches the bottom of the screen
+        //and is 'locked' in the grid.
+        public void ResetBlock()
+        {
+            if (GameWorld.gameState == State.Playing)
+            {
+                NextBlock();
+                
+                OccupyBottomRow();
+                score++;
+            }
+        }
+
+        public void HoldBlock()
+        {
+            if (GameWorld.gameState == State.Playing)
+            {
+                if (heldBlock != null)
+                {
+                    blockBuffer = heldBlock;
+                    heldBlock = currentBlock;
+                    currentBlock = blockBuffer;
+                }
+                else
+                {
+                    heldBlock = currentBlock;
+                    ResetBlock();
+                }
+                currentBlock.GridPositionX = 0;
+                currentBlock.GridPositionY = 0;
+                currentBlock.Parent = this;
+
+                heldBlock.LocalPosition = new Vector2(760, 128);
+                holdsUsed++;
+            }
         }
 
         //This method is called after every movement of the currentblock and resets the occupation of the tiles in the grid.

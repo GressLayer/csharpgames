@@ -25,6 +25,8 @@ namespace Tetris
         // The current game state.
         public static State gameState;
 
+        public static bool over;
+
         // Used to draw blank spaces in a more space-efficient way (if only strings could be multiplied...).
         string blank = "            ";
 
@@ -39,7 +41,8 @@ namespace Tetris
         SpriteGameObject menu, menu2, menubarS, menubar2S, hud;
 
         // All music in the game.
-        Song welcome, controls, playing, gameover;
+        Song welcome, controls, playing, levelup;
+        static Song gameover;
 
         public int GridWidth { get; private set; } = 10;
         public int GridHeight { get; private set; } = 20;
@@ -58,6 +61,7 @@ namespace Tetris
             controls = ExtendedGame.ContentManager.Load<Song>("music/controls");
             playing = ExtendedGame.ContentManager.Load<Song>("music/playing");
             gameover = ExtendedGame.ContentManager.Load<Song>("music/gameover");
+            levelup = ExtendedGame.ContentManager.Load<Song>("music/levelup");
 
             // Loads all the menu and HUD sprites.
             menu = new SpriteGameObject("sprites/menu");
@@ -103,6 +107,7 @@ namespace Tetris
             switch (gameState)
             {
                 case (State.Welcome):
+                    MediaPlayer.IsRepeating = true;
                     if (inputHelper.KeyPressed(Keys.Space))
                     {
                         gameState = State.Controls;
@@ -128,13 +133,17 @@ namespace Tetris
                         MediaPlayer.IsRepeating = false;
                         MediaPlayer.Play(gameover);
                     }
+                    if (inputHelper.KeyPressed(Keys.L))
+                    {
+                        MediaPlayer.IsRepeating = false;
+                        MediaPlayer.Play(levelup);
+                    }
                     break;
                 case (State.GameOver):
                     if (inputHelper.KeyPressed(Keys.Space))
                     {
                         gameState = State.Welcome;
                         MediaPlayer.IsRepeating = true;
-                        MediaPlayer.Play(welcome);
                     }
                     break;
             }
@@ -144,6 +153,20 @@ namespace Tetris
         public void Update(GameTime gameTime)
         {
             grid.Update(gameTime);
+        }
+
+        public static void EndGame(bool over)
+        {
+            if (over)
+            {
+                gameState = State.GameOver;
+                MediaPlayer.IsRepeating = false;
+                MediaPlayer.Play(gameover);
+
+                grid.ResetGrid();
+            }
+
+            over = false;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
