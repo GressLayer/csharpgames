@@ -254,3 +254,9 @@
 /processorParam:Quality=Best
 /build:music/levelup.mp3
 
+#begin music/rowclear.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/rowclear.mp3
+

@@ -41,7 +41,7 @@ namespace Tetris
         SpriteGameObject menu, menu2, menubarS, menubar2S, hud;
 
         // All music in the game.
-        Song welcome, controls, playing, levelup;
+        Song welcome, controls, playing;
         static Song gameover;
 
         public int GridWidth { get; private set; } = 10;
@@ -61,7 +61,6 @@ namespace Tetris
             controls = ExtendedGame.ContentManager.Load<Song>("music/controls");
             playing = ExtendedGame.ContentManager.Load<Song>("music/playing");
             gameover = ExtendedGame.ContentManager.Load<Song>("music/gameover");
-            levelup = ExtendedGame.ContentManager.Load<Song>("music/levelup");
 
             // Loads all the menu and HUD sprites.
             menu = new SpriteGameObject("sprites/menu");
@@ -91,17 +90,6 @@ namespace Tetris
 
         public void HandleInput(InputHelper inputHelper)
         {
-            // Developer quick-switch to test game states: comment out when no longer needed
-
-            /* if (inputHelper.KeyPressed(Keys.D1))
-                gameState = State.Welcome;
-            if (inputHelper.KeyPressed(Keys.D2))
-                gameState = State.Controls;
-            if (inputHelper.KeyPressed(Keys.D3))
-                gameState = State.Playing;
-            if (inputHelper.KeyPressed(Keys.D4))
-                gameState = State.GameOver; */
-
             // Holds input options per game state.
             grid.HandleInput(inputHelper);
             switch (gameState)
@@ -136,7 +124,12 @@ namespace Tetris
                     if (inputHelper.KeyPressed(Keys.L))
                     {
                         MediaPlayer.IsRepeating = false;
-                        MediaPlayer.Play(levelup);
+                        MediaPlayer.Play(TetrisGrid.levelup);
+                    }
+                    if (inputHelper.KeyPressed(Keys.C))
+                    {
+                        MediaPlayer.IsRepeating = false;
+                        MediaPlayer.Play(TetrisGrid.rowclear);
                     }
                     break;
                 case (State.GameOver):

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Input;
 using System;
 
@@ -15,6 +15,8 @@ namespace Tetris
         Tile[,] grid;
         int Width, Height;
         public int CellSize { get; private set; }
+
+        public static Song levelup, rowclear;
 
         /* currentBlock is the block currently being controlled.
          * nextBlock is the incoming block, controlled after currentBlock has been locked into the grid.
@@ -35,9 +37,16 @@ namespace Tetris
             this.CellSize = cellSize;
             LocalPosition = offset;
 
+            score = 0;
+            blocksUsed = 0;
+            holdsUsed = 0;
+
             // Level starts out at 1.
             level = 1;
-            
+
+            levelup = ExtendedGame.ContentManager.Load<Song>("music/levelup");
+            rowclear = ExtendedGame.ContentManager.Load<Song>("music/rowclear");
+
             ResetGrid();
             StartBlock();
             ResetBlock();
@@ -117,6 +126,9 @@ namespace Tetris
 
                 if (tile != null && tile.GridPositionY + 1 < Height && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
                 {
+                    tile.GridPositionX = currentBlock.GridPositionX;
+                    tile.GridPositionY = currentBlock.GridPositionY;
+
                     OccupyRow();
                     CheckFullRow();
                     ResetBlock();
@@ -351,13 +363,13 @@ namespace Tetris
                     MoveRowDown(y);
                 }
             if (combo == 1)
-                score += 40;
-            if (combo == 2)
                 score += 100;
+            if (combo == 2)
+                score += 500;
             if (combo == 3)
-                score += 300;
+                score += 800;
             if (combo >= 4)
-                score += 1200;
+                score += 2000;
             
         }
 

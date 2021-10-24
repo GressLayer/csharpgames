@@ -102,7 +102,6 @@ namespace Tetris
                 if (tile != null)                   
                     tile.Update(gameTime);
             }
-
         }
 
         public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
