@@ -55,6 +55,7 @@ namespace Tetris
                     tile.GridPosition = new Point(3 - tile.GridPositionY, tile.GridPositionX);
                     tile.LocalPosition = new Vector2(tile.GridPositionX * 32, tile.GridPositionY * 32);
                 }
+            GameWorld.grid.OccupyRow();
         }
 
         public virtual void RotateLeft()
@@ -66,6 +67,7 @@ namespace Tetris
                     tile.GridPosition = new Point(tile.GridPositionY, 3 - tile.GridPositionX);
                     tile.LocalPosition = new Vector2(tile.GridPositionX * 32, tile.GridPositionY * 32);
                 }
+            GameWorld.grid.OccupyRow();
         }
 
         public override void Update(GameTime gameTime)
