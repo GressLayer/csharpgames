@@ -33,8 +33,6 @@ namespace Tetris
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyPressed(Keys.H))
-                IsOccupied = !IsOccupied;
         }
         public override void Update(GameTime gameTime)
         {

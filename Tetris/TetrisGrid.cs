@@ -16,8 +16,8 @@ namespace Tetris
         int Width, Height;
         public int CellSize { get; private set; }
 
-        TetrisBlock currentBlock;
-        static BlockObject nextBlock, heldBlock, blockBuffer;
+        TetrisBlock currentBlock, nextBlock;
+        static BlockObject heldBlock, blockBuffer;
 
         // bool blockHeld;
         public static int score, level, blocksUsed, holdsUsed;
@@ -35,9 +35,7 @@ namespace Tetris
             // Level starts out at 1.
             level = 1;
 
-            // The block currently being dropped and controlled.
-            //currentBlock = new BlockI ();
-            //currentBlock.Parent = this;
+
 
             // The block currently being held.
             heldBlock = new BlockObject();
@@ -46,8 +44,9 @@ namespace Tetris
             // Block buffer: used to swap the values of the current and held block when pressing the hold key.
             blockBuffer = new BlockObject();
             blockBuffer.Parent = this;
-
+            
             ResetGrid();
+            StartBlock();
             ResetBlock();
         }
 
@@ -133,7 +132,7 @@ namespace Tetris
 
             currentBlock.Draw(gameTime, spriteBatch);
 
-            //nextBlock.DrawNext(gameTime, spriteBatch);
+            nextBlock.Draw(gameTime, spriteBatch);
 
             //if (blockHeld)
             //heldBlock.DrawHeld(gameTime, spriteBatch);
@@ -156,30 +155,53 @@ namespace Tetris
             }
         }
 
+        public void StartBlock()
+        {
+            int startBlock = ExtendedGame.Random.Next(7);
+            if (startBlock == 0)
+                currentBlock = new BlockI();
+            else if (startBlock == 1)
+                currentBlock = new BlockL();
+            else if (startBlock == 2)
+                currentBlock = new BlockJ();
+            else if (startBlock == 3)
+                currentBlock = new BlockO();
+            else if (startBlock == 4)
+                currentBlock = new BlockS();
+            else if (startBlock == 5)
+                currentBlock = new BlockZ();
+            else
+                currentBlock = new BlockT();
+
+            currentBlock.Parent = this;
+        }
+
         //This method is responsible for generating a new random block. It is called when a block reaches the bottom of the screen
         //and is 'locked' in the grid.
         public void ResetBlock()
         {
-            int newBlock = ExtendedGame.Random.Next(7);
-
-            if (newBlock == 0)
-                currentBlock = new BlockI();
-            else if (newBlock == 1)
-                currentBlock = new BlockL();
-            else if (newBlock == 2)
-                currentBlock = new BlockJ();
-            else if (newBlock == 3)
-                currentBlock = new BlockO();
-            else if (newBlock == 4)
-                currentBlock = new BlockS();
-            else if (newBlock == 5)
-                currentBlock = new BlockZ();
-            else
-                currentBlock = new BlockT();
+            if (nextBlock != null)
+                currentBlock = nextBlock;
             currentBlock.Parent = this;
-            // currentBlock.GridPositionX += 3;
-            OccupyBottomRow();
 
+            int newBlock = ExtendedGame.Random.Next(7);
+            if (newBlock == 0)
+                nextBlock = new BlockI();
+            else if (newBlock == 1)
+                nextBlock = new BlockL();
+            else if (newBlock == 2)
+                nextBlock = new BlockJ();
+            else if (newBlock == 3)
+                nextBlock = new BlockO();
+            else if (newBlock == 4)
+                nextBlock = new BlockS();
+            else if (newBlock == 5)
+                nextBlock = new BlockZ();
+            else
+                nextBlock = new BlockT();
+
+            nextBlock.LocalPosition = new Vector2(590, 200);
+            OccupyBottomRow();
         }
 
         //This method is called after every movement of the currentblock and resets the occupation of the tiles in the grid.
