@@ -94,17 +94,17 @@ namespace Tetris
             {
                 if (tile != null && inputHelper.KeyPressed(Keys.Right) && GridPositionX < 10 - originX &&
                     GameWorld.grid.isRight == false)
-                    tile.GridPositionX += 1;
+                    tile.GridPositionX ++;
                 if (tile != null && inputHelper.KeyPressed(Keys.Left) && GridPositionX > -1 &&
                     GameWorld.grid.isLeft == false)
-                    tile.GridPositionX -= 1;
-                if (tile != null && inputHelper.KeyPressed(Keys.Up) && GridPositionY > 0)
-                    tile.GridPositionY -= 1;
-                if (tile != null && inputHelper.KeyPressed(Keys.Down) && GridPositionY < 20 - originY)
+                    tile.GridPositionX --;
+                /*if (tile != null && inputHelper.KeyPressed(Keys.Up) && GridPositionY < 20 - originY)
                 {
-                    tile.GridPositionY += 1;
-                    //tile.GridPositionY += (20 - originY - GridPositionY);
-                }
+                    for (int i = tile.GridPositionY; i < 20 - tile.GridPositionY; i++)
+                        i = tile.GridPositionY;
+                }*/
+                if (tile != null && inputHelper.KeyDown(Keys.Down) && GridPositionY < 20 - originY)
+                    tile.GridPositionY ++;
             }
         }
     }

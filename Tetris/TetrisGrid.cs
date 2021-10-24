@@ -48,9 +48,6 @@ namespace Tetris
             levelup = ExtendedGame.ContentManager.Load<Song>("music/levelup");
             rowclear = ExtendedGame.ContentManager.Load<Song>("music/rowclear");
 
-            if (GameWorld.gameState == State.Playing)
-                MediaPlayer.IsRepeating = false;
-
             ResetGrid();
             StartBlock();
             ResetBlock();
@@ -83,18 +80,19 @@ namespace Tetris
                 currentBlock.GridPositionX -= 1;
                 OccupyBottomRow();
             }
-            if (inputHelper.KeyPressed(Keys.Down) && (currentBlock.GridPositionY < 20 - currentBlock.originY))
+            if (inputHelper.KeyDown(Keys.Down) && (currentBlock.GridPositionY < 20 - currentBlock.originY))
             {
-                //currentBlock.GridPositionY = 20 - currentBlock.originY;
                 currentBlock.GridPositionY += 1;
                 OccupyBottomRow();
             }
 
-            if (inputHelper.KeyPressed(Keys.Up) && currentBlock.GridPositionY > 0)
+            /*if (inputHelper.KeyPressed(Keys.Up) && currentBlock.GridPositionY > 0)
             {
-                currentBlock.GridPositionY -= 1;
+                for (int i = currentBlock.GridPositionY; i < 20 - currentBlock.GridPositionY; i++)
+                    i = currentBlock.GridPositionY;
+
                 OccupyBottomRow();
-            }
+            }*/
 
             if (inputHelper.KeyPressed(Keys.RightShift) || inputHelper.KeyPressed(Keys.LeftShift))
             {
@@ -174,9 +172,6 @@ namespace Tetris
 
             if (heldBlock != null)
                 heldBlock.Draw(gameTime, spriteBatch);
-
-            //if (blockHeld)
-            //heldBlock.DrawHeld(gameTime, spriteBatch);
         }
 
         //This method resets the grid for a new game. It differs from OccupyUpdate in that this method also resets
@@ -375,8 +370,10 @@ namespace Tetris
                 {
                     combo++;
                     MoveRowDown(y);
+                    MediaPlayer.IsRepeating = false;
                     MediaPlayer.Play(rowclear);
                 }
+
             if (combo == 1)
                 score += 100;
             if (combo == 2)
@@ -389,6 +386,7 @@ namespace Tetris
             if (score % 20000 == 0)
             {
                 level += score / 20000;
+                MediaPlayer.IsRepeating = false;
                 MediaPlayer.Play(levelup);
             }
         }
