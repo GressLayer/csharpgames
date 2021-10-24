@@ -27,7 +27,7 @@ namespace Tetris
 
         public static bool over;
 
-        // Used to draw blank spaces in a more space-efficient way (if only strings could be multiplied...).
+        // Used to draw blank spaces in a more space-efficient way.
         string blank = "            ";
 
         // The main font of the game.
@@ -82,8 +82,6 @@ namespace Tetris
             // Creates a grid object.
             grid = new TetrisGrid(GridWidth, GridHeight, CellSize, GridOffset);
 
-
-
             // Starts playing the music for the welcome screen.
             MediaPlayer.Play(welcome);
         }
@@ -120,16 +118,6 @@ namespace Tetris
                         gameState = State.GameOver;
                         MediaPlayer.IsRepeating = false;
                         MediaPlayer.Play(gameover);
-                    }
-                    if (inputHelper.KeyPressed(Keys.L))
-                    {
-                        MediaPlayer.IsRepeating = false;
-                        MediaPlayer.Play(TetrisGrid.levelup);
-                    }
-                    if (inputHelper.KeyPressed(Keys.C))
-                    {
-                        MediaPlayer.IsRepeating = false;
-                        MediaPlayer.Play(TetrisGrid.rowclear);
                     }
                     break;
                 case (State.GameOver):
