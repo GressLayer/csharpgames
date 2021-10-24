@@ -342,13 +342,23 @@ namespace Tetris
 
         public void CheckFullRow()
         {
+            int combo = 0;
             for (int y = 0; y < Height; y++)
                 if (grid[0, y].IsLocked&& grid[1,y].IsLocked && grid[2, y].IsLocked && grid[3, y].IsLocked && grid[4, y].IsLocked &&
                     grid[5, y].IsLocked && grid[6, y].IsLocked && grid[7, y].IsLocked && grid[8, y].IsLocked && grid[9, y].IsLocked)
                 {
+                    combo++;
                     MoveRowDown(y);
-
                 }
+            if (combo == 1)
+                score += 40;
+            if (combo == 2)
+                score += 100;
+            if (combo == 3)
+                score += 300;
+            if (combo >= 4)
+                score += 1200;
+            
         }
 
         public void MoveRowDown(int row)
