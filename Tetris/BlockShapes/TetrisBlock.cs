@@ -126,7 +126,7 @@ namespace Tetris
                     tile.GridPositionX -= 1;
                 if (tile != null && inputHelper.KeyPressed(Keys.Up) && GridPositionY > 0)
                     tile.GridPositionY -= 1;
-                if (tile != null && inputHelper.KeyPressed(Keys.Down))
+                if (tile != null && inputHelper.KeyPressed(Keys.Down) && GridPositionY < 20 - originY)
                 {
                     tile.GridPositionY += 1;
                     //tile.GridPositionY += (20 - originY - GridPositionY);

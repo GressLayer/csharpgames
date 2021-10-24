@@ -77,13 +77,9 @@ namespace Tetris
                 OccupyBottomRow();
             }
 
-            if (inputHelper.KeyPressed(Keys.Up) && currentBlock.GridPositionY >= 0 && currentBlock.GridPositionY < 19)
+            if (inputHelper.KeyPressed(Keys.Up) && currentBlock.GridPositionY > 0)
             {
-                currentBlock.GridPositionY += 1;
-                if (inputHelper.KeyUp(Keys.Up) && currentBlock.GridPositionY > 0 && currentBlock.GridPositionY < 19)
-                {
-                    currentBlock.GridPositionY += 0;
-                }
+                currentBlock.GridPositionY -= 1;
                 OccupyBottomRow();
             }
 
@@ -116,7 +112,7 @@ namespace Tetris
 
             foreach (Tile tile in currentBlock.block)
 
-                if (tile != null && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
+                if (tile != null && tile.GridPositionY + 1 < Height && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
                 {
                     OccupyRow();
                     ResetBlock();
@@ -293,14 +289,13 @@ namespace Tetris
                 }
 
             }
-            //DIT MAG WAARSCHIJNLIJK VERWIJDERD WORDEN, MAAR MOET NOG EVEN EXPERIMENTEREN.
         }
 
         public void OccupyRow()
         {
             foreach (Tile tile in currentBlock.block)
             {
-                if (tile != null && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
+                if (tile != null && tile.GridPositionY + 1 < Height && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true )
                     for (int x = 0; x < Width; x++)
                     {
                         for (int y = 0; y < Height; y++)
