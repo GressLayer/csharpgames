@@ -74,8 +74,11 @@ namespace Tetris
         {
             foreach (Tile tile in block)
             {
-                if (tile != null)                   
+                if (tile != null)
+                {
                     tile.Update(gameTime);
+                    tile.GridPositionY += (int)gameTime.ElapsedGameTime.TotalSeconds * 60;
+                }
             }
         }
 

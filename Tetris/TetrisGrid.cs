@@ -146,15 +146,8 @@ namespace Tetris
                         GameWorld.EndGame(true);
             }
 
-            // 
-            for (timestep = 0; timestep <= 10; timestep += (int)gameTime.ElapsedGameTime.TotalMilliseconds)
-            {
-                if (timestep == 10)
-                {
-                    currentBlock.GridPositionY += 1;
-                    timestep = 0;
-                }
-            }
+            // Auto-drop blocks.
+            currentBlock.GridPositionY += (int)gameTime.ElapsedGameTime.TotalSeconds * 60;
         }
 
         // Draws the grid on the screen.
@@ -165,7 +158,8 @@ namespace Tetris
                 tile.Draw(gameTime, spriteBatch);
             }
 
-            currentBlock.Draw(gameTime, spriteBatch);
+            if (currentBlock != null)
+                currentBlock.Draw(gameTime, spriteBatch);
 
             if (nextBlock != null)
                 nextBlock.Draw(gameTime, spriteBatch);
