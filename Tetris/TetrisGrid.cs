@@ -47,6 +47,9 @@ namespace Tetris
             levelup = ExtendedGame.ContentManager.Load<Song>("music/levelup");
             rowclear = ExtendedGame.ContentManager.Load<Song>("music/rowclear");
 
+            if (GameWorld.gameState == State.Playing)
+                MediaPlayer.IsRepeating = false;
+
             ResetGrid();
             StartBlock();
             ResetBlock();
@@ -361,6 +364,7 @@ namespace Tetris
                 {
                     combo++;
                     MoveRowDown(y);
+                    MediaPlayer.Play(rowclear);
                 }
             if (combo == 1)
                 score += 100;
@@ -372,7 +376,10 @@ namespace Tetris
                 score += 5000;
 
             if (score % 20000 == 0)
+            {
                 level += score / 20000;
+                MediaPlayer.Play(levelup);
+            }
         }
 
         public void MoveRowDown(int row)
