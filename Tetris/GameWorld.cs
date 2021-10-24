@@ -203,7 +203,7 @@ namespace Tetris
                     spriteBatch.DrawString(font, "GAME OVER", new Vector2(750, 112), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "Ended with a score of:", new Vector2(360, 300), Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "" + TetrisGrid.score, new Vector2(360, 340), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font, "You have used " + TetrisGrid.blocksUsed + " blocks and held " + TetrisGrid.holdsUsed + ".", new Vector2(224, 440), Color.White, 0f, Vector2.Zero, 1.8f, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(font, "You have held " + TetrisGrid.holdsUsed + " blocks.", new Vector2(324, 440), Color.White, 0f, Vector2.Zero, 1.8f, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font, "PRESS SPACE TO TRY AGAIN", new Vector2(240, 660), Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                     break;
             }

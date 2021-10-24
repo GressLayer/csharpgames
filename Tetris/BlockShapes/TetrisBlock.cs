@@ -119,7 +119,6 @@ namespace Tetris
                 if (tile != null)
                 {
                     tile.Update(gameTime);
-                    tile.GridPositionY += (int)gameTime.ElapsedGameTime.TotalSeconds * 60;
                 }
             }
 
