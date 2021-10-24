@@ -61,11 +61,11 @@ namespace Tetris
             //These instructions handle rotation of the blocks, clockwise, as well as counterclockwise.
             if (inputHelper.KeyPressed(Keys.A))
             {
-                //currentBlock.RotateLeft();
+                currentBlock.RotateLeft();
             }
             if (inputHelper.KeyPressed(Keys.D))
             {
-                //currentBlock.RotateLeft();
+                currentBlock.RotateRight();
             }
 
             //These instructions handle movement of the block over the grid and make sure the grid follows the presence of blocks
@@ -313,7 +313,7 @@ namespace Tetris
         {
             foreach (Tile tile in currentBlock.block)
             {
-                 if (tile != null &&  tile.GridPositionX > 0 && tile.GridPositionY + 1 < Height && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true )
+                 if (tile != null)
                     for (int x = 0; x < Width; x++)
                     {
                         for (int y = 0; y < Height; y++)

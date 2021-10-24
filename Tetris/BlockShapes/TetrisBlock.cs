@@ -46,10 +46,8 @@ namespace Tetris
                 }
             }
         }
-
-        //Ik word helemaal gek van die rotation, ik krijg het maar niet aan de praat.
         
-        /*public virtual void RotateRight()
+        public virtual void RotateRight()
         {
             for (int x = 0; x < blockWidth; x++)
             {
@@ -112,7 +110,7 @@ namespace Tetris
                     }
                 }
             }
-        }*/
+        }
 
         public override void Update(GameTime gameTime)
         {
