@@ -142,7 +142,7 @@ namespace Tetris
             if (GameWorld.gameState == State.Playing)
             {
                 for (int x = 0; x < 10; x++)
-                    if (grid[x, 0].IsLocked == true)
+                    if (x > 0 && grid[x, 0].IsLocked == true)
                         GameWorld.EndGame(true);
             }
 
@@ -236,9 +236,9 @@ namespace Tetris
         {
             if (GameWorld.gameState == State.Playing)
             {
-                NextBlock();
-                
                 OccupyBottomRow();
+                NextBlock();
+
                 score++;
             }
         }
