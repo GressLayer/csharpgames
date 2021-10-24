@@ -48,13 +48,20 @@ namespace Tetris
         //Ik word helemaal gek van die rotation, ik krijg het maar niet aan de praat.
         public virtual void RotateRight()
         {
-            bool[,] oldState = blockShape;
-            Tile[,] oldBlock = block;
+            //bool[,] oldState = blockShape;
+            //Tile[,] oldBlock = block;
+            foreach (Tile tile in block)
+                if (tile != null)
+                {
+                    tile.GridPosition = new Point(3 - tile.GridPositionY, tile.GridPositionX);
+                    tile.LocalPosition = new Vector2(tile.GridPositionX * 32, tile.GridPositionY * 32);
+                }
+
+
             for (int x = 0; x < blockWidth; x++)
             {
                 for (int y = 0; y < blockHeight; y++)
                 {
-                    blockShape[x, y] = oldState[3 - y, x];
                     if (block[x, y] != null)
                     {
                         block[x, y].GridPosition = new Point(3 - y, x);
