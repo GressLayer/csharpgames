@@ -68,24 +68,24 @@ namespace Tetris
             if (inputHelper.KeyPressed(Keys.Right) && currentBlock.GridPositionX < 10 - currentBlock.originX)
             {
                 currentBlock.GridPositionX += 1;
-                OccupyUpdate();
+                OccupyBottomRow();
             }
             if (inputHelper.KeyPressed(Keys.Left) && currentBlock.GridPositionX > -1)
             {
                 currentBlock.GridPositionX -= 1;
-                OccupyUpdate();
+                OccupyBottomRow();
             }
             if (inputHelper.KeyPressed(Keys.Down) && (currentBlock.GridPositionY < 20 - currentBlock.originY))
             {
                 //currentBlock.GridPositionY = 20 - currentBlock.originY;
                 currentBlock.GridPositionY += 1;
-                OccupyUpdate();
+                OccupyBottomRow();
             }
 
             if (inputHelper.KeyPressed(Keys.Up) && currentBlock.GridPositionY > 0)
             {
                 currentBlock.GridPositionY -= 1;
-                OccupyUpdate();
+                OccupyBottomRow();
             }
 
         }
@@ -109,9 +109,11 @@ namespace Tetris
 
             foreach (Tile tile in currentBlock.block)
 
-            if ( tile != null && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
-                ResetBlock();
-
+                if (tile != null && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
+                {
+                    OccupyRow();
+                    ResetBlock();
+                }
         }
 
         // Draws the grid on the screen.
@@ -169,7 +171,7 @@ namespace Tetris
                 currentBlock = new BlockT();
             currentBlock.Parent = this;
             // currentBlock.GridPositionX += 3;
-            OccupyUpdate();
+            OccupyBottomRow();
 
         }
 
@@ -177,7 +179,7 @@ namespace Tetris
        //After that, it recaculates which tiles are occupied.
        //This method does not ''reset' the grid, it is only used to follow blocks in the grid when they fall down and when they have
        //to lock in the grid.
-        public void OccupyUpdate()
+        public void OccupyBottomRow()
         {
             //This loop sets the occupation of all tiles to false.
             for (int x = 0; x < Width; x++)
@@ -215,14 +217,25 @@ namespace Tetris
 
             }
             //DIT MAG WAARSCHIJNLIJK VERWIJDERD WORDEN, MAAR MOET NOG EVEN EXPERIMENTEREN.
-            /*foreach (Tile tile in currentBlock.block)
-                for (int x = 0; x < Width; x++)
-                {
-                    for (int y = 0; y < Height; y++)
+        }
+
+        public void OccupyRow()
+        {
+            foreach (Tile tile in currentBlock.block)
+            {
+                if (tile != null && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
+                    for (int x = 0; x < Width; x++)
                     {
-                        if (tile != null && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
+                        for (int y = 0; y < Height; y++)
+                        {
+                            if (grid[x, y].IsOccupied == true && grid[x, y].IsLocked == false)
+                            {
+                                grid[x, y].currentColor = currentBlock.blockColor;
+                                grid[x, y].IsLocked = true;
+                            }
+                        }
                     }
-                }*/
+            }
         }
     }
 }
