@@ -20,6 +20,8 @@ namespace Tetris
 
         public Color blockColor { get; protected set; }
 
+        public int angle { get; set; }
+
         public TetrisBlock() : base()
         {
         }
@@ -46,29 +48,71 @@ namespace Tetris
         }
 
         //Ik word helemaal gek van die rotation, ik krijg het maar niet aan de praat.
-        public virtual void RotateRight()
+        
+        /*public virtual void RotateRight()
         {
-
-            foreach (Tile tile in block)
-                if (tile != null)
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
                 {
-                    tile.GridPosition = new Point(3 - tile.GridPositionY, tile.GridPositionX);
-                    tile.LocalPosition = new Vector2(tile.GridPositionX * 32, tile.GridPositionY * 32);
+                    if (block[x, y] != null)
+                    {
+                        block[x, y].GridPosition = new Point(3 - y, x);
+                        block[x, y].LocalPosition = new Vector2(block[x, y].GridPositionX * 32, block[x, y].GridPositionY * 32);
+                    }
+
                 }
-            GameWorld.grid.OccupyRow();
+            }
         }
+        public virtual void RotateUp()
+        {
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
+                {
+                    if (block[x, y] != null)
+                    {
+                        block[x, y].GridPosition = new Point(x, y);
+                        block[x, y].LocalPosition = new Vector2(block[x, y].GridPositionX * 32, block[x, y].GridPositionY * 32);
+                    }
+                }
+            }
+        }
+        public virtual void RotateDown()
+        {
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
+                {
+                    if (block[x, y] != null)
+                    {
+                        block[x, y].GridPosition = new Point(3 - x, 3 - y);
+                        block[x, y].LocalPosition = new Vector2(block[x, y].GridPositionX * 32, block[x, y].GridPositionY * 32);
+                    }
+
+                }
+            }
+        }
+
 
         public virtual void RotateLeft()
         {
-
-            foreach (Tile tile in block)
-                if (tile != null)
+            bool[,] oldState = blockShape;
+            Tile[,] oldBlock = block;
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
                 {
-                    tile.GridPosition = new Point(tile.GridPositionY, 3 - tile.GridPositionX);
-                    tile.LocalPosition = new Vector2(tile.GridPositionX * 32, tile.GridPositionY * 32);
+                    blockShape[x, y] = oldState[y, 3 - x];
+
+                    if (block[x, y] != null)
+                    {
+                        block[x, y].GridPosition = new Point(y, 3 - x);
+                        block[x, y].LocalPosition = new Vector2(block[x, y].GridPositionX * 32, block[x, y].GridPositionY * 32);
+                    }
                 }
-            GameWorld.grid.OccupyRow();
-        }
+            }
+        }*/
 
         public override void Update(GameTime gameTime)
         {
@@ -80,6 +124,8 @@ namespace Tetris
                     tile.GridPositionY += (int)gameTime.ElapsedGameTime.TotalSeconds * 60;
                 }
             }
+
+            
         }
 
         public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)

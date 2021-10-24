@@ -61,11 +61,11 @@ namespace Tetris
             //These instructions handle rotation of the blocks, clockwise, as well as counterclockwise.
             if (inputHelper.KeyPressed(Keys.A))
             {
-                currentBlock.RotateLeft();
+                //currentBlock.RotateLeft();
             }
             if (inputHelper.KeyPressed(Keys.D))
             {
-                currentBlock.RotateRight();
+                //currentBlock.RotateLeft();
             }
 
             //These instructions handle movement of the block over the grid and make sure the grid follows the presence of blocks

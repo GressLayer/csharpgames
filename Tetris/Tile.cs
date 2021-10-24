@@ -21,12 +21,17 @@ namespace Tetris
 
         int index;
 
+        public Point rotationGrid { get; set; }
+        public int rotationGridX { get; set; }
+        public int rotationGridY { get; set; }
+
         public Tile() : base("sprites/Tetromino")
         {   
             if (IsOccupied == false)
                 index = 0;
             if (IsOccupied == true)
                 index = 1;
+            rotationGrid = Point.Zero;
         }
 
         public override void HandleInput(InputHelper inputHelper)
