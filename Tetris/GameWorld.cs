@@ -152,6 +152,7 @@ namespace Tetris
 
         public void Update(GameTime gameTime)
         {
+            if (gameState == State.Playing)
             grid.Update(gameTime);
         }
 

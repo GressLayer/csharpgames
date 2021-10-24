@@ -108,13 +108,17 @@ namespace Tetris
             currentBlock.LocalPosition = new Vector2(currentBlock.GridPositionX * 32, currentBlock.GridPositionY * 32 + gameTime.ElapsedGameTime.Seconds);
 
             if (currentBlock.GridPositionY == 20 - currentBlock.originY)
+            {
                 ResetBlock();
+                CheckFullRow();
+            }
 
             foreach (Tile tile in currentBlock.block)
 
                 if (tile != null && tile.GridPositionY + 1 < Height && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
                 {
                     OccupyRow();
+                    CheckFullRow();
                     ResetBlock();
                 }
 
@@ -334,6 +338,43 @@ namespace Tetris
                 }
                 else                   
                     isRight = false;
+        }
+
+        public void CheckFullRow()
+        {
+            for (int y = 0; y < Height; y++)
+                if (grid[0, y].IsLocked&& grid[1,y].IsLocked && grid[2, y].IsLocked && grid[3, y].IsLocked && grid[4, y].IsLocked &&
+                    grid[5, y].IsLocked && grid[6, y].IsLocked && grid[7, y].IsLocked && grid[8, y].IsLocked && grid[9, y].IsLocked)
+                {
+                    MoveRowDown(y);
+
+                }
+        }
+
+        public void MoveRowDown(int row)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                grid[x, row].IsLocked = false;
+                grid[x, row].IsOccupied = false;
+            }
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = row; y > 0; y--)
+                {
+                    grid[x, y].IsLocked = grid[x, y - 1].IsLocked;
+                    grid[x, y].IsOccupied = grid[x, y - 1].IsOccupied;
+                    grid[x, y].currentColor = grid[x, y - 1].currentColor;
+                }
+            }
+
+            for (int x = 0; x < Width; x++)
+            {
+                grid[x, 0].IsOccupied = false;
+                grid[x, 0].IsLocked = false;
+
+            }
         }
     }
 }
