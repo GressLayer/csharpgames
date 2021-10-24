@@ -298,7 +298,6 @@ namespace Tetris
                         {
                             grid[x, y].IsOccupied = true;
                             if (currentBlock.GridPositionY == 20 - currentBlock.originY)
-                            //ADD A HELPER BOOL THAT CHECKS WHETER THE CURRENTBLOCK IS ORIGINY DISTANCE FROM A LOCKED BLOCK)*/
                             {
                                 grid[x, y].currentColor = currentBlock.blockColor;
                                 grid[x, y].IsLocked = true;
@@ -314,7 +313,7 @@ namespace Tetris
         {
             foreach (Tile tile in currentBlock.block)
             {
-                if (tile != null && tile.GridPositionY + 1 < Height && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true )
+                 if (tile != null &&  tile.GridPositionX > 0 && tile.GridPositionY + 1 < Height && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true )
                     for (int x = 0; x < Width; x++)
                     {
                         for (int y = 0; y < Height; y++)
