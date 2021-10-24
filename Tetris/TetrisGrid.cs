@@ -48,6 +48,8 @@ namespace Tetris
             ResetGrid();
             StartBlock();
             ResetBlock();
+
+
         }
 
         //Handles player input of objects in the grid
@@ -96,8 +98,8 @@ namespace Tetris
         //It is also responsible for setting boundaries on the movement of blocks over the grid.
         public override void Update(GameTime gameTime)
         {
-            
 
+            nextBlock.Update(gameTime);
             currentBlock.Update(gameTime);
 
             foreach (Tile tile in grid)
@@ -106,7 +108,7 @@ namespace Tetris
             }
 
             currentBlock.GridPosition = new Point(currentBlock.GridPositionX, currentBlock.GridPositionY);
-            currentBlock.LocalPosition = new Vector2(currentBlock.GridPositionX * 32, currentBlock.GridPositionY * 32);
+            currentBlock.LocalPosition = new Vector2(currentBlock.GridPositionX * 32, currentBlock.GridPositionY * 32 + gameTime.ElapsedGameTime.Seconds);
 
             if (currentBlock.GridPositionY == 20 - currentBlock.originY)
                 ResetBlock();
