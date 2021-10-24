@@ -22,9 +22,7 @@ namespace Tetris
         int index;
 
         public Tile() : base("sprites/Tetromino")
-        {
-            colorNumber = BlockObject.BlockType + 1;
-            
+        {   
             if (IsOccupied == false)
                 index = 0;
             if (IsOccupied == true)

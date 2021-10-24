@@ -24,8 +24,9 @@ namespace Tetris
          */
         TetrisBlock currentBlock, nextBlock, heldBlock, blockBuffer;
 
-        // bool blockHeld;
         public static int score, level, blocksUsed, holdsUsed;
+
+        public int timestep = 0;
 
         public bool isLeft { get; private set; } 
         public bool isRight { get; private set; }
@@ -145,6 +146,16 @@ namespace Tetris
                 for (int x = 0; x < 10; x++)
                     if (grid[x, 0].IsLocked == true)
                         GameWorld.EndGame(true);
+            }
+
+            // 
+            for (timestep = 0; timestep <= 10; timestep += (int)gameTime.ElapsedGameTime.TotalMilliseconds)
+            {
+                if (timestep == 10)
+                {
+                    currentBlock.GridPositionY += 1;
+                    timestep = 0;
+                }
             }
         }
 
