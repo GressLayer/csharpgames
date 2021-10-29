@@ -116,7 +116,9 @@ namespace Tetris
             }
 
             currentBlock.GridPosition = new Point(currentBlock.GridPositionX, currentBlock.GridPositionY);
-            currentBlock.LocalPosition = new Vector2(currentBlock.GridPositionX * 32, currentBlock.GridPositionY * 32 + gameTime.ElapsedGameTime.Seconds);
+            currentBlock.LocalPosition = new Vector2(currentBlock.GridPositionX * 32, currentBlock.GridPositionY * 32);
+
+            currentBlock.LocalPositionY += (1.5f * level) + 10f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (currentBlock.GridPositionY == 20 - currentBlock.originY)
             {
@@ -128,7 +130,6 @@ namespace Tetris
 
                 if (tile != null && tile.GridPositionY + 1 < Height && grid[tile.GridPositionX, tile.GridPositionY + 1].IsLocked == true)
                 {
-                    tile.GridPositionX = currentBlock.GridPositionX;
                     tile.GridPositionY = currentBlock.GridPositionY;
 
                     OccupyRow();
@@ -145,9 +146,6 @@ namespace Tetris
                     if (x > 0 && grid[x, 0].IsLocked == true)
                         GameWorld.EndGame(true);
             }
-
-            // Auto-drop blocks.
-            currentBlock.GridPositionY += (int)gameTime.ElapsedGameTime.TotalSeconds * 60;
         }
 
         // Draws the grid on the screen.
@@ -236,10 +234,17 @@ namespace Tetris
         {
             if (GameWorld.gameState == State.Playing)
             {
+<<<<<<< Updated upstream
                 OccupyBottomRow();
                 NextBlock();
 
                 score++;
+=======
+                score++;
+                NextBlock();
+                
+                OccupyBottomRow();
+>>>>>>> Stashed changes
             }
         }
 
