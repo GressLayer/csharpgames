@@ -19,6 +19,7 @@ partial class Level : GameObjectList
 
     bool completionDetected;
 
+    public Camera camera { get; private set; }
     public Level(int levelIndex, string filename)
     {
         LevelIndex = levelIndex;
@@ -56,6 +57,8 @@ partial class Level : GameObjectList
             backgrounds.AddChild(new Cloud(this));
 
         // Every level has an instance of the camera class
+
+        camera = new Camera(0, 0);
     }
 
     public Rectangle BoundingBox
@@ -124,6 +127,8 @@ partial class Level : GameObjectList
         {
             Player.Explode();
         }
+
+        camera.Update(gameTime);
     }
 
     /// <summary>
