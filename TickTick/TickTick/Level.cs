@@ -54,6 +54,8 @@ partial class Level : GameObjectList
         // add clouds
         for (int i = 0; i < 6; i++)
             backgrounds.AddChild(new Cloud(this));
+
+        // Every level has an instance of the camera class
     }
 
     public Rectangle BoundingBox
@@ -102,7 +104,6 @@ partial class Level : GameObjectList
         // Otherwise, return the actual surface type of the tile.
         return tiles[x, y].Surface;
     }
-
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
