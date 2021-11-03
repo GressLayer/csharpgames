@@ -6,10 +6,15 @@ using System;
 class Player : AnimatedGameObject
 {
     const float walkingSpeed = 400; // Standard walking speed, in game units per second.
+    const float gooSpeed = 200; // Walking speed while standing on a goo block.
     const float jumpSpeed = 900; // Lift-off speed when the character jumps.
+    
     const float gravity = 2300; // Strength of the gravity force that pulls the character down.
     const float maxFallSpeed = 1200; // The maximum vertical speed at which the character can fall.
-    
+
+    const float damageSpeedX = 600; // Small "kickback" while taking damage.
+    const float damageSpeedY = 650; // Small "jump" while taking damage.
+
     const float iceFriction = 1; // Friction factor that determines how slippery the ice is; closer to 0 means more slippery.
     const float normalFriction = 20; // Friction factor that determines how slippery a normal surface is.
     const float airFriction = 5; // Friction factor that determines how much (horizontal) air resistance there is.
@@ -17,18 +22,25 @@ class Player : AnimatedGameObject
     bool facingLeft; // Whether or not the character is currently looking to the left.
 
     bool isGrounded; // Whether or not the character is currently standing on something.
-    bool standingOnIceTile, standingOnHotTile; // Whether or not the character is standing on an ice tile or a hot tile.
+    bool standingOnIceTile, standingOnHotTile, standingOnGooTile; // Whether or not the character is standing on an ice tile or a hot tile.
     float desiredHorizontalSpeed; // The horizontal speed at which the character would like to move.
 
     Level level;
     Vector2 startPosition;
-    
+
+    double timer;
+    bool canTakeDamage;
+
     bool isCelebrating; // Whether or not the player is celebrating a level victory.
     bool isExploding;
+
+    public static int health = 3;
 
     public bool IsAlive { get; private set; }
 
     public bool CanCollideWithObjects { get { return IsAlive && !isCelebrating; } }
+
+    public bool CanTakeDamage { get { return IsAlive && canTakeDamage; } }
 
     public bool IsMoving { get { return velocity != Vector2.Zero; } }
 
@@ -60,11 +72,15 @@ class Player : AnimatedGameObject
         SetOriginToBottomCenter();
         facingLeft = false;
         isGrounded = true;
-        standingOnIceTile = standingOnHotTile = false;
+        standingOnIceTile = standingOnHotTile = standingOnGooTile = false;
+
+        health = 3;
 
         IsAlive = true;
         isExploding = false;
         isCelebrating = false;
+
+        canTakeDamage = true;
     }
 
     public override void HandleInput(InputHelper inputHelper)
@@ -76,14 +92,20 @@ class Player : AnimatedGameObject
         if (inputHelper.KeyDown(Keys.Left))
         {
             facingLeft = true;
-            desiredHorizontalSpeed = -walkingSpeed;
+            if (standingOnGooTile)
+                desiredHorizontalSpeed = -gooSpeed;
+            else
+                desiredHorizontalSpeed = -walkingSpeed;
             if (isGrounded)
                 PlayAnimation("run");
         }
         else if (inputHelper.KeyDown(Keys.Right))
         {
             facingLeft = false;
-            desiredHorizontalSpeed = walkingSpeed;
+            if (standingOnGooTile)
+                desiredHorizontalSpeed = gooSpeed;
+            else
+                desiredHorizontalSpeed = walkingSpeed;
             if (isGrounded)
                 PlayAnimation("run");
         }
@@ -114,15 +136,13 @@ class Player : AnimatedGameObject
     public void Jump(float speed = jumpSpeed)
     {
         velocity.Y = -speed;
-        // play the jump animation; always make sure that the animation restarts
+        // Play the jump animation; always make sure that the animation restarts
         PlayAnimation("jump", true);
-        // play a sound
+        // Play a sound
         ExtendedGame.AssetManager.PlaySoundEffect("Sounds/snd_player_jump");
     }
 
-    /// <summary>
-    /// Returns whether or not the Player is currently falling down.
-    /// </summary>
+    // Returns whether or not the Player is currently falling down.
     public bool IsFalling
     {
         get { return velocity.Y > 0 && !isGrounded; }
@@ -136,6 +156,16 @@ class Player : AnimatedGameObject
     public override void Update(GameTime gameTime)
     {
         Vector2 previousPosition = localPosition;
+
+        if (timer > 0)
+        {
+            // Count down until TickTick can take damage again.
+            timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (timer <= 0)
+            {
+                canTakeDamage = true;
+            }
+        }
 
         if (CanCollideWithObjects)
             ApplyFriction(gameTime);
@@ -196,6 +226,7 @@ class Player : AnimatedGameObject
         isGrounded = false;
         standingOnIceTile = false;
         standingOnHotTile = false;
+        standingOnGooTile = false;
 
         // determine the range of tiles to check
         Rectangle bbox = BoundingBoxForCollisions;
@@ -251,6 +282,8 @@ class Player : AnimatedGameObject
                             standingOnHotTile = true;
                         else if (surface == Tile.SurfaceType.Ice)
                             standingOnIceTile = true;
+                        else if (surface == Tile.SurfaceType.Goo)
+                            standingOnGooTile = true;
                     }
                     else if (velocity.Y <= 0 && bbox.Center.Y > tileBounds.Bottom && overlap.Height > 2) // ceiling
                     {
@@ -274,6 +307,30 @@ class Player : AnimatedGameObject
 
             return bbox;
         }
+    }
+
+    public void TakeDamage()
+    {
+        if (canTakeDamage)
+        {
+            if (health > 0)
+            {
+                if (facingLeft)
+                    velocity = new Vector2(damageSpeedX, -damageSpeedY);
+                if (!facingLeft)
+                    velocity = new Vector2(-damageSpeedX, -damageSpeedY);
+            }
+
+            canTakeDamage = false;
+            health--;
+            timer = 0.8;
+        }
+
+        if (timer > 0)
+            PlayAnimation("die");
+
+        if (health <= 0)
+            Die();
     }
 
     public void Die()

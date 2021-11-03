@@ -35,7 +35,11 @@ class Sparky : AnimatedGameObject
         localPosition.Y -= floatingHeight;
         velocity = Vector2.Zero;
 
-        // set a random timer
+        SetRandomTimer();
+    }
+
+    public void SetRandomTimer()
+    {
         timeUntilDrop = minTimer + (float)ExtendedGame.Random.NextDouble() * (maxTimer - minTimer);
     }
 
@@ -67,9 +71,11 @@ class Sparky : AnimatedGameObject
             if (velocity.Y < 0 && localPosition.Y <= basePosition.Y - floatingHeight)
                 Reset();
 
-            // electrocute the player?
-            if (IsDeadly && level.Player.CanCollideWithObjects && HasPixelPreciseCollision(level.Player))
-                level.Player.Die();
+            // Electrocutes the player if true. Resets Sparky's timer so it is no longer lethal until the next electrocution.
+            if (IsDeadly && level.Player.CanCollideWithObjects && HasPixelPreciseCollision(level.Player) && level.Player.CanTakeDamage)
+            {
+                level.Player.TakeDamage();
+            }
         }
     }
 

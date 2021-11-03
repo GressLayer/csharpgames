@@ -9,7 +9,7 @@ class Rocket : AnimatedGameObject
     Level level;
     Vector2 startPosition;
     const float speed = 500;
-
+    const float launchSpeed = 900; // The speed at which the player can get launched.
     public Rocket(Level level, Vector2 startPosition, bool facingLeft) 
         : base(TickTick.Depth_LevelObjects)
     {
@@ -49,8 +49,17 @@ class Rocket : AnimatedGameObject
         else if (!sprite.Mirror && BoundingBox.Left > level.BoundingBox.Right)
             Reset();
 
-        // if the rocket touches the player, the player dies
-        if (level.Player.CanCollideWithObjects && HasPixelPreciseCollision(level.Player))
-            level.Player.Die();
+        // If the player falls on a rocket, they can jump on the rocket and kill it.
+        // Otherwise, TickTick takes damage when touching a rocket, after which the rocket respawns.
+        if (HasPixelPreciseCollision(level.Player) && level.Player.CanTakeDamage)
+        {
+            if (level.Player.IsFalling)
+            {
+                level.Player.Jump(launchSpeed);
+                Reset();
+            }
+            else
+                level.Player.TakeDamage();
+        }
     }
 }

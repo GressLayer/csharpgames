@@ -47,13 +47,13 @@ class Turtle : AnimatedGameObject
             sneezing = !sneezing;
         }
 
-        if (level.Player.CanCollideWithObjects)
+        if (level.Player.CanCollideWithObjects && HasPixelPreciseCollision(level.Player) && level.Player.CanTakeDamage)
         {
             // when spikes are out, a collision with the player causes the player to die
-            if (HasSpikesOut && HasPixelPreciseCollision(level.Player))
-                level.Player.Die();
+            if (HasSpikesOut)
+                level.Player.TakeDamage();
             // otherwise, the player gets launched up if it touches the turtle while falling
-            else if (level.Player.IsFalling && HasPixelPreciseCollision(level.Player))
+            else if (level.Player.IsFalling)
                 level.Player.Jump(launchSpeed);
         }
     }

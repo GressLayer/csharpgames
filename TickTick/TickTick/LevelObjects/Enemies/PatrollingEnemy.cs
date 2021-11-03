@@ -55,8 +55,10 @@ class PatrollingEnemy : AnimatedGameObject
         }
 
         // a collision with the player causes the player to die
-        if (level.Player.CanCollideWithObjects && HasPixelPreciseCollision(level.Player))
-            level.Player.Die();
+        if (level.Player.CanCollideWithObjects && HasPixelPreciseCollision(level.Player) && level.Player.CanTakeDamage)
+        {
+            level.Player.TakeDamage();
+        }
     }
 
     /// <summary>

@@ -97,6 +97,8 @@ partial class Level : GameObjectList
             LoadGoal(x, y);
         else if (symbol == 'W')
             LoadWaterDrop(x, y);
+        else if (symbol == '+')
+            LoadHealthPak(x, y);
         else if (symbol == 'R')
             LoadRocketEnemy(x, y);
         else if (symbol == 'T')
@@ -123,6 +125,10 @@ partial class Level : GameObjectList
                 return new Tile(Tile.Type.Platform, Tile.SurfaceType.Ice);
             case 'I':
                 return new Tile(Tile.Type.Wall, Tile.SurfaceType.Ice);
+            case 'g':
+                return new Tile(Tile.Type.Platform, Tile.SurfaceType.Goo);
+            case 'G':
+                return new Tile(Tile.Type.Wall, Tile.SurfaceType.Goo);
             default:
                 return new Tile(Tile.Type.Empty, Tile.SurfaceType.Normal);
         }
@@ -154,6 +160,15 @@ partial class Level : GameObjectList
         AddChild(w);
         // store an extra reference to it
         waterDrops.Add(w);
+    }
+
+    void LoadHealthPak(int x, int y)
+    {
+        // create the water drop object;  place it around the center of the tile
+        Vector2 pos = GetCellPosition(x, y) + new Vector2(TileWidth / 2, TileHeight / 3);
+        HealthPak pak = new HealthPak(this, pos);
+        // add it to the game world
+        AddChild(pak);
     }
 
     void LoadRocketEnemy(int x, int y)
