@@ -6,14 +6,12 @@ namespace Engine
 {
     public class Camera : GameObject
     {
-        static Rectangle viewWindow;
-
-        int offsetX;
+        static Rectangle window;
 
 
-        public Camera()
+        public Camera(int gridWidth, int gridHeight)
         {
-            viewWindow = new Rectangle(0, 0, 1024, 768);
+            window = new Rectangle(0, 0, gridWidth, gridHeight);
         }
 
     }
