@@ -15,7 +15,7 @@ partial class Level : GameObjectList
     public int LevelIndex { get; private set; }
 
     SpriteGameObject goal;
-    BombTimer timer;
+    Hud timer;
 
     bool completionDetected;
 
@@ -28,6 +28,9 @@ partial class Level : GameObjectList
         GameObjectList backgrounds = new GameObjectList();
         SpriteGameObject backgroundSky = new SpriteGameObject("Sprites/Backgrounds/spr_sky", TickTick.Depth_Background);
         backgroundSky.LocalPosition = new Vector2(0, 825 - backgroundSky.Height);
+
+        backgroundSky.scrollFactor = 0;
+
         backgrounds.AddChild(backgroundSky);
 
         AddChild(backgrounds);
@@ -36,7 +39,7 @@ partial class Level : GameObjectList
         LoadLevelFromFile(filename);
 
         // add the timer
-        timer = new BombTimer();
+        timer = new Hud();
         AddChild(timer);
 
         // add mountains in the background
@@ -49,6 +52,8 @@ partial class Level : GameObjectList
             mountain.LocalPosition = new Vector2(mountain.Width * (i-1) * 0.4f, 
                 BoundingBox.Height - mountain.Height);
 
+            mountain.scrollFactor = 0.1f;
+
             backgrounds.AddChild(mountain);
         }
 
@@ -57,7 +62,6 @@ partial class Level : GameObjectList
             backgrounds.AddChild(new Cloud(this));
 
         // Every level has an instance of the camera class
-
         camera = new Camera(0, 0);
     }
 
@@ -71,7 +75,7 @@ partial class Level : GameObjectList
         }
     }
 
-    public BombTimer Timer { get { return timer; } }
+    public Hud Timer { get { return timer; } }
 
     public Vector2 GetCellPosition(int x, int y)
     {

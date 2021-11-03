@@ -22,25 +22,32 @@ class Cloud : SpriteGameObject
     void Randomize()
     {
         // set a random sprite and depth
-        float depth = TickTick.Depth_Background + (float)ExtendedGame.Random.NextDouble() * 0.2f;
+        float depth = TickTick.Depth_Background + (float)ExtendedGame.Random.NextDouble() * 0.1f;
         sprite = new SpriteSheet("Sprites/Backgrounds/spr_cloud_" + ExtendedGame.Random.Next(1, 6), depth);
+
+        scrollFactor = depth * 3;
 
         // set a random y-coordinate and speed
         float y = ExtendedGame.Random.Next(100, 600) - sprite.Height;
         float speed = ExtendedGame.Random.Next(10, 50);
 
-        if (ExtendedGame.Random.Next(2) == 0)
+        if (Stopwatch.stopTimer <= 0)
         {
-            // go from right to left
-            localPosition = new Vector2(level.BoundingBox.Width, y);
-            velocity = new Vector2(-speed, 0);
+            if (ExtendedGame.Random.Next(2) == 0)
+            {
+                // go from right to left
+                localPosition = new Vector2(level.BoundingBox.Width, y);
+                velocity = new Vector2(-speed, 0);
+            }
+            else
+            {
+                // go from left to right
+                localPosition = new Vector2(-sprite.Width, y);
+                velocity = new Vector2(speed, 0);
+            }
         }
         else
-        {
-            // go from left to right
-            localPosition = new Vector2(-sprite.Width, y);
-            velocity = new Vector2(speed, 0);
-        }
+            velocity = Vector2.Zero;
     }
 
     public override void Update(GameTime gameTime)

@@ -15,11 +15,17 @@ class PlayingState : GameState, IPlayingState
         // add a "quit" button
         quitButton = new Button("Sprites/UI/spr_button_quit", 1);
         quitButton.LocalPosition = new Vector2(1290, 20);
+
+        quitButton.scrollFactor = 0;
+
         gameObjects.AddChild(quitButton);
 
         // add overlay images
         completedOverlay = AddOverlay("Sprites/UI/spr_welldone");
         gameOverOverlay = AddOverlay("Sprites/UI/spr_gameover");
+
+        completedOverlay.scrollFactor = 0;
+        gameOverOverlay.scrollFactor = 0;
     }
 
     SpriteGameObject AddOverlay(string spriteName)

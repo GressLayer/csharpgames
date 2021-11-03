@@ -44,6 +44,9 @@ partial class Level : GameObjectList
         SpriteGameObject frame = new SpriteGameObject("Sprites/UI/spr_frame_hint", TickTick.Depth_UIBackground);
         frame.SetOriginToCenter();
         frame.LocalPosition = new Vector2(720, 50);
+
+        frame.scrollFactor = 0;
+
         AddChild(frame);
 
         // - text
@@ -103,6 +106,10 @@ partial class Level : GameObjectList
             LoadWaterDrop(x, y);
         else if (symbol == '+')
             LoadHealthPak(x, y);
+        else if (symbol == '0')
+            LoadStopwatch(x, y);
+        else if (symbol == '>')
+            LoadShoe(x, y);
         else if (symbol == 'R')
             LoadRocketEnemy(x, y);
         else if (symbol == 'T')
@@ -168,11 +175,29 @@ partial class Level : GameObjectList
 
     void LoadHealthPak(int x, int y)
     {
-        // create the water drop object;  place it around the center of the tile
+        // create the health pak object;  place it around the center of the tile
         Vector2 pos = GetCellPosition(x, y) + new Vector2(TileWidth / 2, TileHeight / 3);
         HealthPak pak = new HealthPak(this, pos);
         // add it to the game world
         AddChild(pak);
+    }
+
+    void LoadStopwatch(int x, int y)
+    {
+        // create the health pak object;  place it around the center of the tile
+        Vector2 pos = GetCellPosition(x, y) + new Vector2(TileWidth / 2, TileHeight / 3);
+        Stopwatch sw = new Stopwatch(this, pos);
+        // add it to the game world
+        AddChild(sw);
+    }
+
+    void LoadShoe(int x, int y)
+    {
+        // create the shoe object;  place it around the center of the tile
+        Vector2 pos = GetCellPosition(x, y) + new Vector2(TileWidth / 2, TileHeight / 3);
+        Shoe s = new Shoe(this, pos);
+        // add it to the game world
+        AddChild(s);
     }
 
     void LoadRocketEnemy(int x, int y)

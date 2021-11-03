@@ -33,7 +33,10 @@ public class Tile : GameObject
 
         // if there is an image, make it a child of this object
         if (image != null)
+        {
             image.Parent = this;
+            image.scrollFactor = 1f;
+        }
     }
 
     public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

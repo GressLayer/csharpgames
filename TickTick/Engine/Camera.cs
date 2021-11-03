@@ -25,12 +25,21 @@ namespace Engine
                 OffsetX -= 10;
             if (inputHelper.KeyDown(Keys.D))
                 OffsetX += 10;
-
         }
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (OffsetX <= 0)
+                OffsetX = 0;
+
             localPosition = new Vector2(OffsetX, OffsetY);
+        }
+
+        public override void Reset()
+        {
+            OffsetX = 0;
+            OffsetY = 0;
         }
     }
 }

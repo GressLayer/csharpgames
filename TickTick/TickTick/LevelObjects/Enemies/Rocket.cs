@@ -30,6 +30,7 @@ class Rocket : AnimatedGameObject
             velocity.X = speed;
             this.startPosition = startPosition - new Vector2(2 * speed, 0);
         }
+
         Reset();
     }
 

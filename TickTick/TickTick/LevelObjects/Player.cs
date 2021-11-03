@@ -6,7 +6,6 @@ using System;
 class Player : AnimatedGameObject
 {
     const float walkingSpeed = 400; // Standard walking speed, in game units per second.
-    const float gooSpeed = 200; // Walking speed while standing on a goo block.
     const float jumpSpeed = 900; // Lift-off speed when the character jumps.
     
     const float gravity = 2300; // Strength of the gravity force that pulls the character down.
@@ -28,7 +27,7 @@ class Player : AnimatedGameObject
     Level level;
     Vector2 startPosition;
 
-    double timer;
+    double damageTimer;
     bool canTakeDamage;
 
     bool isCelebrating; // Whether or not the player is celebrating a level victory.
@@ -40,7 +39,7 @@ class Player : AnimatedGameObject
 
     public bool CanCollideWithObjects { get { return IsAlive && !isCelebrating; } }
 
-    public bool CanTakeDamage { get { return IsAlive && canTakeDamage; } }
+    public bool CanTakeDamage { get { return IsAlive && canTakeDamage && !isCelebrating; } }
 
     public bool IsMoving { get { return velocity != Vector2.Zero; } }
 
@@ -75,6 +74,7 @@ class Player : AnimatedGameObject
         standingOnIceTile = standingOnHotTile = standingOnGooTile = false;
 
         health = 3;
+        Shoe.shoeCollected = false;
 
         IsAlive = true;
         isExploding = false;
@@ -92,20 +92,14 @@ class Player : AnimatedGameObject
         if (inputHelper.KeyDown(Keys.Left))
         {
             facingLeft = true;
-            if (standingOnGooTile)
-                desiredHorizontalSpeed = -gooSpeed;
-            else
-                desiredHorizontalSpeed = -walkingSpeed;
+            desiredHorizontalSpeed = -walkingSpeed;
             if (isGrounded)
                 PlayAnimation("run");
         }
         else if (inputHelper.KeyDown(Keys.Right))
         {
             facingLeft = false;
-            if (standingOnGooTile)
-                desiredHorizontalSpeed = gooSpeed;
-            else
-                desiredHorizontalSpeed = walkingSpeed;
+            desiredHorizontalSpeed = walkingSpeed;
             if (isGrounded)
                 PlayAnimation("run");
         }
@@ -120,10 +114,16 @@ class Player : AnimatedGameObject
 
         // spacebar: jump
         if (isGrounded && inputHelper.KeyPressed(Keys.Space))
-            Jump();
+        {
+            // Jump higher after collecting a shoe.
+            if (Shoe.shoeCollected && Shoe.shoeTimer > 0)
+                Jump(jumpSpeed * 1.2f);
+            else
+                Jump();
+        }
 
-        // falling?
-        if (!isGrounded)
+            // falling?
+            if (!isGrounded)
             PlayAnimation("jump", false, 8);
 
         // set the origin to the character's feet
@@ -157,15 +157,43 @@ class Player : AnimatedGameObject
     {
         Vector2 previousPosition = localPosition;
 
-        if (timer > 0)
+        if (damageTimer > 0)
         {
             // Count down until TickTick can take damage again.
-            timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timer <= 0)
+            damageTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (damageTimer <= 0)
             {
                 canTakeDamage = true;
             }
         }
+
+        if (Shoe.shoeTimer > 0)
+        {
+            // Count down until the shoe effect expires.
+            Shoe.shoeTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Shoe.shoeTimer <= 0)
+            {
+                Shoe.shoeCollected = false;
+            }
+        }
+
+        if (Stopwatch.stopTimer > 0)
+        {
+            // Count down until the stopwatch effect expires.
+            Stopwatch.stopTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Stopwatch.stopTimer <= 0)
+            {
+                Stopwatch.stopwatchCollected = false;
+            }
+        }
+
+        // Goo tiles make you slower.
+        if (standingOnGooTile)
+            desiredHorizontalSpeed /= 2;
+
+        // Run faster with a shoe collected.
+        if (Shoe.shoeCollected && Shoe.shoeTimer > 0)
+            desiredHorizontalSpeed *= 1.5f;
 
         if (CanCollideWithObjects)
             ApplyFriction(gameTime);
@@ -323,10 +351,10 @@ class Player : AnimatedGameObject
 
             canTakeDamage = false;
             health--;
-            timer = 0.8;
+            damageTimer = 0.8;
         }
 
-        if (timer > 0)
+        if (damageTimer > 0)
             PlayAnimation("die");
 
         if (health <= 0)

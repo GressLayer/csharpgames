@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 
-class BombTimer : GameObjectList
+class Hud : GameObjectList
 {
     double timeLeft;
 
@@ -13,16 +13,14 @@ class BombTimer : GameObjectList
 
     public bool HasPassed { get { return timeLeft <= 0; } }
 
-    public BombTimer()
+    public Hud()
     {
         localPosition = new Vector2(20, 20);
         
         // add a background image
         SpriteGameObject background = new SpriteGameObject("Sprites/UI/spr_timer", TickTick.Depth_UIBackground);
         AddChild(background);
-
-        SpriteGameObject healthBarBG = new SpriteGameObject("Sprites/UI/spr_healthbar", TickTick.Depth_UIBackground);
-        AddChild(healthBarBG);
+        background.scrollFactor = 0f;
 
         // add a text
         label = new TextGameObject("Fonts/MainFont", TickTick.Depth_UIForeground, Color.Yellow, TextGameObject.Alignment.Center);
@@ -43,8 +41,13 @@ class BombTimer : GameObjectList
 
         // decrease the timer
         double oldTimeLeft = timeLeft;
-        if (!HasPassed)
-            timeLeft -= gameTime.ElapsedGameTime.TotalSeconds * Multiplier;
+
+        if (Stopwatch.stopwatchCollected) {
+            oldTimeLeft = timeLeft;
+            if (!HasPassed)
+                timeLeft -= gameTime.ElapsedGameTime.TotalSeconds * Multiplier;
+        }
+
 
         // display the remaining time
         int secondsLeft = (int)Math.Ceiling(timeLeft);
@@ -64,7 +67,7 @@ class BombTimer : GameObjectList
             healthBar.Color = Color.Yellow;
 
         // in the last 10 seconds, play a beep every second
-        if ((int)Math.Ceiling(oldTimeLeft) != secondsLeft)
+        if ((int)Math.Ceiling(oldTimeLeft) != secondsLeft && secondsLeft != 0)
         {
             if (secondsLeft <= 3) // high beep
                 ExtendedGame.AssetManager.PlaySoundEffect("Sounds/snd_beep_high");

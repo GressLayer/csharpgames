@@ -18,6 +18,8 @@ namespace Engine
         /// </summary>
         public Vector2 Origin { get; set; }
 
+        public float scrollFactor = 1f;
+
         /// <summary>
         /// The sheet index of the attached sprite sheet.
         /// </summary>
@@ -61,7 +63,7 @@ namespace Engine
 
             // draw the sprite at its *global* position in the game world
             if (sprite != null)
-                sprite.Draw(spriteBatch, GlobalPosition - ExtendedGame.camera.LocalPosition, Origin);
+                sprite.Draw(spriteBatch, GlobalPosition - ExtendedGame.camera.LocalPosition * scrollFactor, Origin);
         }
 
         /// <summary>
