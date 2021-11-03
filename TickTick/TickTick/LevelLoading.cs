@@ -35,6 +35,7 @@ partial class Level : GameObjectList
 
         // add game objects to show that general level info
         AddLevelInfoObjects(description);
+
     }
 
     void AddLevelInfoObjects(string description)
@@ -76,6 +77,9 @@ partial class Level : GameObjectList
 
                 // load the tile
                 AddTile(x, y, symbol);
+
+                // sets the camera as parent to move them
+
             }
         }
     }

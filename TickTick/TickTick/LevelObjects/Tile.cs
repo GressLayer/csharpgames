@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-class Tile : GameObject
+public class Tile : GameObject
 {
     public enum Type { Empty, Wall, Platform };
     public enum SurfaceType { Normal, Hot, Ice };

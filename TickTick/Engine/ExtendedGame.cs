@@ -14,6 +14,8 @@ namespace Engine
         // object for handling keyboard and mouse input
         protected InputHelper inputHelper;
 
+        public static Camera camera { get; protected set; }
+
         /// <summary>
         /// The width and height of the game world, in game units.
         /// </summary>
@@ -46,6 +48,7 @@ namespace Engine
 
         public static string ContentRootDirectory { get { return "Content"; } }
 
+
         /// <summary>
         /// Creates a new ExtendedGame object.
         /// </summary>
@@ -62,6 +65,9 @@ namespace Engine
             // default window and world size
             windowSize = new Point(1024, 768);
             worldSize = new Point(1024, 768);
+
+            camera = new Camera(0, 0);
+
         }
 
         /// <summary>
@@ -90,6 +96,7 @@ namespace Engine
         {
             HandleInput();
             GameStateManager.Update(gameTime);
+            camera.Update(gameTime);
         }
 
         /// <summary>
@@ -108,6 +115,7 @@ namespace Engine
                 FullScreen = !FullScreen;
 
             GameStateManager.HandleInput(inputHelper);
+            camera.HandleInput(inputHelper);
         }
 
         /// <summary>
