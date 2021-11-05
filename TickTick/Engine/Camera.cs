@@ -16,7 +16,7 @@ namespace Engine
             OffsetX = offsetX;
             OffsetY = offsetY;
 
-            cameraPosition = new Rectangle(OffsetX, OffsetY,ExtendedGame.WindowSizeX, ExtendedGame.WindowSizeY);
+            cameraPosition = new Rectangle(OffsetX, OffsetY, 1440, 825);
         }
 
         public override void Update(GameTime gameTime)

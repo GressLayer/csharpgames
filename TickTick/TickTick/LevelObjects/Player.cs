@@ -124,7 +124,7 @@ class Player : AnimatedGameObject
         {
             // Jump higher after collecting a shoe.
             if (Shoe.shoeCollected && Shoe.shoeTimer > 0)
-                Jump(jumpSpeed * 1.2f);
+                Jump(jumpSpeed * 1.3f);
             else
                 Jump();
         }
@@ -204,18 +204,12 @@ class Player : AnimatedGameObject
 
         // Camera sidescrolling
 
-        if (ExtendedGame.camera.OffsetX <= 0)
-            ExtendedGame.camera.OffsetX = 0;
-        else if (ExtendedGame.camera.OffsetX + ExtendedGame.WindowSizeX >= level.BoundingBox.Width)
-            ExtendedGame.camera.OffsetX = level.BoundingBox.Width - ExtendedGame.WindowSizeX;
-
-        if (ExtendedGame.camera.OffsetX > 0 && ExtendedGame.camera.OffsetX < level.BoundingBox.Width - ExtendedGame.WindowSizeX)
-        {
-            if (localPosition.X <= (ExtendedGame.WindowSizeX / 3) + ExtendedGame.camera.OffsetX && facingLeft)
+        if (ExtendedGame.camera.OffsetX >= 0)
+            if (localPosition.X <= (480) + ExtendedGame.camera.OffsetX && facingLeft)
                 ExtendedGame.camera.OffsetX += (int)velocity.X * (int)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-            if (localPosition.X >= (ExtendedGame.WindowSizeX) + ExtendedGame.camera.OffsetX && !facingLeft)
+        if (ExtendedGame.camera.OffsetX <= level.BoundingBox.Width - 1440)
+            if (localPosition.X >= (960) + ExtendedGame.camera.OffsetX && !facingLeft)
                 ExtendedGame.camera.OffsetX += (int)velocity.X * (int)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-        }
 
         if (CanCollideWithObjects)
             ApplyFriction(gameTime);

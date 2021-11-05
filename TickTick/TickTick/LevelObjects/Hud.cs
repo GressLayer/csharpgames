@@ -46,6 +46,7 @@ class Hud : GameObjectList
         {
             healthBar.LocalPosition = new Vector2(178, 12);
             healthBar.Text = "GAME\nOVER";
+            healthBar.Color = Color.Red;
         }
 
         if (!Running)
