@@ -96,5 +96,10 @@ namespace Engine
         {
             return currentKeyboardState.IsKeyDown(k);
         }
+
+        public bool KeyUp(Keys k)
+        {
+            return currentKeyboardState.IsKeyUp(k);
+        }
     }
 }

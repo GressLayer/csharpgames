@@ -22,6 +22,8 @@ class Player : AnimatedGameObject
 
     bool isGrounded; // Whether or not the character is currently standing on something.
     bool standingOnIceTile, standingOnHotTile, standingOnGooTile; // Whether or not the character is standing on an ice tile or a hot tile.
+    bool standingOnPlatform;
+
     float desiredHorizontalSpeed; // The horizontal speed at which the character would like to move.
 
     Level level;
@@ -33,10 +35,13 @@ class Player : AnimatedGameObject
     bool isCelebrating; // Whether or not the player is celebrating a level victory.
     bool isExploding;
 
+    bool ghost; // Added as a means to ignore collision.
+
     public static int health = 3;
 
     public bool IsAlive { get; private set; }
-    public bool CanCollideWithObjects { get { return IsAlive && !isCelebrating; } }
+    public bool IsGrounded { get { return isGrounded; } }
+    public bool CanCollideWithObjects { get { return IsAlive && !isCelebrating && !ghost; } }
     public bool CanTakeDamage { get { return IsAlive && canTakeDamage && !isCelebrating; } }
     public bool IsMoving { get { return velocity != Vector2.Zero; } }
 
@@ -44,6 +49,8 @@ class Player : AnimatedGameObject
     {
         this.level = level;
         this.startPosition = startPosition;
+
+        ghost = false;
 
         // load all animations
         LoadAnimation("Sprites/LevelObjects/Player/spr_idle", "idle", true, 0.1f);
@@ -69,6 +76,7 @@ class Player : AnimatedGameObject
         facingLeft = false;
         isGrounded = true;
         standingOnIceTile = standingOnHotTile = standingOnGooTile = false;
+        standingOnPlatform = false;
 
         health = 3;
         Shoe.shoeCollected = false;
@@ -76,6 +84,8 @@ class Player : AnimatedGameObject
         IsAlive = true;
         isExploding = false;
         isCelebrating = false;
+
+        ghost = false;
 
         canTakeDamage = true;
     }
@@ -119,8 +129,8 @@ class Player : AnimatedGameObject
                 Jump();
         }
 
-            // falling?
-            if (!isGrounded)
+        // falling?
+        if (!isGrounded)
             PlayAnimation("jump", false, 8);
 
         // set the origin to the character's feet
@@ -192,6 +202,17 @@ class Player : AnimatedGameObject
         if (Shoe.shoeCollected && Shoe.shoeTimer > 0)
             desiredHorizontalSpeed *= 1.5f;
 
+        if (ExtendedGame.WindowSizeX + ExtendedGame.camera.OffsetX == level.BoundingBox.Width)
+            ExtendedGame.camera.OffsetX *= 0;
+        else
+        {
+            if (localPosition.X <= (ExtendedGame.WindowSizeX / 3) + ExtendedGame.camera.OffsetX && facingLeft)
+                ExtendedGame.camera.OffsetX += (int)velocity.X * (int)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+            if (localPosition.X >= (ExtendedGame.WindowSizeX / 3 * 2) + ExtendedGame.camera.OffsetX && !facingLeft)
+                ExtendedGame.camera.OffsetX += (int)velocity.X * (int)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+        }
+
+
         if (CanCollideWithObjects)
             ApplyFriction(gameTime);
         else
@@ -252,6 +273,7 @@ class Player : AnimatedGameObject
         standingOnIceTile = false;
         standingOnHotTile = false;
         standingOnGooTile = false;
+        standingOnPlatform = false;
 
         // determine the range of tiles to check
         Rectangle bbox = BoundingBoxForCollisions;
@@ -271,7 +293,10 @@ class Player : AnimatedGameObject
                 // ignore platform tiles if the player is standing below them
                 Vector2 tilePosition = level.GetCellPosition(x, y);
                 if (tileType == Tile.Type.Platform && localPosition.Y > tilePosition.Y && previousPosition.Y > tilePosition.Y)
+                {
+                    standingOnPlatform = true;
                     continue;
+                }
 
                 // if there's no intersection with the tile, ignore this tile
                 Rectangle tileBounds = new Rectangle((int)tilePosition.X, (int)tilePosition.Y, Level.TileWidth, Level.TileHeight);
@@ -361,6 +386,7 @@ class Player : AnimatedGameObject
     public void Die()
     {
         IsAlive = false;
+        health = 0;
         PlayAnimation("die");
         velocity = new Vector2(0, -jumpSpeed);
         level.Timer.Running = false;
