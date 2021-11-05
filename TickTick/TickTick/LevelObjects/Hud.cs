@@ -4,7 +4,7 @@ using System;
 
 class Hud : GameObjectList
 {
-    double timeLeft;
+    public double timeLeft;
 
     public bool Running { get; set; }
     public float Multiplier { get; set; }
@@ -16,6 +16,7 @@ class Hud : GameObjectList
     public Hud()
     {
         localPosition = new Vector2(20, 20);
+        timeLeft = 0;
         
         // add a background image
         SpriteGameObject background = new SpriteGameObject("Sprites/UI/spr_timer", TickTick.Depth_UIBackground);
@@ -79,7 +80,7 @@ class Hud : GameObjectList
     public override void Reset()
     {
         base.Reset();
-        timeLeft = 30;
+        //timeLeft = 30;
         Running = true;
         Multiplier = 1;
     }

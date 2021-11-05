@@ -13,6 +13,10 @@ partial class Level : GameObjectList
         // read the description
         string description = reader.ReadLine();
 
+
+        string levelTime = reader.ReadLine();
+        timer.timeLeft = int.Parse(levelTime);
+
         // read the rows of the grid; keep track of the longest row
         int gridWidth = 0;
 
@@ -29,7 +33,7 @@ partial class Level : GameObjectList
 
         // stop reading the file
         reader.Close();
-        
+
         // create all game objects for the grid
         AddPlayingField(gridRows, gridWidth, gridRows.Count);
 
