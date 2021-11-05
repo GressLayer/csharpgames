@@ -10,6 +10,7 @@ class Rocket : AnimatedGameObject
     Vector2 startPosition;
     const float speed = 500;
     const float launchSpeed = 900; // The speed at which the player can get launched.
+
     public Rocket(Level level, Vector2 startPosition, bool facingLeft) 
         : base(TickTick.Depth_LevelObjects)
     {

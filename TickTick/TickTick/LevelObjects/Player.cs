@@ -7,7 +7,7 @@ class Player : AnimatedGameObject
 {
     const float walkingSpeed = 400; // Standard walking speed, in game units per second.
     const float jumpSpeed = 900; // Lift-off speed when the character jumps.
-    
+
     const float gravity = 2300; // Strength of the gravity force that pulls the character down.
     const float maxFallSpeed = 1200; // The maximum vertical speed at which the character can fall.
 
@@ -36,11 +36,8 @@ class Player : AnimatedGameObject
     public static int health = 3;
 
     public bool IsAlive { get; private set; }
-
     public bool CanCollideWithObjects { get { return IsAlive && !isCelebrating; } }
-
     public bool CanTakeDamage { get { return IsAlive && canTakeDamage && !isCelebrating; } }
-
     public bool IsMoving { get { return velocity != Vector2.Zero; } }
 
     public Player(Level level, Vector2 startPosition) : base(TickTick.Depth_LevelPlayer)

@@ -42,7 +42,7 @@ class Hud : GameObjectList
         // decrease the timer
         double oldTimeLeft = timeLeft;
 
-        if (Stopwatch.stopwatchCollected) {
+        if (!Stopwatch.stopwatchCollected) {
             oldTimeLeft = timeLeft;
             if (!HasPassed)
                 timeLeft -= gameTime.ElapsedGameTime.TotalSeconds * Multiplier;

@@ -6,11 +6,11 @@ namespace Engine
 {
     public class Camera : GameObject
     {
+
         Rectangle cameraPosition;
+
         public int OffsetX { get; private set; }
-
         public int OffsetY { get; private set; }
-
 
         public Camera(int offsetX, int offsetY)
         {
@@ -26,6 +26,7 @@ namespace Engine
             if (inputHelper.KeyDown(Keys.D))
                 OffsetX += 10;
         }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

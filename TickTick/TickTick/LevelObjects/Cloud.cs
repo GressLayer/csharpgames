@@ -30,8 +30,9 @@ class Cloud : SpriteGameObject
         // set a random y-coordinate and speed
         float y = ExtendedGame.Random.Next(100, 600) - sprite.Height;
         float speed = ExtendedGame.Random.Next(10, 50);
+        
 
-        if (Stopwatch.stopTimer <= 0)
+        if (!Stopwatch.stopwatchCollected)
         {
             if (ExtendedGame.Random.Next(2) == 0)
             {
@@ -47,7 +48,7 @@ class Cloud : SpriteGameObject
             }
         }
         else
-            velocity = Vector2.Zero;
+            velocity *= Vector2.Zero;
     }
 
     public override void Update(GameTime gameTime)
