@@ -202,16 +202,20 @@ class Player : AnimatedGameObject
         if (Shoe.shoeCollected && Shoe.shoeTimer > 0)
             desiredHorizontalSpeed *= 1.5f;
 
-        if (ExtendedGame.WindowSizeX + ExtendedGame.camera.OffsetX == level.BoundingBox.Width)
-            ExtendedGame.camera.OffsetX *= 0;
-        else
+        // Camera sidescrolling
+
+        if (ExtendedGame.camera.OffsetX <= 0)
+            ExtendedGame.camera.OffsetX = 0;
+        else if (ExtendedGame.camera.OffsetX + ExtendedGame.WindowSizeX >= level.BoundingBox.Width)
+            ExtendedGame.camera.OffsetX = level.BoundingBox.Width - ExtendedGame.WindowSizeX;
+
+        if (ExtendedGame.camera.OffsetX > 0 && ExtendedGame.camera.OffsetX < level.BoundingBox.Width - ExtendedGame.WindowSizeX)
         {
             if (localPosition.X <= (ExtendedGame.WindowSizeX / 3) + ExtendedGame.camera.OffsetX && facingLeft)
                 ExtendedGame.camera.OffsetX += (int)velocity.X * (int)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-            if (localPosition.X >= (ExtendedGame.WindowSizeX / 3 * 2) + ExtendedGame.camera.OffsetX && !facingLeft)
+            if (localPosition.X >= (ExtendedGame.WindowSizeX) + ExtendedGame.camera.OffsetX && !facingLeft)
                 ExtendedGame.camera.OffsetX += (int)velocity.X * (int)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
         }
-
 
         if (CanCollideWithObjects)
             ApplyFriction(gameTime);
