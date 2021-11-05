@@ -40,6 +40,7 @@ partial class Level : GameObjectList
         // add game objects to show that general level info
         AddLevelInfoObjects(description);
 
+        ExtendedGame.camera.Reset();
     }
 
     void AddLevelInfoObjects(string description)

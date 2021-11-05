@@ -24,7 +24,10 @@ namespace Engine
         /// <summary>
         /// The width and height of the window, in pixels.
         /// </summary>
-        protected Point windowSize;
+        protected static Point windowSize;
+
+        public static int WindowSizeX { get { return windowSize.X; } }
+        public static int WindowSizeY { get { return windowSize.Y; } }
 
         /// <summary>
         /// A matrix used for scaling the game world so that it fits inside the window.

@@ -36,6 +36,17 @@ class Hud : GameObjectList
 
     public override void Update(GameTime gameTime)
     {
+        if (Player.health > 0)
+        {
+            healthBar.LocalPosition = new Vector2(175, 25);
+            healthBar.Text = "Lives: " + Player.health;
+        }
+        else
+        {
+            healthBar.LocalPosition = new Vector2(178, 12);
+            healthBar.Text = "GAME\nOVER";
+        }
+
         if (!Running)
             return;
 
@@ -48,12 +59,9 @@ class Hud : GameObjectList
                 timeLeft -= gameTime.ElapsedGameTime.TotalSeconds * Multiplier;
         }
 
-
         // display the remaining time
         int secondsLeft = (int)Math.Ceiling(timeLeft);
         label.Text = CreateTimeString(secondsLeft);
-
-        healthBar.Text = "Lives: " + Player.health;
         
         // in the last 10 seconds, let the color blink between yellow and red
         if (secondsLeft <= 10 && secondsLeft % 2 == 0)
@@ -61,7 +69,7 @@ class Hud : GameObjectList
         else
             label.Color = Color.Yellow;
 
-        if (Player.health <= 1)
+        if (Player.health <= 1 && (double)secondsLeft / 2 % 1 == 0)
             healthBar.Color = Color.Red;
         else
             healthBar.Color = Color.Yellow;

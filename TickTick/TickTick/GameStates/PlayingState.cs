@@ -47,14 +47,20 @@ class PlayingState : GameState, IPlayingState
             if (gameOverOverlay.Visible)
             {
                 if (inputHelper.KeyPressed(Keys.Space))
+                {
                     level.Reset();
+                    ExtendedGame.camera.Reset();
+                }
             }
             
             // if the level has been completed, pressing the spacebar should send the player to the next level
             else if (completedOverlay.Visible)
             {
                 if (inputHelper.KeyPressed(Keys.Space))
+                {
                     ExtendedGameWithLevels.GoToNextLevel(level.LevelIndex);
+                    ExtendedGame.camera.Reset();
+                }
             }
 
             // otherwise, update the level itself, and check for button presses

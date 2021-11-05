@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Engine
 {
@@ -9,22 +7,15 @@ namespace Engine
 
         Rectangle cameraPosition;
 
-        public int OffsetX { get; private set; }
-        public int OffsetY { get; private set; }
+        public int OffsetX { get; set; }
+        public int OffsetY { get; set; }
 
         public Camera(int offsetX, int offsetY)
         {
             OffsetX = offsetX;
             OffsetY = offsetY;
-            cameraPosition = new Rectangle(OffsetX, OffsetY, 5, 5);
-        }
 
-        public override void HandleInput(InputHelper inputHelper)
-        {
-            if (inputHelper.KeyDown(Keys.A))
-                OffsetX -= 10;
-            if (inputHelper.KeyDown(Keys.D))
-                OffsetX += 10;
+            cameraPosition = new Rectangle(OffsetX, OffsetY, ExtendedGame.WindowSizeX, ExtendedGame.WindowSizeY);
         }
 
         public override void Update(GameTime gameTime)

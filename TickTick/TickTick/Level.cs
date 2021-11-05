@@ -112,12 +112,13 @@ partial class Level : GameObjectList
         // Otherwise, return the actual surface type of the tile.
         return tiles[x, y].Surface;
     }
+
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
 
         // check if we've finished the level
-        if (!completionDetected && AllDropsCollected && Player.HasPixelPreciseCollision(goal))
+        if (!completionDetected && AllDropsCollected && Player.HasPixelPreciseCollision(goal) &&  Player.IsGrounded)
         {
             completionDetected = true;
             ExtendedGameWithLevels.GetPlayingState().LevelCompleted(LevelIndex);
