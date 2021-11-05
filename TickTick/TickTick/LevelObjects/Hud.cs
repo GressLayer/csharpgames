@@ -4,7 +4,8 @@ using System;
 
 class Hud : GameObjectList
 {
-    public double timeLeft;
+    public double timeLeft { get; set; }
+    public double resetTime { get; set; }
 
     public bool Running { get; set; }
     public float Multiplier { get; set; }
@@ -87,7 +88,7 @@ class Hud : GameObjectList
     public override void Reset()
     {
         base.Reset();
-        //timeLeft = 30;
+        timeLeft = resetTime;
         Running = true;
         Multiplier = 1;
     }

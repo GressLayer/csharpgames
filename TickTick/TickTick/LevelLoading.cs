@@ -15,6 +15,8 @@ partial class Level : GameObjectList
 
 
         string levelTime = reader.ReadLine();
+
+        timer.resetTime = int.Parse(levelTime);
         timer.timeLeft = int.Parse(levelTime);
 
         // read the rows of the grid; keep track of the longest row
