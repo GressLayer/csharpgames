@@ -2,6 +2,7 @@
 
 namespace Engine
 {
+
     public class Camera : GameObject
     {
 
@@ -15,15 +16,12 @@ namespace Engine
             OffsetX = offsetX;
             OffsetY = offsetY;
 
-            cameraPosition = new Rectangle(OffsetX, OffsetY, ExtendedGame.WindowSizeX, ExtendedGame.WindowSizeY);
+            cameraPosition = new Rectangle(OffsetX, OffsetY,ExtendedGame.WindowSizeX, ExtendedGame.WindowSizeY);
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            if (OffsetX <= 0)
-                OffsetX = 0;
 
             localPosition = new Vector2(OffsetX, OffsetY);
         }
