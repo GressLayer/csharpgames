@@ -68,10 +68,13 @@ class PlayingState : GameState, IPlayingState
             {
                 level.HandleInput(inputHelper);
 
+                // Pressing the quit button brings you back to level selection and resets the camera.
                 if (quitButton.Pressed)
                 {
                     ExtendedGame.GameStateManager.SwitchTo(ExtendedGameWithLevels.StateName_LevelSelect);
+
                     ExtendedGame.camera.OffsetX = 0;
+                    ExtendedGame.camera.OffsetY = 0;
                 }
             }
         }

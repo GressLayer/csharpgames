@@ -117,6 +117,8 @@ partial class Level : GameObjectList
             LoadStopwatch(x, y);
         else if (symbol == '>')
             LoadShoe(x, y);
+        else if (symbol == '*')
+            LoadStar(x, y);
         else if (symbol == 'R')
             LoadRocketEnemy(x, y);
         else if (symbol == 'T')
@@ -205,6 +207,15 @@ partial class Level : GameObjectList
         Shoe s = new Shoe(this, pos);
         // add it to the game world
         AddChild(s);
+    }
+
+    void LoadStar(int x, int y)
+    {
+        // create the health pak object;  place it around the center of the tile
+        Vector2 pos = GetCellPosition(x, y) + new Vector2(TileWidth / 2, TileHeight / 3);
+        Star st = new Star(this, pos);
+        // add it to the game world
+        AddChild(st);
     }
 
     void LoadRocketEnemy(int x, int y)

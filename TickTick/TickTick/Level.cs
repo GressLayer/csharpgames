@@ -8,6 +8,9 @@ partial class Level : GameObjectList
     public const int TileWidth = 72;
     public const int TileHeight = 55;
 
+    public int ScreenWidth { get { return TileWidth * 20; } }
+    public int ScreenHeight { get { return TileHeight * 15; } }
+
     Tile[,] tiles;
     List<WaterDrop> waterDrops;
 
@@ -18,8 +21,6 @@ partial class Level : GameObjectList
     Hud timer;
 
     bool completionDetected;
-
-
 
     public Level(int levelIndex, string filename)
     {
@@ -118,7 +119,7 @@ partial class Level : GameObjectList
         base.Update(gameTime);
 
         // check if we've finished the level
-        if (!completionDetected && AllDropsCollected && Player.HasPixelPreciseCollision(goal) &&  Player.IsGrounded)
+        if (!completionDetected && AllDropsCollected && Player.HasPixelPreciseCollision(goal) && Player.IsGrounded)
         {
             completionDetected = true;
             ExtendedGameWithLevels.GetPlayingState().LevelCompleted(LevelIndex);

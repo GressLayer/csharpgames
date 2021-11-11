@@ -5,7 +5,6 @@ namespace Engine
 
     public class Camera : GameObject
     {
-
         Rectangle cameraPosition;
 
         public int OffsetX { get; set; }

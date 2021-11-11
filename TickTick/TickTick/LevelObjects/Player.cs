@@ -164,9 +164,9 @@ class Player : AnimatedGameObject
     {
         Vector2 previousPosition = localPosition;
 
+        // Damage countdown after TickTick gets hit.
         if (damageTimer > 0)
         {
-            // Count down until TickTick can take damage again.
             damageTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (damageTimer <= 0)
             {
@@ -174,9 +174,9 @@ class Player : AnimatedGameObject
             }
         }
 
+        // Timer for the shoe item.
         if (Shoe.shoeTimer > 0)
         {
-            // Count down until the shoe effect expires.
             Shoe.shoeTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Shoe.shoeTimer <= 0)
             {
@@ -184,13 +184,26 @@ class Player : AnimatedGameObject
             }
         }
 
+        // Timer for the stopwatch item.
         if (Stopwatch.stopTimer > 0)
         {
-            // Count down until the stopwatch effect expires.
             Stopwatch.stopTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Stopwatch.stopTimer <= 0)
             {
                 Stopwatch.stopwatchCollected = false;
+            }
+        }
+
+        // Timer for the star item.
+        if (Star.starTimer > 0)
+        {
+            canTakeDamage = false;
+
+            Star.starTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Star.starTimer <= 0)
+            {
+                Star.starCollected = false;
+                canTakeDamage = true;
             }
         }
 
@@ -202,14 +215,27 @@ class Player : AnimatedGameObject
         if (Shoe.shoeCollected && Shoe.shoeTimer > 0)
             desiredHorizontalSpeed *= 1.5f;
 
-        // Camera sidescrolling
-
+        // Camera horizontal scrolling
         if (ExtendedGame.camera.OffsetX >= 0)
             if (localPosition.X <= (480) + ExtendedGame.camera.OffsetX && facingLeft)
                 ExtendedGame.camera.OffsetX += (int)velocity.X * (int)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
         if (ExtendedGame.camera.OffsetX <= level.BoundingBox.Width - 1440)
             if (localPosition.X >= (960) + ExtendedGame.camera.OffsetX && !facingLeft)
                 ExtendedGame.camera.OffsetX += (int)velocity.X * (int)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+
+        // Camera vertical scrolling
+        if (ExtendedGame.camera.OffsetY >= 0 && ExtendedGame.camera.OffsetY <= level.BoundingBox.Width + 825)
+            ExtendedGame.camera.OffsetY = (int)localPosition.Y - 400;
+
+        // Scrolling caps: make sure the camera does not overscroll past the edge blocks of the level.
+        if (ExtendedGame.camera.OffsetX <= 0)
+            ExtendedGame.camera.OffsetX = 0;
+        if (ExtendedGame.camera.OffsetX >= level.BoundingBox.Width - 1440)
+            ExtendedGame.camera.OffsetX = level.BoundingBox.Width - 1440;
+        if (ExtendedGame.camera.OffsetY <= 0)
+            ExtendedGame.camera.OffsetY = 0;
+        if (ExtendedGame.camera.OffsetY >= level.BoundingBox.Height - 825)
+            ExtendedGame.camera.OffsetY = level.BoundingBox.Height - 825;
 
         if (CanCollideWithObjects)
             ApplyFriction(gameTime);
