@@ -48,14 +48,14 @@ partial class Level : GameObjectList
         // add mountains in the background
         for (int i = 0; i < 4; i++)
         {
-            SpriteGameObject mountain = new SpriteGameObject(
-                "Sprites/Backgrounds/spr_mountain_" + (ExtendedGame.Random.Next(2) + 1),
-                TickTick.Depth_Background + 0.01f * (float)ExtendedGame.Random.NextDouble());
+            float depth = TickTick.Depth_Background + (float)ExtendedGame.Random.NextDouble() * 0.1f;
+
+            SpriteGameObject mountain = new SpriteGameObject("Sprites/Backgrounds/spr_mountain_" + (ExtendedGame.Random.Next(2) + 1), depth);
 
             mountain.LocalPosition = new Vector2(mountain.Width * (i-1) * 0.4f, 
                 BoundingBox.Height - mountain.Height);
 
-            mountain.scrollFactor = 0.1f;
+            mountain.scrollFactor = depth * 1.5f;
 
             backgrounds.AddChild(mountain);
         }

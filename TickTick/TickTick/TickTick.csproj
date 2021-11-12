@@ -11,7 +11,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Content\Levels\level1.txt" />
-    <None Remove="Content\Levels\level10.txt" />
     <None Remove="Content\Levels\level2.txt" />
     <None Remove="Content\Levels\level3.txt" />
     <None Remove="Content\Levels\level4.txt" />
@@ -19,16 +18,12 @@
     <None Remove="Content\Levels\level6.txt" />
     <None Remove="Content\Levels\level7.txt" />
     <None Remove="Content\Levels\level8.txt" />
-    <None Remove="Content\Levels\level9.txt" />
     <None Remove="Content\Levels\levels_status.txt" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Levels\level1.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Levels\level10.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Levels\level2.txt">
@@ -50,9 +45,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Levels\level8.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Levels\level9.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Levels\levels_status.txt">
